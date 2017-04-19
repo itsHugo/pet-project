@@ -22,27 +22,27 @@ export class CategoryService extends BaseService<Category>{
     _setSearchFilter(q, searchString) {
         if (searchString) {
             var filter = new RegExp('.*' + searchString.toLowerCase() + '.*', 'i')
-            q = q.or([{ 'FirstName': filter }, { 'LastName': filter }, { 'Email': filter }])
+            q = q.or([{ 'Name': filter }])
         }
         return q;
     }
-    userExists(email: string, callback?: Clb<Category>) {
-        return this.model.findOne({ Email: email }).exec(callback);
+    userExists(name: string, callback?: Clb<Category>) {
+        return this.model.findOne({ Name: name }).exec(callback);
     }
     deleteById(id: Id, callback?: Clb<Category>) {
         return this.updateById(id, { IsDeleted: true }, callback);
     }
-    login(email: string, password: string, callback?: Clb<Category>) {
-        var q = this.model.findOneAndUpdate(
-            { Email: email, Password: password },
-            { LastLoginDate: new Date() });
+    // login(email: string, password: string, callback?: Clb<Category>) {
+    //     var q = this.model.findOneAndUpdate(
+    //         { Email: email, Password: password },
+    //         { LastLoginDate: new Date() });
 
-        return q.exec(callback).then(result => {
-            return result;
-        }, reason => {
-            throw reason;
-        });
-    }
+    //     return q.exec(callback).then(result => {
+    //         return result;
+    //     }, reason => {
+    //         throw reason;
+    //     });
+    // }
 }
 
 export interface Category extends BaseDocument {

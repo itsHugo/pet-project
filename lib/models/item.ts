@@ -22,27 +22,28 @@ export class ItemService extends BaseService<Item>{
     _setSearchFilter(q, searchString) {
         if (searchString) {
             var filter = new RegExp('.*' + searchString.toLowerCase() + '.*', 'i')
-            q = q.or([{ 'FirstName': filter }, { 'LastName': filter }, { 'Email': filter }])
+            q = q.or([{ 'Title': filter }, { 'Description': filter }, { 'Price': filter }])
         }
         return q;
     }
-    ItemExists(email: string, callback?: Clb<Item>) {
-        return this.model.findOne({ Email: email }).exec(callback);
+    ItemExists(title: string, callback?: Clb<Item>) {
+        return this.model.findOne({ Title: title }).exec(callback);
     }
     deleteById(id: Id, callback?: Clb<Item>) {
         return this.updateById(id, { IsDeleted: true }, callback);
     }
-    login(email: string, password: string, callback?: Clb<Item>) {
-        var q = this.model.findOneAndUpdate(
-            { Email: email, Password: password },
-            { LastLoginDate: new Date() });
 
-        return q.exec(callback).then(result => {
-            return result;
-        }, reason => {
-            throw reason;
-        });
-    }
+    // login(email: string, password: string, callback?: Clb<Item>) {
+    //     var q = this.model.findOneAndUpdate(
+    //         { Email: email, Password: password },
+    //         { LastLoginDate: new Date() });
+
+    //     return q.exec(callback).then(result => {
+    //         return result;
+    //     }, reason => {
+    //         throw reason;
+    //     });
+    // }
 }
 
 export interface Item extends BaseDocument {
