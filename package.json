@@ -1,0 +1,36 @@
+{
+  "name": "ccd-boilerplate",
+  "version": "0.0.0-4",
+  "dependencies": {
+    "async": "*",
+    "body-parser": "^1.15.2",
+    "ccd": "*",
+    "ccd-mongo": "^1.0.2",
+    "cookie-parser": "^1.4.3",
+    "ejs": "*",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "lodash": "*",
+    "mocha": "^3.1.2",
+    "mongoose": "^4.6.5",
+    "mongoose-schema-extend": "*",
+    "multer": "^1.2.0",
+    "node-int64": "*",
+    "socket.io": "^1.5.1",
+    "stringformat": "0.0.5",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "*",
+    "request": "^2.75.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "subdomain": "ccd-boilerplate",
+  "repository": {
+    "type": "git",
+    "url": "http://git.codechem.com/lazar/ccd-server-architecture-boilerplate"
+  }
+}

@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "sourceMap": true
+    },
+    "include": [
+        "./**/*.ts"
+    ],
+    "files": [
+        "./typings/index.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "typings"
+    ]
+}
