@@ -21,7 +21,7 @@ export function checkIfMe(req, res, next) {
 export class UsersController extends BaseController<User>{
     svc: UserService
 
-    @get('/', apiSessionCheck)
+    @get('/')
     async index(req, res) {
         return await this.svc.search(req.query, req.session.user);
     }

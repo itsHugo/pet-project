@@ -60,7 +60,7 @@ class UsersController extends refs_1.BaseController {
     }
 }
 __decorate([
-    refs_1.get('/', apiSessionCheck)
+    refs_1.get('/')
 ], UsersController.prototype, "index", null);
 __decorate([
     refs_1.get('/:id', apiSessionCheck)
