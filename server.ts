@@ -11,7 +11,7 @@ mongoose.Promise = global.Promise;
 import restServer from './rest_server';
 import * as multer from 'multer';
 
-const publicDir = pjoin(__dirname, '..', 'client');
+const publicDir = pjoin(__dirname, 'client');
 const uploadsDir = pjoin(__dirname, 'uploads');
 const port = 3001;
 

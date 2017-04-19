@@ -1,6 +1,7 @@
 "use strict";
-const users_1 = require('./users');
-const auth_1 = require('./auth');
+Object.defineProperty(exports, "__esModule", { value: true });
+const users_1 = require("./users");
+const auth_1 = require("./auth");
 var ControllerFactory;
 (function (ControllerFactory) {
     ControllerFactory.Users = users_1.controller;
