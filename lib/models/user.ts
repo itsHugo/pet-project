@@ -54,23 +54,9 @@ export interface User extends BaseDocument {
         Title: string
         Description: string
         Price: number
+        Category: {Name: string}
     }]
 }
-
- // Unsure for nesting documents
-var categorySchema = new mongoose.Schema({
-    Name: String,
-}, { collection: 'categories' });
-categorySchema.plugin(timestampsPlugin);
-
-var ItemSchema = new mongoose.Schema({
-    Title: String,
-    Description: String,
-    Price: Number,
-    Category: categorySchema,
-}, { collection: 'Items' });
-ItemSchema.plugin(timestampsPlugin);
-// End of unsure part
 
 var userSchema = new mongoose.Schema({
     Email: String,
@@ -81,11 +67,25 @@ var userSchema = new mongoose.Schema({
         Title: String,
         Description: String,
         Price: Number,
+        Category: {Name: String},
     }],
 }, { collection: 'users' });
 userSchema.plugin(timestampsPlugin);
 
+//  // Unsure for nesting documents
+// var categorySchema = new mongoose.Schema({
+//     Name: String,
+// }, { collection: 'categories' });
+// categorySchema.plugin(timestampsPlugin);
 
+// var ItemSchema = new mongoose.Schema({
+//     Title: String,
+//     Description: String,
+//     Price: Number,
+//     Category: {Name: String},
+// }, { collection: 'Items' });
+// ItemSchema.plugin(timestampsPlugin);
+// // End of unsure part
 
 
 
