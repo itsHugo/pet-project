@@ -7,7 +7,7 @@ export namespace ControllerFactory {
     export let Users = users
     export let Auth = auth
     export let Item = item
-    export let Catorogies = categories;
+    export let Caterogies = categories;
 }
 
 
