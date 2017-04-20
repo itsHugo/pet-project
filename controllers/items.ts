@@ -42,17 +42,17 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @del("/:id", apiSessionCheck)
+    @del("/:id")
     async deleteItem(req, res){
         let id = req.params.id;
         let item: Item = await this.svc.byId(req.params.id);
         //TODO: CheckPoster
-        if (checkPoster(item, req)){
-            return this.svc.deleteById(id);
-        }
-        else{
-            res.send(401, { status: "error", message: "You are not authorized to perform this action"});
-        }
+        // if (checkPoster(item, req)){
+        //     return this.svc.deleteById(id);
+        // }
+        // else{
+        //     res.send(401, { status: "error", message: "You are not authorized to perform this action"});
+        // }
     }
 
     /**
@@ -61,17 +61,20 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @put("/:id", apiSessionCheck)
+    @put("/:id")
     async updateItem(req, res){
         let id = req.params.id;
-        let item: Item = await this.svc.byId(req.params.id);
+        
         //TODO: Implement checkPoster
-        if (checkPoster(item, req)){
-            return this.svc.updateById(req.params.id, req.body);
-        }
-        else{
-            res.send(401, { status: "error", message: "You are not authorized to perform this action"});
-        }
+        // let item: Item = await this.svc.byId(req.params.id);
+        // if (checkPoster(item, req)){
+        //     return this.svc.updateById(req.params.id, req.body);
+        // }
+        // else{
+        //     res.send(401, { status: "error", message: "You are not authorized to perform this action"});
+        // }
+
+        return this.svc.updateById(id, req.body);
     }
 
     /**
@@ -81,7 +84,7 @@ export class ItemsController extends BaseController<Item> {
      */
     @get("/:id")
     getById(req, res){
-        res.send({Life: "life"});
+        return this.svc.byId(req.params.id);
     }
 
     /**
@@ -91,6 +94,7 @@ export class ItemsController extends BaseController<Item> {
      */
     @get("/category/:category_id")
     getByCatId(req, res){
+        //TODO
         res.send({Life: "life"});      
     }
 
