@@ -50,15 +50,44 @@ export interface User extends BaseDocument {
     FirstName: string
     LastName: string
     Password: string
+    Items: [{
+        Title: string
+        Description: string
+        Price: number
+    }]
 }
+
+ // Unsure for nesting documents
+var categorySchema = new mongoose.Schema({
+    Name: String,
+}, { collection: 'categories' });
+categorySchema.plugin(timestampsPlugin);
+
+var ItemSchema = new mongoose.Schema({
+    Title: String,
+    Description: String,
+    Price: Number,
+    Category: categorySchema,
+}, { collection: 'Items' });
+ItemSchema.plugin(timestampsPlugin);
+// End of unsure part
 
 var userSchema = new mongoose.Schema({
     Email: String,
     FirstName: String,
     LastName: String,
     Password: String,
+    Items: [{
+        Title: String,
+        Description: String,
+        Price: Number,
+    }],
 }, { collection: 'users' });
 userSchema.plugin(timestampsPlugin);
+
+
+
+
 
 export let UserModel = mongoose.model(MODEL, userSchema);
 export default new UserService(MODEL)

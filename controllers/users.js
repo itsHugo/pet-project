@@ -45,10 +45,12 @@ class UsersController extends refs_1.BaseController {
         let photoUrl = config_1.default.serverUrl + req.files[0].path;
         return this.svc.updateById(id, { PhotoUrl: photoUrl });
     }
+    //@put('/', apiSessionCheck)
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             req.body.Client = req.session.user.Client || req.session.user.ClientId;
             let user = yield this.svc.create(req.body);
+            console.log(req.body);
             user.Password = yield validators.validatePasswordAndCreateHash(user.Password);
             return this.svc.createAndSave(user);
         });
@@ -72,7 +74,7 @@ __decorate([
     refs_1.post('/:id/photo', apiSessionCheck)
 ], UsersController.prototype, "updatePhoto", null);
 __decorate([
-    refs_1.put('/', apiSessionCheck)
+    refs_1.put('/')
 ], UsersController.prototype, "create", null);
 __decorate([
     refs_1.del('/:id', apiSessionCheck)

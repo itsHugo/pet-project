@@ -42,10 +42,13 @@ export class UsersController extends BaseController<User>{
         return this.svc.updateById(id, { PhotoUrl: photoUrl });
     }
 
-    @put('/', apiSessionCheck)
+    //@put('/', apiSessionCheck)
+    @put('/')
     async create(req, res) {
         req.body.Client = req.session.user.Client || req.session.user.ClientId;
         let user = await this.svc.create(req.body);
+        console.log(req.body);
+
         user.Password = await validators.validatePasswordAndCreateHash(user.Password);
         return this.svc.createAndSave(user);
     }

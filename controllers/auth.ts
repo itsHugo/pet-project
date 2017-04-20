@@ -49,6 +49,7 @@ export class AuthController extends BaseController<User>{
 
     @put('/register')
     async register(req, res) {
+        console.log(req.body);
         var usr = this.svc.create(req.body);
         usr = await validators.validateUser(usr);
         usr.Password = await validators.validatePasswordAndCreateHash(usr.Password)
