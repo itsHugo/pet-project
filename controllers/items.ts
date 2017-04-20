@@ -68,15 +68,15 @@ export class ItemsController extends BaseController<Item> {
         let id = req.params.id;
         
         //TODO: Implement checkPoster
-        // let item: Item = await this.svc.byId(req.params.id);
-        // if (checkPoster(item, req)){
-        //     return this.svc.updateById(req.params.id, req.body);
-        // }
-        // else{
-        //     res.send(401, { status: "error", message: "You are not authorized to perform this action"});
-        // }
+        let item: Item = await this.svc.byId(req.params.id);
+        if (checkPoster(item, req)){
+            return this.svc.updateById(req.params.id, req.body);
+        }
+        else{
+            res.send(401, { status: "error", message: "You are not authorized to perform this action"});
+        }
 
-        return this.svc.updateById(id, req.body);
+        // return this.svc.updateById(id, req.body);
     }
 
     /**
@@ -89,10 +89,15 @@ export class ItemsController extends BaseController<Item> {
         return this.svc.byId(req.params.id);
     }
 
+    /**
+     * Gets all the items by a user
+     * @param req 
+     * @param res 
+     */
     @get("/user/:id")
-    getByUserId(req, res){
+    async getByUserId(req, res){
         console.log("getByUserId method: User id " + req.params.id);
-        return this.svc.model.find({}).where('CreatedBy', new mongoose.SchemaTypes.ObjectId( req.params.id)); 
+        return await this.svc.model.find({}).where("CreatedBy", req.params.id);
     }
 
     /**
@@ -108,9 +113,15 @@ export class ItemsController extends BaseController<Item> {
 
 }
 
-function checkPoster(item: Item, req){
+/**
+ * Validates if the Item belongs to the User
+ * @param item 
+ * @param req 
+ */
+function checkPoster(item: Item, req){ 
     let user = req.session.user;
-    if (item.CreatedBy === user || item.CreatedBy === user.id){
+    console.log(user._id);
+    if (item.CreatedBy == user || item.CreatedBy == user._id){
         return true;
     }
     return false;
