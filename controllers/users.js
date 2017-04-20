@@ -34,8 +34,16 @@ class UsersController extends refs_1.BaseController {
             return yield this.svc.search(req.query, req.session.user);
         });
     }
+    // Get all items
+    viewAllItemsForUser(req, res) {
+        return this.svc.allItems();
+    }
     view(req, res) {
         return this.svc.byId(req.params.id);
+    }
+    // Get all items for a specific user
+    viewItemsForUser(req, res) {
+        return this.svc.items(req.params.id);
     }
     update(req, res) {
         return this.svc.updateById(req.params.id, req.body);
@@ -65,8 +73,14 @@ __decorate([
     refs_1.get('/')
 ], UsersController.prototype, "index", null);
 __decorate([
+    refs_1.get('/items')
+], UsersController.prototype, "viewAllItemsForUser", null);
+__decorate([
     refs_1.get('/:id', apiSessionCheck)
 ], UsersController.prototype, "view", null);
+__decorate([
+    refs_1.get('/:id/items')
+], UsersController.prototype, "viewItemsForUser", null);
 __decorate([
     refs_1.post('/:id', apiSessionCheck)
 ], UsersController.prototype, "update", null);

@@ -26,10 +26,23 @@ export class UsersController extends BaseController<User>{
         return await this.svc.search(req.query, req.session.user);
     }
 
+    // Get all items
+    @get('/items')
+    viewAllItemsForUser(req, res) {
+        return this.svc.allItems();
+    }
+
     @get('/:id', apiSessionCheck)
     view(req, res) {
         return this.svc.byId(req.params.id)
     }
+
+    // Get all items for a specific user
+    @get('/:id/items')
+    viewItemsForUser(req, res) {
+        return this.svc.items(req.params.id);
+    }
+
 
     @post('/:id', apiSessionCheck)
     update(req, res) {

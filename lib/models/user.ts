@@ -43,6 +43,12 @@ export class UserService extends BaseService<User>{
             throw reason;
         });
     }
+    items(id: Id, callback?: Clb<User>) {
+        return this.model.findById(id).select("Items").exec(callback);
+    }
+    allItems(callback?: Clb<User>){
+        return this.model.find().select("Items").exec(callback);
+    }
 }
 
 export interface User extends BaseDocument {
@@ -58,20 +64,6 @@ export interface User extends BaseDocument {
     }]
 }
 
-var userSchema = new mongoose.Schema({
-    Email: String,
-    FirstName: String,
-    LastName: String,
-    Password: String,
-    Items: [{
-        Title: String,
-        Description: String,
-        Price: Number,
-        Category: {Name: String},
-    }],
-}, { collection: 'users' });
-userSchema.plugin(timestampsPlugin);
-
 //  // Unsure for nesting documents
 // var categorySchema = new mongoose.Schema({
 //     Name: String,
@@ -86,6 +78,22 @@ userSchema.plugin(timestampsPlugin);
 // }, { collection: 'Items' });
 // ItemSchema.plugin(timestampsPlugin);
 // // End of unsure part
+
+var userSchema = new mongoose.Schema({
+    Email: String,
+    FirstName: String,
+    LastName: String,
+    Password: String,
+    Items: [{
+        Title: String,
+        Description: String,
+        Price: Number,
+        Category: {Name: String},
+    }],
+}, { collection: 'users' });
+userSchema.plugin(timestampsPlugin);
+
+
 
 
 
