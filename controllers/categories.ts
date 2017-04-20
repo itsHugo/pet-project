@@ -20,6 +20,7 @@ export class ItemsController extends BaseController<Category> {
      */
     @get("/")
     getAll(req, res){
+        console.log(req.headers.host);
         return this.svc.getAll();
     }
 

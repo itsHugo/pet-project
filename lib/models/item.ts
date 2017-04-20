@@ -2,6 +2,7 @@ import { PermissionError } from '../errors';
 import { BaseDocument } from './baseModel';
 import * as mongoose from 'mongoose'
 import timestampsPlugin from '../timestampsPlugin.js'
+import createdByPlugin from '../createdByPlugin.js'
 import EnumValues from '../enumValues'
 import { BaseService, Clb, Id } from '../services/baseService'
 let ObjectId = mongoose.Schema.Types.ObjectId;
@@ -57,6 +58,7 @@ var ItemSchema = new mongoose.Schema({
     Price: Number,
 }, { collection: 'Items' });
 ItemSchema.plugin(timestampsPlugin);
+ItemSchema.plugin(createdByPlugin);
 
 export let ItemModel = mongoose.model(MODEL, ItemSchema);
 export default new ItemService(MODEL)

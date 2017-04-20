@@ -6,6 +6,7 @@ import { Request, Response } from 'ccd';
 import * as utils from '../lib/utils'
 import * as validators from '../lib/validators'
 import errors from '../lib/errors'
+import * as mongoose from 'mongoose'
 
 
 const apiSessionCheck = utils.requiresUserSession('api');
@@ -29,8 +30,9 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @post("/")
+    @post("/", apiSessionCheck)
     createItem(req, res){
+        req.body.CreatedBy = req.session.user;
         return this.svc.createAndSave(req.body);
     }
 
@@ -87,6 +89,12 @@ export class ItemsController extends BaseController<Item> {
         return this.svc.byId(req.params.id);
     }
 
+    @get("/user/:id")
+    getByUserId(req, res){
+        console.log("getByUserId method: User id " + req.params.id);
+        return this.svc.model.find({}).where('CreatedBy', new mongoose.SchemaTypes.ObjectId( req.params.id)); 
+    }
+
     /**
      * Action to get all items by Category
      * @param req 
@@ -102,7 +110,10 @@ export class ItemsController extends BaseController<Item> {
 
 function checkPoster(item: Item, req){
     let user = req.session.user;
-    //TO DO
+    if (item.CreatedBy === user || item.CreatedBy === user.id){
+        return true;
+    }
+    return false;
 }
 
 export let controller = new ItemsController(Factory.Item, Router());
