@@ -15,22 +15,38 @@ export class ItemsController extends BaseController<Item> {
     svc: ItemService
     @get("/")
     getAllItems (req, res){
-        res.json({Life: "life"});
+        return this.svc.getAll();
     }
 
     @post("/")
     createItem(req, res){
-        this.svc.createAndSave(req.body);
+        return this.svc.createAndSave(req.body);
     }
 
     @del("/:id", apiSessionCheck)
-    deleteItem(req, res){
-        res.send({Life: "life"});
+    async deleteItem(req, res){
+        let id = req.params.id;
+        let item: Item = await this.svc.byId(req.params.id);
+        //TODO: CheckPoster
+        if (checkPoster(item, req)){
+            return this.svc.deleteById(id);
+        }
+        else{
+            res.send(401, { status: "error", message: "You are not authorized to perform this action"});
+        }
     }
 
     @put("/:id", apiSessionCheck)
-    updateItem(req, res){
-        res.send({Life: "life"});
+    async updateItem(req, res){
+        let id = req.params.id;
+        let item: Item = await this.svc.byId(req.params.id);
+        //TODO: Implement checkPoster
+        if (checkPoster(item, req)){
+            return this.svc.updateById(req.params.id, req.body);
+        }
+        else{
+            res.send(401, { status: "error", message: "You are not authorized to perform this action"});
+        }
     }
 
     @get("/:id")
@@ -43,6 +59,11 @@ export class ItemsController extends BaseController<Item> {
         res.send({Life: "life"});      
     }
 
+}
+
+function checkPoster(item: Item, req){
+    let user = req.session.user;
+    //TO DO
 }
 
 export let controller = new ItemsController(Factory.Item, Router());
