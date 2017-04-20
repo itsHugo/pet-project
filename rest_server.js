@@ -8,7 +8,7 @@ const apiSessionCheck = utils_1.requiresUserSession('api');
 const webSessionCheck = utils_1.requiresUserSession('web');
 class RestServices {
     static setApiRoutes(app) {
-        app.get('/', render('index.html'));
+        app.get('/', render('index'));
         app.use('/auth', index_1.ControllerFactory.Auth.router);
         let api = express.Router()
             .use('/users', index_1.ControllerFactory.Users.router);

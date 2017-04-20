@@ -37,7 +37,7 @@ let app = express()
     .use('/uploads', express.static(uploadsDir));
 app.engine('html', require('ejs').renderFile)
     .set('views', publicDir)
-    .set('view engine', 'html')
+    .set('view engine', 'ejs')
     .set('view options', { layout: false });
 let webServer;
 rest_server_1.default.setApiRoutes(app);

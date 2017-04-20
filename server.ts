@@ -42,7 +42,7 @@ let app = express()
 
 app.engine('html', require('ejs').renderFile)
     .set('views', publicDir)
-    .set('view engine', 'html')
+    .set('view engine', 'ejs')
     .set('view options', { layout: false });
 
 let webServer: http.Server;
