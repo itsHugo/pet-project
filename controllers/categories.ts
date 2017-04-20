@@ -14,23 +14,23 @@ export class ItemsController extends BaseController<Category> {
     svc: CategoryService
 
     @get("/")
-    getAll(){
-
+    getAll(req, res){
+        return this.svc.getAll();
     }
 
     @get("/:id")
-    getById(){
-        
+    getById(req, res){
+        return this.svc.byId(req.params.id);
     }
 
     @put("/:id")
-    updateById(){
-
+    updateById(req, res){
+        return this.svc.updateById(req.params.id, req.body);
     }
 
     @del("/:id")
-    deleteById(){
-        
+    deleteById(req, res){
+        return this.svc.deleteById(req.params.id);
     }
     
 
