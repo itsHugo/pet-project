@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose'
 import timestampsPlugin from '../timestampsPlugin.js'
 import EnumValues from '../enumValues'
 import { BaseService, Clb, Id } from '../services/baseService'
+import Item from './item'
 let ObjectId = mongoose.Schema.Types.ObjectId;
 const MODEL = 'User'
 
@@ -51,6 +52,7 @@ export class UserService extends BaseService<User>{
     }
 }
 
+// How to set interface for User -> Items?
 export interface User extends BaseDocument {
     Email: string
     FirstName: string
@@ -60,24 +62,8 @@ export interface User extends BaseDocument {
         Title: string
         Description: string
         Price: number
-        Category: {Name: string}
     }]
 }
-
- // Unsure for nesting documents
-var categorySchema = new mongoose.Schema({
-    Name: String,
-}, { collection: 'categories' });
-categorySchema.plugin(timestampsPlugin);
-
-var ItemSchema = new mongoose.Schema({
-    Title: String,
-    Description: String,
-    Price: Number,
-    Category: {Name: String},
-}, { collection: 'Items' });
-ItemSchema.plugin(timestampsPlugin);
-// End of unsure part
 
 var userSchema = new mongoose.Schema({
     Email: String,
@@ -85,14 +71,11 @@ var userSchema = new mongoose.Schema({
     LastName: String,
     Password: String,
     Items: [{
-        Title: String,
-        Description: String,
-        Price: Number,
-        Category: {Name: String},
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Item'
     }],
 }, { collection: 'users' });
 userSchema.plugin(timestampsPlugin);
-
 
 export let UserModel = mongoose.model(MODEL, userSchema);
 export default new UserService(MODEL)

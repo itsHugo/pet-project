@@ -2,6 +2,7 @@ import { PermissionError } from '../errors';
 import { BaseDocument } from './baseModel';
 import * as mongoose from 'mongoose'
 import timestampsPlugin from '../timestampsPlugin.js'
+import createdByPlugin from '../createdByPlugin.js'
 import EnumValues from '../enumValues'
 import { BaseService, Clb, Id } from '../services/baseService'
 let ObjectId = mongoose.Schema.Types.ObjectId;
@@ -32,18 +33,6 @@ export class ItemService extends BaseService<Item>{
     deleteById(id: Id, callback?: Clb<Item>) {
         return this.updateById(id, { IsDeleted: true }, callback);
     }
-
-    // login(email: string, password: string, callback?: Clb<Item>) {
-    //     var q = this.model.findOneAndUpdate(
-    //         { Email: email, Password: password },
-    //         { LastLoginDate: new Date() });
-
-    //     return q.exec(callback).then(result => {
-    //         return result;
-    //     }, reason => {
-    //         throw reason;
-    //     });
-    // }
 }
 
 export interface Item extends BaseDocument {
@@ -58,6 +47,7 @@ var ItemSchema = new mongoose.Schema({
     Price: Number,
 }, { collection: 'Items' });
 ItemSchema.plugin(timestampsPlugin);
+ItemSchema.plugin(createdByPlugin);
 
 export let ItemModel = mongoose.model(MODEL, ItemSchema);
 export default new ItemService(MODEL)
