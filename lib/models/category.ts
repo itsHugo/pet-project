@@ -26,23 +26,9 @@ export class CategoryService extends BaseService<Category>{
         }
         return q;
     }
-    userExists(email: string, callback?: Clb<Category>) {
-        return this.model.findOne({ Email: email }).exec(callback);
-    }
-    deleteById(id: Id, callback?: Clb<Category>) {
-        return this.updateById(id, { IsDeleted: true }, callback);
-    }
-    login(email: string, password: string, callback?: Clb<Category>) {
-        var q = this.model.findOneAndUpdate(
-            { Email: email, Password: password },
-            { LastLoginDate: new Date() });
-
-        return q.exec(callback).then(result => {
-            return result;
-        }, reason => {
-            throw reason;
-        });
-    }
+    async categoryExists(category: string, callback?: Clb<Category>) {
+        return await this.model.findOne({ Name: category }).exec(callback);
+    }   
 }
 
 export interface Category extends BaseDocument {

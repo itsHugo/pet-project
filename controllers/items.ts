@@ -48,13 +48,13 @@ export class ItemsController extends BaseController<Item> {
     async deleteItem(req, res){
         let id = req.params.id;
         let item: Item = await this.svc.byId(req.params.id);
-        //TODO: CheckPoster
-        // if (checkPoster(item, req)){
-        //     return this.svc.deleteById(id);
-        // }
-        // else{
-        //     res.send(401, { status: "error", message: "You are not authorized to perform this action"});
-        // }
+        // TODO: CheckPoster
+        if (checkPoster(item, req)){
+            return this.svc.deleteById(id);
+        }
+        else{
+            res.send(401, { status: "error", message: "You are not authorized to perform this action"});
+        }
     }
 
     /**
@@ -105,10 +105,11 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @get("/category/:category_id")
-    getByCatId(req, res){
-        //TODO
-        res.send({Life: "life"});      
+    @get("/category/:id")
+    async getByCatId(req, res){
+        return await this.svc.model.find({}).in("Categories", [req.params.id]).populate({
+            path: 'Categories'
+        }) 
     }
 
 }

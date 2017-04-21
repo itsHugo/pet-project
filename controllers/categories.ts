@@ -5,7 +5,7 @@ import * as utils from '../lib/utils'
 import * as validators from '../lib/validators'
 import errors from '../lib/errors'
 import { Category, CategoryService } from "../lib/models/category";
-
+import * as http from 'http'
 
 const apiSessionCheck = utils.requiresUserSession('api');
 
@@ -71,6 +71,11 @@ export class ItemsController extends BaseController<Category> {
     deleteById(req, res){
         //TODO Need to implement Delete
         return this.svc.deleteById(req.params.id);
+    }
+
+    @get("/test/:name")
+    async testByValue(req, res){
+        return await this.svc.categoryExists(req.params.name);
     }
     
 
