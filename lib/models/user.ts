@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose'
 import timestampsPlugin from '../timestampsPlugin.js'
 import EnumValues from '../enumValues'
 import { BaseService, Clb, Id } from '../services/baseService'
+import {Item} from './item'
 let ObjectId = mongoose.Schema.Types.ObjectId;
 const MODEL = 'User'
 
@@ -56,12 +57,7 @@ export interface User extends BaseDocument {
     FirstName: string
     LastName: string
     Password: string
-    Items: [{
-        Title: string
-        Description: string
-        Price: number
-        Category: {Name: string}
-    }]
+    Items: [ Id | Item]
 }
 
  // Unsure for nesting documents
