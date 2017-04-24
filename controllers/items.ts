@@ -38,9 +38,10 @@ export class ItemsController extends BaseController<Item> {
         if (req.body.Categories){
            let arr = req.body.Categories;
            for (let i: number = 0; i < arr.length; i++){
-               if (this.svc.ItemExists(arr[i])){
-                   
-               }
+               if(this.svc.CategoryExist(arr[i]))
+                {
+                    
+                }
            } 
         }
         req.body.CreatedBy = req.session.user;
@@ -123,20 +124,32 @@ export class ItemsController extends BaseController<Item> {
         }) 
     }
 
-    @post("/photo")
-    uploadPhoto(req, res){
-        upload(req, res, function(err){
-            if (err){
-                console.log(err.message);
-                return;
-            }
-            else{
-                console.log("File Uploaded");
-                return;
-            }
+    @post("/:id/photo/")
+    async uploadPhoto(req, res){
 
-        })
+        let item: Item = await this.svc.byId(req.params.id);
+        if (item){
+            upload(req, res, function(err){
+                if (err){
+                    console.log(err.message);
+                    return;
+                }
+                else{
+                    console.log("File Uploaded");
+                    console.log(req.files[0].filename);
+
+                    item.Image = req.files[0].filename;
+                    
+                    return item.save();
+                }
+
+            })   
+        }else{
+            res.send(401, { status: "error", message: "You are not authorized to perform this action"});
+        }
     }
+
+    
 
 }
 

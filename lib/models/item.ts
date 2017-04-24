@@ -1,4 +1,5 @@
 import { PermissionError } from '../errors';
+import { CategoryModel } from "./category";
 import { Category } from "./category";
 import { BaseDocument } from './baseModel';
 import * as mongoose from 'mongoose'
@@ -33,12 +34,22 @@ export class ItemService extends BaseService<Item>{
         return this.model.findOne({ Title: title }).exec(callback);
     }
 
+    CategoryExist(title: string, callback?: Clb<Item>){
+        return CategoryModel.findOne({_id: title}, function(err, cat){
+            if(cat)
+                return true;
+            else
+                return false;
+        })
+    }
+
 }
 
 export interface Item extends BaseDocument {
     Title: string
     Description: string
     Price: number
+    Image: string
     Categories: [ Id | Category ]
 }
 
@@ -46,6 +57,7 @@ var ItemSchema = new mongoose.Schema({
     Title: String,
     Description: String,
     Price: Number,
+    Image: String,
     Categories: [ {type: mongoose.SchemaTypes.ObjectId, ref: 'Category' } ]
 }, { collection: 'Items' });
 ItemSchema.plugin(timestampsPlugin);
