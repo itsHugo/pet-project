@@ -7,6 +7,9 @@ import * as utils from '../lib/utils'
 import * as validators from '../lib/validators'
 import errors from '../lib/errors'
 import * as mongoose from 'mongoose'
+import * as multer from 'multer'
+
+let upload = multer().single('itemProfile');
 
 
 const apiSessionCheck = utils.requiresUserSession('api');
@@ -32,6 +35,14 @@ export class ItemsController extends BaseController<Item> {
      */
     @post("/", apiSessionCheck)
     createItem(req, res){
+        if (req.body.Categories){
+           let arr = req.body.Categories;
+           for (let i: number = 0; i < arr.length; i++){
+               if (this.svc.ItemExists(arr[i])){
+                   
+               }
+           } 
+        }
         req.body.CreatedBy = req.session.user;
         return this.svc.createAndSave(req.body);
     }
@@ -110,6 +121,21 @@ export class ItemsController extends BaseController<Item> {
         return await this.svc.model.find({}).in("Categories", [req.params.id]).populate({
             path: 'Categories'
         }) 
+    }
+
+    @post("/photo")
+    uploadPhoto(req, res){
+        upload(req, res, function(err){
+            if (err){
+                console.log(err.message);
+                return;
+            }
+            else{
+                console.log("File Uploaded");
+                return;
+            }
+
+        })
     }
 
 }
