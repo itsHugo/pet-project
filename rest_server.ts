@@ -14,7 +14,7 @@ export default class RestServices {
         let api = express.Router()
             .use('/users', factory.Users.router)
             .use("/items", factory.Item.router)
-            .use("/categories", factory.Caterogies.router)
+            .use("/categories", factory.Caterogies.router);
 
         app.use(apiBase, api);
         return app;

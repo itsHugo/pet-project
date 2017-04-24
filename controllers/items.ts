@@ -30,7 +30,8 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @post("/", apiSessionCheck)
+    //@post("/", apiSessionCheck)
+    @post("/")
     createItem(req, res){
         req.body.CreatedBy = req.session.user;
         return this.svc.createAndSave(req.body);
