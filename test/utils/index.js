@@ -1,12 +1,13 @@
 "use strict";
-const chai = require('chai');
+Object.defineProperty(exports, "__esModule", { value: true });
+const chai = require("chai");
 exports.expect = chai.expect;
 exports.assert = chai.assert;
-const auth_1 = require('./auth');
-const data_1 = require('./data');
+const auth_1 = require("./auth");
+const data_1 = require("./data");
 exports.data = data_1.default;
 exports.auth = auth_1.default;
-const request_1 = require('request');
+const request_1 = require("request");
 function sanitizedOptions(options = {}) {
     let opts = options;
     let isOptionsObject = options["json"] != undefined || options['jar'] != undefined;
