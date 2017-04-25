@@ -12,6 +12,7 @@ class RestServices {
         // Routes
         app.use('/login', render('login.ejs'));
         app.use('/register', render('register.ejs'));
+        app.use('/items', render('items.ejs'));
         app.use('/auth', index_1.ControllerFactory.Auth.router);
         // End Routes
         // API

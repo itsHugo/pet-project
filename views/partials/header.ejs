@@ -16,6 +16,7 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
+                <li><a href="/items">Items</a></li>
             </ul>
 
             <form class="navbar-form navbar-left">
@@ -33,8 +34,13 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/login">Login</a></li>
-                        <li role="separator" class="divider"></li>
                         <li><a href="/register">Register</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <form action="/auth/logout" method="POST">
+                                <a><input class="none" type="submit" value="Logout"/></a>
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>
