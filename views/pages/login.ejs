@@ -3,7 +3,7 @@
 
 <head>
     <% include ../partials/head %>
-    <title>Login</title>
+        <title>Login</title>
 </head>
 
 <body>
@@ -14,13 +14,21 @@
 
     <!-- Your Content -->
     <main>
-        <div class="jumbotron text-center">
-            <h1>HTV</h1>
-            <p>Login</p>
-        </div>
-
-        <div class="container-fluid">
-            
+        <div class="container container-fluid">
+            <form action="/auth/login" method="POST">
+                <div class="form-group">
+                    <label for="Email">Email address:</label>
+                    <input type="Email" class="form-control" id="Email" name="Email" placeholder="Email" aria-label="Email address" required/>
+                </div>
+                <div class="form-group">
+                    <label for="Password">Password:</label>
+                    <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="remember-me"/>Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
         </div>
     </main>
 

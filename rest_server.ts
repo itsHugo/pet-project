@@ -10,7 +10,13 @@ const webSessionCheck = requiresUserSession('web');
 export default class RestServices {
     public static setApiRoutes(app: Express): Express {
         app.get('/', render('index.ejs'));
+        // Routes
+        app.use('/login', render('login.ejs'));
+        app.use('/register', render('register.ejs'));
         app.use('/auth', factory.Auth.router);
+        // End Routes
+
+        // API
         let api = express.Router()
             .use('/users', factory.Users.router)
             .use("/items", factory.Item.router)

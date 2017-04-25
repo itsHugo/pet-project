@@ -33,6 +33,18 @@ class AuthController extends refs_1.BaseController {
             return user;
         });
     }
+    register(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var usr = this.svc.create(req.body);
+            usr = yield validators.validateUser(usr);
+            usr.Password = yield validators.validatePasswordAndCreateHash(usr.Password);
+            yield this.svc.userExists(usr.Email);
+            if (yield this.svc.userExists(usr.Email))
+                throw new errors_1.default.InvalidData('User already exists');
+            usr = yield this.svc.insert(usr);
+            return usr;
+        });
+    }
     logout(req, res) {
         this.setCurrentUser(req, null);
         return { status: "success", message: "Logged out successfully" };
@@ -52,18 +64,6 @@ class AuthController extends refs_1.BaseController {
             }
         });
     }
-    register(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var usr = this.svc.create(req.body);
-            usr = yield validators.validateUser(usr);
-            usr.Password = yield validators.validatePasswordAndCreateHash(usr.Password);
-            yield this.svc.userExists(usr.Email);
-            if (yield this.svc.userExists(usr.Email))
-                throw new errors_1.default.InvalidData('User already exists');
-            usr = yield this.svc.insert(usr);
-            return usr;
-        });
-    }
     setCurrentUser(req, user) {
         req.session.user = user;
         // if (user) {
@@ -78,14 +78,14 @@ __decorate([
     refs_1.post('/login')
 ], AuthController.prototype, "login", null);
 __decorate([
+    refs_1.post('/register')
+], AuthController.prototype, "register", null);
+__decorate([
     refs_1.post('/logout', apiSessionCheck)
 ], AuthController.prototype, "logout", null);
 __decorate([
     refs_1.post('/resetpassword', apiSessionCheck)
 ], AuthController.prototype, "resetPassword", null);
-__decorate([
-    refs_1.put('/register')
-], AuthController.prototype, "register", null);
 exports.AuthController = AuthController;
 exports.controller = new AuthController(refs_1.Factory.Users, refs_1.Router());
 //# sourceMappingURL=auth.js.map
