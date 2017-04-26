@@ -1,6 +1,7 @@
 "use strict";
-const request = require('request');
-const data_1 = require('./data');
+Object.defineProperty(exports, "__esModule", { value: true });
+const request = require("request");
+const data_1 = require("./data");
 class Auth {
     static get jar() {
         return Auth._jar;
@@ -30,6 +31,5 @@ class Auth {
         done();
     }
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Auth;
 //# sourceMappingURL=auth.js.map

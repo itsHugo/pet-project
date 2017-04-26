@@ -1,8 +1,9 @@
 /// <reference path="../typings/index.d.ts" />
 'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
 var users = require('../lib/models/user');
-const chai = require('chai');
-const request = require('request');
+const chai = require("chai");
+const request = require("request");
 var expect = chai.expect;
 var assert = chai.assert;
 let baseUrl = "http://localhost:3001/api/1/users/auth";

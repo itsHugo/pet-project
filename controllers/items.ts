@@ -8,6 +8,7 @@ import * as validators from '../lib/validators'
 import errors from '../lib/errors'
 import * as mongoose from 'mongoose'
 import * as multer from 'multer'
+import {CustomResponces} from "../lib/baseController"
 
 let upload = multer().single('itemProfile');
 
@@ -25,7 +26,8 @@ export class ItemsController extends BaseController<Item> {
      */
     @get("/")
     getAllItems (req, res){
-        return this.svc.getAll();
+        res.render("item.ejs", {item: this.svc.getAll()});
+        return CustomResponces.DO_NOTHING;
     }
 
     /**
