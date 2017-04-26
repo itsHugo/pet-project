@@ -27,22 +27,35 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">New Item</h4>
                     </div>
-                    <div class="modal-body">
-                        <form>
+                    <form action="/items" method="GET">
+                        <div class="modal-body">
                             <div class="form-group">
-                                <label for="recipient-name" class="form-control-label">Recipient:</label>
-                                <input type="text" class="form-control" id="recipient-name">
+                                <label for="Title" class="form-control-label">Title:</label>
+                                <input type="text" class="form-control" id="Title" name="Title" required>
                             </div>
                             <div class="form-group">
-                                <label for="message-text" class="form-control-label">Message:</label>
-                                <textarea class="form-control" id="message-text"></textarea>
+                                <label for="message-text" class="form-control-label">Description:</label>
+                                <textarea class="form-control" id="message-text" name="Description" required></textarea>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Send message</button>
-                    </div>
+                            <div class="form-group">
+                                <label for="Price" class="form-control-label">Price:</label>
+                                <input type="number" min="0" step="any" class="form-control" id="Price" name="Price" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="Category" class="form-control-label">Category:</label>
+                                <input type="text" class="form-control" id="Category" name="Category" required></input>
+                            </div>
+                            <div class="form-group">
+                                <label for="Image" class="form-control-label">Image:</label>
+                                <input type="file" class="form-control" id="Image" name="Image"></input>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Add item" data-dismiss="modal"></input>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
