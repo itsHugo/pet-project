@@ -17,6 +17,7 @@ export default class RestServices {
             .use("/categories", factory.Caterogies.router)
 
         app.use(apiBase, api);
+        app.use("/items", factory.ClientItems.router);
         return app;
     }
 }
