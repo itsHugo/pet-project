@@ -20,7 +20,8 @@
                     <div class="well">
                         <!-- SIDEBAR USERPIC -->
                         <div class="profile-userpic text-center">
-                            <img src="https://media.mnn.com/assets/images/2014/06/desert-rain-frog.png.653x0_q80_crop-smart.jpg" class="img-responsive" alt="Profile picture">
+                            <img src="https://media.mnn.com/assets/images/2014/06/desert-rain-frog.png.653x0_q80_crop-smart.jpg" class="img-responsive"
+                                alt="Profile picture">
                         </div>
                         <!-- END SIDEBAR USERPIC -->
 
@@ -39,23 +40,57 @@
                         <!-- END SIDEBAR BUTTONS -->
 
                         <!-- SIDEBAR MENU -->
-                        <div class="list-group">
-                            <a href="#" class="list-group-item"><i class="glyphicon glyphicon-cog"></i> Account Settings </a>
-
-                            <a href="#" class="list-group-item"><i class="glyphicon glyphicon-list-alt"></i> Items </a>
-
-                            <a href="#" class="list-group-item"><i class="glyphicon glyphicon-flag"></i> Help </a>
-                        </div>
+                        <ul class="list-group" role="tablist">
+                            <li role="presentation" class="list-group-item active">
+                                <a href="#account" aria-controls="account" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i> Account Settings </a>
+                            </li>
+                            <li role="presentation" class="list-group-item">
+                                <a href="#items" aria-controls="items" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i> Items </a>
+                            </li>
+                        </ul>
                         <!-- END MENU -->
                     </div>
                 </div>
 
                 <!-- Content -->
-                <div class="col-md-9">
-                    <h1>Items Posted</h1>
-                    <div class="well">
-                        Meeeeeep
+                <div class="col-md-9 tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="account">
+                        <h1>Account Settings</h1>
+                        <div class="well">
+                            <form action="/auth/register" method="POST">
+                                <div class="form-group">
+                                    <label for="FirstName">First name:</label>
+                                    <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First name" aria-label="First name"
+                                        required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="LastName">Last name:</label>
+                                    <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last name" aria-label="Last name" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Email">Email address:</label>
+                                    <input type="Email" class="form-control" id="Email" name="Email" placeholder="E-mail" aria-label="Email address" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Password">Password:</label>
+                                    <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
+                                </div>
+
+                                <input type="hidden" name="_METHOD" value="PUT" />
+
+                                <button type="submit" class="btn btn-default">Save</button>
+                            </form>
+                        </div>
                     </div>
+
+                    <div role="tabpanel" class="tab-pane" id="items">
+                        <h1>Items Posted</h1>
+                        <div class="well">
+                            Meeeeeep
+                        </div>
+                    </div>
+
                 </div>
                 <!-- /Content -->
             </div>
