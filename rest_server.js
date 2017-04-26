@@ -22,6 +22,7 @@ class RestServices {
             .use("/items", index_1.ControllerFactory.Item.router)
             .use("/categories", index_1.ControllerFactory.Caterogies.router);
         app.use(apiBase, api);
+        //app.use("/items", factory.ClientItems.router);
         return app;
     }
 }

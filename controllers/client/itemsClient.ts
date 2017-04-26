@@ -19,8 +19,8 @@ export class ItemsClientController extends BaseController<Item>{
         
         
         await _GetRequest("http://localhost:3001/api/1/items/").then(function(result){
-            console.log("//////////// Results " + result[0]);
-            return res.render("item.ejs",{items: result[0]});
+            console.log("//////////// Results " + result);
+            return res.render("items.ejs",{items: result});
         }).catch(function(err){
             console.error("Error", err);
             return res.status(400).send("RIP");
