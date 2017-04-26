@@ -9,6 +9,8 @@ import errors from '../lib/errors'
 import * as mongoose from 'mongoose'
 import * as multer from 'multer'
 
+import {CustomResponces} from '../lib/baseController';
+
 let upload = multer().single('itemProfile');
 
 
@@ -24,8 +26,13 @@ export class ItemsController extends BaseController<Item> {
      * @param res 
      */
     @get("/")
-    getAllItems (req, res){
+    async getAllItems (req, res){
+        /*
         return this.svc.getAll();
+        */
+        var itemsArray = await this.svc.getAll();
+        res.render('items.ejs',{items: itemsArray});
+        return CustomResponces.DO_NOTHING;
     }
 
     /**

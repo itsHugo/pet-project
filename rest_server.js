@@ -12,7 +12,8 @@ class RestServices {
         // Routes
         app.use('/login', render('login.ejs'));
         app.use('/register', render('register.ejs'));
-        app.use('/items', render('items.ejs'));
+        app.use('/items', index_1.ControllerFactory.Item.router);
+        //app.use('/items', render('items.ejs'));
         app.use('/user', render('user.ejs'));
         app.use('/auth', index_1.ControllerFactory.Auth.router);
         // End Routes
@@ -22,12 +23,11 @@ class RestServices {
             .use("/items", index_1.ControllerFactory.Item.router)
             .use("/categories", index_1.ControllerFactory.Caterogies.router);
         app.use(apiBase, api);
-        //app.use("/items", factory.ClientItems.router);
         return app;
     }
 }
 exports.default = RestServices;
-function render(templateName) {
-    return (req, res) => res.render(templateName);
+function render(templateName, router) {
+    return (req, res) => res.render(templateName, { object: router });
 }
 //# sourceMappingURL=rest_server.js.map

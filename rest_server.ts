@@ -13,7 +13,8 @@ export default class RestServices {
         // Routes
         app.use('/login', render('login.ejs'));
         app.use('/register', render('register.ejs'));
-        app.use('/items', render('items.ejs'));
+        app.use('/items', factory.Item.router);
+        //app.use('/items', render('items.ejs'));
 
         app.use('/user', render('user.ejs'));
 
@@ -27,10 +28,9 @@ export default class RestServices {
             .use("/categories", factory.Caterogies.router);
 
         app.use(apiBase, api);
-        //app.use("/items", factory.ClientItems.router);
         return app;
     }
 }
-function render(templateName) {
-    return (req, res) => res.render(templateName);
+function render(templateName, router?) {
+    return (req, res) => res.render(templateName, {object: router});
 }
