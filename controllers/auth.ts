@@ -27,6 +27,19 @@ export class AuthController extends BaseController<User>{
         return user;
     }
 
+    @post('/register')
+    async register(req, res) {
+        var usr = this.svc.create(req.body);
+        usr = await validators.validateUser(usr);
+        usr.Password = await validators.validatePasswordAndCreateHash(usr.Password)
+        await this.svc.userExists(usr.Email);
+        if (await this.svc.userExists(usr.Email))
+            throw new errors.InvalidData('User already exists');
+
+        usr = await this.svc.insert(usr);
+        return usr;
+    }
+
     @post('/logout', apiSessionCheck)
     logout(req, res) {
         this.setCurrentUser(req, null);
@@ -47,18 +60,7 @@ export class AuthController extends BaseController<User>{
         }
     }
 
-    @put('/register')
-    async register(req, res) {
-        var usr = this.svc.create(req.body);
-        usr = await validators.validateUser(usr);
-        usr.Password = await validators.validatePasswordAndCreateHash(usr.Password)
-        await this.svc.userExists(usr.Email);
-        if (await this.svc.userExists(usr.Email))
-            throw new errors.InvalidData('User already exists');
-
-        usr = await this.svc.insert(usr);
-        return usr;
-    }
+    
 
     private setCurrentUser(req, user) {
         req.session.user = user;

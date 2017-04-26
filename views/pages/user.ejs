@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/head %>
+        <title>User</title>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <!-- Your Content -->
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="well">
+                        <!-- User profile pic -->
+                        <div class="profile-userpic text-center">
+                            <img src="https://media.mnn.com/assets/images/2014/06/desert-rain-frog.png.653x0_q80_crop-smart.jpg" class="img-responsive"
+                                alt="Profile picture">
+                        </div>
+                        <!-- /User profile pic -->
+
+                        <!-- User first and last name -->
+                        <div class="profile-usertitle text-center">
+                            <div class="profile-usertitle-name">
+                                <h3>Desert Rain Frog</h3>
+                            </div>
+                        </div>
+                        <!-- /User first and last name -->
+
+                        <!-- Button -->
+                        <div class="well text-center">
+                            <button type="button" class="btn btn-danger btn-sm">Message</button>
+                        </div>
+                        <!-- /Button -->
+
+                        <!-- Tab menu -->
+                        <ul class="list-group" role="tablist">
+                            <li role="presentation" class="list-group-item active">
+                                <a href="#account" aria-controls="account" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i> Account Settings </a>
+                            </li>
+                            <li role="presentation" class="list-group-item">
+                                <a href="#items" aria-controls="items" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i> Items </a>
+                            </li>
+                        </ul>
+                        <!-- /Tab menu -->
+                    </div>
+                </div>
+
+                <!-- Content + Tabs-->
+                <div class="col-md-9 tab-content">
+
+                    <!-- Account Settings Tab -->
+                    <div role="tabpanel" class="tab-pane active" id="account">
+                        <h1>Account Settings</h1>
+                        <div class="well">
+                            <!-- Modify user information -->
+                            <form action="/auth/register" method="POST">
+                                <div class="form-group">
+                                    <label for="FirstName">First name:</label>
+                                    <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First name" aria-label="First name"
+                                        required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="LastName">Last name:</label>
+                                    <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last name" aria-label="Last name" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Email">Email address:</label>
+                                    <input type="Email" class="form-control" id="Email" name="Email" placeholder="E-mail" aria-label="Email address" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Password">Password:</label>
+                                    <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
+                                </div>
+
+                                <input type="hidden" name="_METHOD" value="PUT" />
+
+                                <button type="submit" class="btn btn-default">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /Account Settings -->
+
+                    <!-- Items Posted Tabs -->
+                    <div role="tabpanel" class="tab-pane" id="items">
+                        <h1>Items Posted</h1>
+                        <div class="well">
+                            <!-- Insert items here -->
+                            Meeeeeep
+                        </div>
+                    </div>
+                    <!-- /Items Posted -->
+
+                </div>
+                <!-- /Content + Tabs -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div>
+        <% include ../partials/footer %>
+    </div>
+</body>
+
+</html>

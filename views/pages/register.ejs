@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/head %>
+    <title>Register</title>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <!-- Your Content -->
+    <main>
+        <div class="container container-fluid">
+            <form action="/auth/register" method="POST">
+                <div class="form-group">
+                    <label for="FirstName">First name:</label>
+                    <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First name" aria-label="First name" required/>
+                </div>
+                <div class="form-group">
+                    <label for="LastName">Last name:</label>
+                    <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last name" aria-label="Last name" required/>
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email address:</label>
+                    <input type="Email" class="form-control" id="Email" name="Email" placeholder="E-mail" aria-label="Email address" required/>
+                </div>
+                <div class="form-group">
+                    <label for="Password">Password:</label>
+                    <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
+                </div>
+
+                <input type="hidden" name="_METHOD" value="PUT"/>
+                
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div>
+        <% include ../partials/footer %>
+    </div>
+</body>
+
+</html>

@@ -33,7 +33,8 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @post("/", apiSessionCheck)
+    //@post("/", apiSessionCheck)
+    @post("/")
     createItem(req, res){
         if (req.body.Categories){
            let arr = req.body.Categories;

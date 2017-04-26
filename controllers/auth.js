@@ -8,15 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const refs_1 = require('./refs');
-const utils = require('../lib/utils');
-const validators = require('../lib/validators');
-const errors_1 = require('../lib/errors');
+Object.defineProperty(exports, "__esModule", { value: true });
+const refs_1 = require("./refs");
+const utils = require("../lib/utils");
+const validators = require("../lib/validators");
+const errors_1 = require("../lib/errors");
 const apiSessionCheck = utils.requiresUserSession('api');
 class PasswordResetDTO {
 }
@@ -30,6 +31,18 @@ class AuthController extends refs_1.BaseController {
                 throw (new errors_1.default.Unauthorized('Invalid Username or Password'));
             this.setCurrentUser(req, user);
             return user;
+        });
+    }
+    register(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var usr = this.svc.create(req.body);
+            usr = yield validators.validateUser(usr);
+            usr.Password = yield validators.validatePasswordAndCreateHash(usr.Password);
+            yield this.svc.userExists(usr.Email);
+            if (yield this.svc.userExists(usr.Email))
+                throw new errors_1.default.InvalidData('User already exists');
+            usr = yield this.svc.insert(usr);
+            return usr;
         });
     }
     logout(req, res) {
@@ -51,18 +64,6 @@ class AuthController extends refs_1.BaseController {
             }
         });
     }
-    register(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            var usr = this.svc.create(req.body);
-            usr = yield validators.validateUser(usr);
-            usr.Password = yield validators.validatePasswordAndCreateHash(usr.Password);
-            yield this.svc.userExists(usr.Email);
-            if (yield this.svc.userExists(usr.Email))
-                throw new errors_1.default.InvalidData('User already exists');
-            usr = yield this.svc.insert(usr);
-            return usr;
-        });
-    }
     setCurrentUser(req, user) {
         req.session.user = user;
         // if (user) {
@@ -77,14 +78,14 @@ __decorate([
     refs_1.post('/login')
 ], AuthController.prototype, "login", null);
 __decorate([
+    refs_1.post('/register')
+], AuthController.prototype, "register", null);
+__decorate([
     refs_1.post('/logout', apiSessionCheck)
 ], AuthController.prototype, "logout", null);
 __decorate([
     refs_1.post('/resetpassword', apiSessionCheck)
 ], AuthController.prototype, "resetPassword", null);
-__decorate([
-    refs_1.put('/register')
-], AuthController.prototype, "register", null);
 exports.AuthController = AuthController;
 exports.controller = new AuthController(refs_1.Factory.Users, refs_1.Router());
 //# sourceMappingURL=auth.js.map

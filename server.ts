@@ -40,9 +40,9 @@ let app = express()
     .use(express.static(publicDir))
     .use('/uploads', express.static(uploadsDir));
 
-app.engine('html', require('ejs').renderFile)
+app.engine('ejs', require('ejs').renderFile)
     .set('views', publicDir)
-    .set('view engine', 'html')
+    .set('view engine', 'ejs')
     .set('view options', { layout: false });
 
 let webServer: http.Server;
