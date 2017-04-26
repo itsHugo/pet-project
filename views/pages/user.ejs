@@ -18,28 +18,28 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="well">
-                        <!-- SIDEBAR USERPIC -->
+                        <!-- User profile pic -->
                         <div class="profile-userpic text-center">
                             <img src="https://media.mnn.com/assets/images/2014/06/desert-rain-frog.png.653x0_q80_crop-smart.jpg" class="img-responsive"
                                 alt="Profile picture">
                         </div>
-                        <!-- END SIDEBAR USERPIC -->
+                        <!-- /User profile pic -->
 
-                        <!-- SIDEBAR USER TITLE -->
+                        <!-- User first and last name -->
                         <div class="profile-usertitle text-center">
                             <div class="profile-usertitle-name">
                                 <h3>Desert Rain Frog</h3>
                             </div>
                         </div>
-                        <!-- END SIDEBAR USER TITLE -->
+                        <!-- /User first and last name -->
 
-                        <!-- SIDEBAR BUTTONS -->
+                        <!-- Button -->
                         <div class="well text-center">
                             <button type="button" class="btn btn-danger btn-sm">Message</button>
                         </div>
-                        <!-- END SIDEBAR BUTTONS -->
+                        <!-- /Button -->
 
-                        <!-- SIDEBAR MENU -->
+                        <!-- Tab menu -->
                         <ul class="list-group" role="tablist">
                             <li role="presentation" class="list-group-item active">
                                 <a href="#account" aria-controls="account" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i> Account Settings </a>
@@ -48,16 +48,18 @@
                                 <a href="#items" aria-controls="items" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i> Items </a>
                             </li>
                         </ul>
-                        <!-- END MENU -->
+                        <!-- /Tab menu -->
                     </div>
                 </div>
 
-                <!-- Content -->
+                <!-- Content + Tabs-->
                 <div class="col-md-9 tab-content">
 
+                    <!-- Account Settings Tab -->
                     <div role="tabpanel" class="tab-pane active" id="account">
                         <h1>Account Settings</h1>
                         <div class="well">
+                            <!-- Modify user information -->
                             <form action="/auth/register" method="POST">
                                 <div class="form-group">
                                     <label for="FirstName">First name:</label>
@@ -83,16 +85,20 @@
                             </form>
                         </div>
                     </div>
+                    <!-- /Account Settings -->
 
+                    <!-- Items Posted Tabs -->
                     <div role="tabpanel" class="tab-pane" id="items">
                         <h1>Items Posted</h1>
                         <div class="well">
+                            <!-- Insert items here -->
                             Meeeeeep
                         </div>
                     </div>
+                    <!-- /Items Posted -->
 
                 </div>
-                <!-- /Content -->
+                <!-- /Content + Tabs -->
             </div>
         </div>
     </main>
