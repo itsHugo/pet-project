@@ -43,6 +43,15 @@ export class ItemService extends BaseService<Item>{
         })
     }
 
+    byId(id: Id, callback?: Clb<Item>): Promise<Item>{
+        return this.model.findById(id).populate({path: "Categories"}).populate({path: "CreatedBy"}).exec(callback);
+    }
+
+    getAll(callback?: Clb<Item[]>): Promise<Item[]>{
+        return this.model.find({}).populate({path: "Categories"}).populate({path: "CreatedBy"}).exec(callback);
+    }
+    
+
 }
 
 export interface Item extends BaseDocument {
