@@ -44,15 +44,19 @@ export class ItemsController extends BaseController<Item> {
     //@post("/", apiSessionCheck)
     @post("/")
     createItem(req, res){
-        if (req.body.Categories){
-           let arr = req.body.Categories;
-           for (let i: number = 0; i < arr.length; i++){
-               if(this.svc.CategoryExist(arr[i]))
-                {
+        // if (req.body.Categories){
+        //    let arr = req.body.Categories;
+        //    for (let i: number = 0; i < arr.length; i++){
+        //        if(this.svc.CategoryExist(arr[i]))
+        //         {
                     
-                }
-           } 
-        }
+        //         }
+        //    } 
+        // }
+
+        
+        console.log("///////////////////////////////////////////////)");
+        console.log(req );
         req.body.CreatedBy = req.session.user;
         return this.svc.createAndSave(req.body);
     }

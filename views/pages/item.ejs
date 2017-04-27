@@ -1,25 +1,53 @@
 <html>
     <head>
-        <title>Insert Title</title>
-        
+    <% include ../partials/head %>
+        <title>Items</title>
     </head>
 
     <body>
-        <h1>Title</h1>
+        <!-- Header -->
+        <header>
+            <% include ../partials/header %>
+        </header>
         
-        <hr/>
+        <main>
+            <div class="jumbotron text-center">
+            <h2><%= item.Title %></h3>
+            <p>by <%= item.CreatedBy.FirstName %> <%= item.CreatedBy.LastName %></p>
+            
+            <%if (item.Image || item.Image != ""){ %>
+                <img src='/uploads/<%= item.Image %>' class="img-thumbnail img-responsive" alt="Item image" style="max-width: 500px" />
+            <% } else{ %>
+                <img src="/uploads/new-item.png" class="img-thumbnail img-responsive" alt="Item image" />
+            <% } %>
+            
+            </div>
 
-        <h2>Description</h2>
+            <div class="container container-fluid">
+                <div class="row">
+                    <h3>Description</h3>
+                    
+                    <p><%= item.Description %></p>
+                    <hr />
+                </div>
 
-        <p>Life: <%= item.Description %></p>
+                <div class=row>
+                    <h3>Price: $<%=item.Price %></h3>
+                </div>
+            </div>
 
-        <h3>Price: Insert Price Here</h3>
 
-        <h3>Author: Insert User Here</h3>
+
+        </main>
 
         <!-- Faux buy or Inquire button -->
         <div></div>
 
+
+        <!-- Footer -->
+        <div>
+             <% include ../partials/footer %>
+        </div>
 
     </body>
 

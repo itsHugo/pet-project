@@ -31,12 +31,11 @@ export function _PostRequest (uri: string, data){
     return new Promise((resolve, reject) => {
         var body = "";
         console.log (JSON.stringify(data));
-        request.post(uri, { 
-                json: true,
-                body:  JSON.stringify(data) })
+        var post = request.post(uri)
         .on("data", function (chunck){
             console.log(chunck)
             body += chunck;
+            process.stdout.write(chunck);
         })
         .on('end', function(response){
             let jsonObject = JSON.parse(body);
@@ -47,5 +46,9 @@ export function _PostRequest (uri: string, data){
             console.log(err);
             reject(err);
         })
+
+        post.write(JSON.stringify(data));
+        post.end();
+        
     })
 }
