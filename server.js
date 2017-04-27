@@ -19,7 +19,7 @@ let storage = multer.diskStorage({
         cb(null, `./uploads/`);
     },
     filename: (req, file, cb) => {
-        cb(null, `photo-` + Date.now() + ".jpg");
+        cb(null, file.originalname.toString());
     }
 });
 let uploader = multer({ storage: storage });

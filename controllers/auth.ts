@@ -7,6 +7,10 @@ import {
 import * as utils from '../lib/utils'
 import * as validators from '../lib/validators'
 import errors from '../lib/errors'
+import * as multer from 'multer';
+
+let upload = multer().single('Image');
+
 const apiSessionCheck = utils.requiresUserSession('api');
 
 class PasswordResetDTO {
@@ -29,12 +33,19 @@ export class AuthController extends BaseController<User>{
 
     @post('/register')
     async register(req, res) {
+        // Upload image using multer
+        upload;
+
+        // Set Image name string
+        req.body.Image = req.files[0].filename;
+
         var usr = this.svc.create(req.body);
         usr = await validators.validateUser(usr);
         usr.Password = await validators.validatePasswordAndCreateHash(usr.Password)
         await this.svc.userExists(usr.Email);
         if (await this.svc.userExists(usr.Email))
             throw new errors.InvalidData('User already exists');
+            
 
         usr = await this.svc.insert(usr);
         return usr;

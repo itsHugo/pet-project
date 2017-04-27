@@ -9,6 +9,8 @@ import EnumValues from '../lib/enumValues';
 import * as multer from 'multer';
 import config from './../config';
 
+let upload = multer().single('Image');
+
 const apiSessionCheck = utils.requiresUserSession('api');
 export function checkIfMe(req, res, next) {
     if (req.session.user.id == req.params.id) {
