@@ -59,7 +59,7 @@ var ItemSchema = new mongoose.Schema({
     Price: Number,
     Image: String,
     Categories: [ {type: mongoose.SchemaTypes.ObjectId, ref: 'Category' } ]
-}, { collection: 'Items' });
+}, { collection: 'items' });
 ItemSchema.plugin(timestampsPlugin);
 ItemSchema.plugin(createdByPlugin);
 ItemSchema.plugin(categoriesPlugin);

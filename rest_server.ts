@@ -19,6 +19,11 @@ export default class RestServices {
         app.use('/user', render('user.ejs'));
 
         app.use('/auth', factory.Auth.router);
+
+        app.use(function(req, res, next) {
+            res.locals.user = req.session.user;
+        next();
+        });
         // End Routes
 
         // API
@@ -26,8 +31,17 @@ export default class RestServices {
             .use('/users', factory.Users.router)
             .use("/items", factory.Item.router)
             .use("/categories", factory.Caterogies.router);
+        // /API
+
+        // Web
+        let web = express.Router()
+            .use('/users', factory.Users.router)
+            .use('/items', factory.Item.router)
+            .use('/categories', factory.Caterogies.router);
+        // /Web
 
         app.use(apiBase, api);
+        //app.use(web);
         return app;
     }
 }

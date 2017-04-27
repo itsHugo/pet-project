@@ -16,13 +16,25 @@ class RestServices {
         //app.use('/items', render('items.ejs'));
         app.use('/user', render('user.ejs'));
         app.use('/auth', index_1.ControllerFactory.Auth.router);
+        app.use(function (req, res, next) {
+            res.locals.user = req.session.user;
+            next();
+        });
         // End Routes
         // API
         let api = express.Router()
             .use('/users', index_1.ControllerFactory.Users.router)
             .use("/items", index_1.ControllerFactory.Item.router)
             .use("/categories", index_1.ControllerFactory.Caterogies.router);
+        // /API
+        // Web
+        let web = express.Router()
+            .use('/users', index_1.ControllerFactory.Users.router)
+            .use('/items', index_1.ControllerFactory.Item.router)
+            .use('/categories', index_1.ControllerFactory.Caterogies.router);
+        // /Web
         app.use(apiBase, api);
+        //app.use(web);
         return app;
     }
 }
