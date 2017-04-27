@@ -127,6 +127,7 @@ export class ItemsController extends BaseController<Item> {
      */
     @get("/category/:id")
     async getByCatId(req, res){
+        // Add to model later 
         return await this.svc.model.find({}).in("Categories", [req.params.id]).populate({
             path: 'Categories'
         }) 

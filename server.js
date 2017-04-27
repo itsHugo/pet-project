@@ -29,7 +29,7 @@ let app = express()
     .use(cookieParser())
     .use(session({
     secret: 'YziAquCpl21AQef',
-    name: 'pocketinventorymanager.sid',
+    name: 'htv.sid',
     resave: true,
     saveUninitialized: true
 }))
