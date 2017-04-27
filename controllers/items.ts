@@ -31,6 +31,7 @@ export class ItemsController extends BaseController<Item> {
         return this.svc.getAll();
         */
         var itemsArray = await this.svc.getAll();
+        console.log(itemsArray);
         res.render('items.ejs',{items: itemsArray});
         return CustomResponces.DO_NOTHING;
     }
