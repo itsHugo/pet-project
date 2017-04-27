@@ -20,10 +20,7 @@ export default class RestServices {
 
         app.use('/auth', factory.Auth.router);
 
-        app.use(function(req, res, next) {
-            res.locals.user = req.session.user;
-        next();
-        });
+        
         // End Routes
 
         // API

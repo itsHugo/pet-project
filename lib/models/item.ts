@@ -42,6 +42,9 @@ export class ItemService extends BaseService<Item>{
                 return false;
         })
     }
+    ItemsByUser(id, callback?: Clb<Item>){
+        return this.model.find({}).where("CreatedBy", id);
+    }
 
     byId(id: Id, callback?: Clb<Item>): Promise<Item>{
         return this.model.findById(id).populate({path: "Categories"}).populate({path: "CreatedBy"}).exec(callback);
