@@ -10,7 +10,8 @@ const path_1 = require("path");
 mongoose.Promise = global.Promise;
 const rest_server_1 = require("./rest_server");
 const multer = require("multer");
-const publicDir = path_1.join(__dirname, 'views/pages');
+const viewsDir = path_1.join(__dirname, 'views/pages');
+const publicDir = path_1.join(__dirname, 'public');
 const uploadsDir = path_1.join(__dirname, 'uploads');
 const port = 3001;
 let storage = multer.diskStorage({
@@ -33,10 +34,11 @@ let app = express()
     resave: true,
     saveUninitialized: true
 }))
+    .use(express.static(viewsDir))
     .use(express.static(publicDir))
     .use('/uploads', express.static(uploadsDir));
 app.engine('ejs', require('ejs').renderFile)
-    .set('views', publicDir)
+    .set('views', viewsDir)
     .set('view engine', 'ejs')
     .set('view options', { layout: false });
 let webServer;

@@ -11,7 +11,8 @@ mongoose.Promise = global.Promise;
 import restServer from './rest_server';
 import * as multer from 'multer';
 
-const publicDir = pjoin(__dirname, 'views/pages');
+const viewsDir = pjoin(__dirname, 'views/pages');
+const publicDir = pjoin(__dirname, 'public');
 const uploadsDir = pjoin(__dirname, 'uploads');
 const port = 3001;
 
@@ -37,11 +38,12 @@ let app = express()
         resave: true,
         saveUninitialized: true
     }))
+    .use(express.static(viewsDir))
     .use(express.static(publicDir))
     .use('/uploads', express.static(uploadsDir));
 
 app.engine('ejs', require('ejs').renderFile)
-    .set('views', publicDir)
+    .set('views', viewsDir)
     .set('view engine', 'ejs')
     .set('view options', { layout: false });
 
