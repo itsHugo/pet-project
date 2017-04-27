@@ -117,7 +117,7 @@ export class ItemsController extends BaseController<Item> {
     @get("/user/:id")
     async getByUserId(req, res){
         console.log("getByUserId method: User id " + req.params.id);
-        return await this.svc.model.find({}).where("CreatedBy", req.params.id);
+        return await this.svc.ItemsByUser(req.params.id);
     }
 
     /**

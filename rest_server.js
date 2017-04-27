@@ -8,6 +8,10 @@ const apiSessionCheck = utils_1.requiresUserSession('api');
 const webSessionCheck = utils_1.requiresUserSession('web');
 class RestServices {
     static setApiRoutes(app) {
+        app.use('/*', function (req, res, next) {
+            res.locals.user = req.session.user;
+            next();
+        });
         app.get('/', render('index.ejs'));
         // Routes
         app.use('/login', render('login.ejs'));
@@ -16,10 +20,6 @@ class RestServices {
         //app.use('/items', render('items.ejs'));
         app.use('/user', render('user.ejs'));
         app.use('/auth', index_1.ControllerFactory.Auth.router);
-        app.use(function (req, res, next) {
-            res.locals.user = req.session.user;
-            next();
-        });
         // End Routes
         // API
         let api = express.Router()
