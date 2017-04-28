@@ -26,13 +26,14 @@ export class ItemsController extends BaseController<Item> {
      * @param res 
      */
     @get("/")
-    async getAllItems(req, res) {
-        /*
+    getAllItems (req, res){
+        
         return this.svc.getAll();
-        */
-        var itemsArray = await this.svc.getAll();
-        res.render('items.ejs', { items: itemsArray });
-        return CustomResponces.DO_NOTHING;
+        
+        //var itemsArray = await this.svc.getAll();
+        //console.log(itemsArray);
+        //res.render('items.ejs',{items: itemsArray});
+        //return CustomResponces.DO_NOTHING;
     }
 
     /**
@@ -42,22 +43,26 @@ export class ItemsController extends BaseController<Item> {
      */
     //@post("/", apiSessionCheck)
     @post("/")
-    createItem(req, res) {
-        if (req.body.Categories) {
-            let arr = req.body.Categories;
-            for (let i: number = 0; i < arr.length; i++) {
-                if (this.svc.CategoryExist(arr[i])) {
+    createItem(req, res){
+        // if (req.body.Categories){
+        //    let arr = req.body.Categories;
+        //    for (let i: number = 0; i < arr.length; i++){
+        //        if(this.svc.CategoryExist(arr[i]))
+        //         {
+                    
+        //         }
+        //    } 
+        // }
 
-                }
-            }
+        
+        console.log("///////////////////////////////////////////////)");
+        console.log(req );
+        if(req.body.CreatedBy){
+            //DO NOTHING
+        }else{
+            req.body.CreatedBy = req.session.user;
         }
-
-        // Upload image using multer
-        upload;
-
-        // Set Image name string
-        req.body.Image = req.files[0].filename;
-        console.log(req.body);
+        console.log("req.body.CreatedBy " +  req.body.CreatedBy);
         return this.svc.createAndSave(req.body);
     }
 

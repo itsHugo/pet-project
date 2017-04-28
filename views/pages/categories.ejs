@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/head %>
+    <title>List of Categories</title>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <!-- Your Content -->
+    <main>
+        <div class="jumbotron text-center">
+            <h1>HTV</h1>
+            <p>Browse through the categories</p>
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addCategoryModal">Add a Category</button>
+        </div>
+
+        <!-- Dialog Box -->
+        <div id="addCategoryModal" class="modal fade" role="dialog" aria-labelledby="addCategoryModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">New Category</h4>
+                    </div>
+                    <form action="/categories" method="POST">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="Name" class="form-control-label">Name:</label>
+                                <input type="text" class="form-control" id="Name" name="Name" required>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Add Categories" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display newest items posted here -->
+        <div class="container container-fluid">
+            <% if (categories && categories.length > 0){ %>
+                <% for (var i = 0; i < categories.length; i++){ %>
+                    <div class="row">
+                        <h3><a href='/items/category/<%= categories[i]._id %>'><%= categories[i].Name %></a></h3>
+                    </div>
+                    <hr />
+                <% } %>
+            <% } else{ %>
+                <div class="row">
+                    <h3>There is currently no categories. We are deeply sorry.</h3>
+                </div>
+            <% } %>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div>
+        <% include ../partials/footer %>
+    </div>
+</body>
+
+</html>
