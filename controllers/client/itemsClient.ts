@@ -1,5 +1,5 @@
 import * as ccd from 'ccd'
-import { _PostRequest, _GetRequest } from "./../../lib/requestHelper";
+import { _PostRequest, _GetRequest, _PutRequest } from "./../../lib/requestHelper";
 import { BaseController, del, Factory, get, post, put, Router, User } from './../refs';
 import * as http from "http";
 import { Item } from "../../lib/models/item";
@@ -147,35 +147,24 @@ export class ItemsClientController extends BaseController<Item>{
 
     }
 
+    @put("/:id")
+    async updateItem(req, res){
+        let data = req.body;
+        data.CreatedBy = req.session.user
+        await _PutRequest("http://localhost:3001/api/1/items/", data).then(function(result){
+            
+            console.log("//////////// Results ");
+            console.log(result);
+            res.redirect("back");
+            return CustomResponces.DO_NOTHING;
+        }).catch(function(err){
+            return res.status(400).send("RIP");
+        })
+    }
+
     
 
 }
 
-/**
- * NOT USED FOR NOW
- * @param method 
- * @param path 
- */
-function buildOption (method: string, path: string){
-    return {
-        host: "localhost",
-        path: path,
-        method: method,
-        port: 3001
-
-    };
-}
-
-
-function __fixJsonArray (data){
-    for (var i = 0; i < data.length; i++){
-        let str_date = data[i].DateAdded;
-        let date = new Date(str_date);
-        date[i].DateAdded = date;
-        data[i].id = data[i]._id;
-    }
-
-    return data;
-}
 
 export let controller = new ItemsClientController(Factory.Item, Router());
