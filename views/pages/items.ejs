@@ -70,7 +70,6 @@
                                 <h3><%= items[i].Title %></h3>
                                 <h4>$<%= items[i].Price %></h4>
 
-                                <h4>Posted on: <%= items[i].DateAdded.toLocaleDateString("en-US") %></h4>
                                 <h4><%=  new Date(items[i].DateAdded).toLocaleDateString("en-US") %></h4>
                                 <p>
                                     <a href="/items/<%= items[i]._id %>" class="btn btn-primary" role="button">See more</a>
