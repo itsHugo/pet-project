@@ -13,7 +13,8 @@ export default class RestServices {
         // Routes
         app.use('/login', render('login.ejs'));
         app.use('/register', render('register.ejs'));
-        app.use('/items', factory.Item.router);
+        app.use('/items', factory.ClientItems.router);
+        app.use('/categories', factory.ClientCategory.router);
         //app.use('/items', render('items.ejs'));
 
         app.use('/user', render('user.ejs'));

@@ -8,17 +8,21 @@ import * as helper from "./../../lib/requestHelper";
 
 var apiUri = "http://localhost:3001/api/1/categories/";
 
+/**
+ * Application level controller which handles the task of send HTTP request to the RESTful API controllers
+ * 
+ */
 export class CategoryClientController extends BaseController<Category>{
 
 
     @get("/")
-    getAllCategories(req, res){
-        _GetRequest(apiUri).then(function(result){
+    async getAllCategories(req, res){
+        await _GetRequest(apiUri).then(function(result){
             console.log("//////////// Results " + result);
-            console.log (result)
+            res.render("categories.ejs", {categories : result});
             console.log("////////////////////////");
             //TODO RENDER, probably a Browser Category page
-
+            
             return CustomResponces.DO_NOTHING;
         }).catch(function(err){
             console.error("Error", err);
@@ -27,13 +31,13 @@ export class CategoryClientController extends BaseController<Category>{
     }
 
     @post("/")
-    createCategory(req, res){
+    async createCategory(req, res){
         
-        _PostRequest(apiUri, req.body).then(function(result){
+        await _PostRequest(apiUri, req.body).then(function(result){
             console.log("//////////// Results " + result);
             console.log (result)
             console.log("////////////////////////");
-            //TODO RENDER, probably a Browser Category page
+            res.redirect('/categories');
 
             return CustomResponces.DO_NOTHING;
         }).catch(function(err){
