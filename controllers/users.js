@@ -17,7 +17,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const refs_1 = require("./refs");
 const utils = require("../lib/utils");
 const validators = require("../lib/validators");
+const multer = require("multer");
 const config_1 = require("./../config");
+let upload = multer().single('Image');
 const apiSessionCheck = utils.requiresUserSession('api');
 function checkIfMe(req, res, next) {
     if (req.session.user.id == req.params.id) {
@@ -35,7 +37,8 @@ class UsersController extends refs_1.BaseController {
         });
     }
     view(req, res) {
-        return this.svc.byId(req.params.id);
+        //return this.svc.byId(req.params.id)
+        res.render('user.ejs', { user: this.svc.byId(req.params.id) });
     }
     update(req, res) {
         return this.svc.updateById(req.params.id, req.body);

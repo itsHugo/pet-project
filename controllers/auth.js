@@ -18,6 +18,8 @@ const refs_1 = require("./refs");
 const utils = require("../lib/utils");
 const validators = require("../lib/validators");
 const errors_1 = require("../lib/errors");
+const multer = require("multer");
+let upload = multer().single('Image');
 const apiSessionCheck = utils.requiresUserSession('api');
 class PasswordResetDTO {
 }
@@ -35,6 +37,10 @@ class AuthController extends refs_1.BaseController {
     }
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            // Upload image using multer
+            upload;
+            // Set Image name string
+            req.body.Image = req.files[0].filename;
             var usr = this.svc.create(req.body);
             usr = yield validators.validateUser(usr);
             usr.Password = yield validators.validatePasswordAndCreateHash(usr.Password);

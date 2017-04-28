@@ -40,7 +40,9 @@
                         <li><a href="/user">User details</a></li>
                         <li role="separator" class="divider"></li>
                         <li>
-                            <a href="/auth/logout">Logout</a>
+                            <form action="/auth/logout" method="POST">
+                                <input type="submit" name="logout" value="Logout">
+                            </form>
                         </li>
                     </ul>
                 </li>

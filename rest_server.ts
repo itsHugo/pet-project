@@ -9,8 +9,16 @@ const webSessionCheck = requiresUserSession('web');
 
 export default class RestServices {
     public static setApiRoutes(app: Express): Express {
+        app.use(function (req, res, next) {
+            res.locals.user = req.session.user;
+            console.log(req.session.user);
+            next();
+        });
         app.get('/', render('index.ejs'));
+
         // Routes
+        
+
         app.use('/login', render('login.ejs'));
         app.use('/register', render('register.ejs'));
         app.use('/items', factory.Item.router);
@@ -20,7 +28,8 @@ export default class RestServices {
 
         app.use('/auth', factory.Auth.router);
 
-        
+
+
         // End Routes
 
         // API
@@ -43,5 +52,5 @@ export default class RestServices {
     }
 }
 function render(templateName, router?) {
-    return (req, res) => res.render(templateName, {object: router});
+    return (req, res) => res.render(templateName, { object: router });
 }

@@ -30,7 +30,8 @@ export class UsersController extends BaseController<User>{
 
     @get('/:id', apiSessionCheck)
     view(req, res) {
-        return this.svc.byId(req.params.id)
+        //return this.svc.byId(req.params.id)
+        res.render('user.ejs' , {user: this.svc.byId(req.params.id)});
     }
 
     @post('/:id', apiSessionCheck)

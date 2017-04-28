@@ -41,6 +41,7 @@ let app = express()
     .use(express.static(viewsDir))
     .use(express.static(publicDir))
     .use('/uploads', express.static(uploadsDir));
+    
 
 app.engine('ejs', require('ejs').renderFile)
     .set('views', viewsDir)

@@ -8,6 +8,11 @@ const apiSessionCheck = utils_1.requiresUserSession('api');
 const webSessionCheck = utils_1.requiresUserSession('web');
 class RestServices {
     static setApiRoutes(app) {
+        app.use(function (req, res, next) {
+            res.locals.user = req.session.user;
+            console.log(req.session.user);
+            next();
+        });
         app.get('/', render('index.ejs'));
         // Routes
         app.use('/login', render('login.ejs'));
