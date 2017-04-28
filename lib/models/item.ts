@@ -47,11 +47,11 @@ export class ItemService extends BaseService<Item>{
     }
 
     byId(id: Id, callback?: Clb<Item>): Promise<Item>{
-        return this.model.findById(id).populate({path: "Categories"}).populate({path: "CreatedBy"}).exec(callback);
+        return this.model.findById(id).populate({path: "Categories", select: "Name _id"} ).populate({path: "CreatedBy", select: "_id FirstName LastName Email"}).exec(callback);
     }
 
     getAll(callback?: Clb<Item[]>): Promise<Item[]>{
-        return this.model.find({}).populate({path: "Categories"}).populate({path: "CreatedBy"}).exec(callback);
+        return this.model.find({}).populate({path: "Categories", select: "Name _id"}).populate({path: "CreatedBy", select: "_id FirstName LastName Email"}).exec(callback);
     }
     
 
