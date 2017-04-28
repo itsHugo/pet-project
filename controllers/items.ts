@@ -53,10 +53,6 @@ export class ItemsController extends BaseController<Item> {
         //         }
         //    } 
         // }
-
-        
-        console.log("///////////////////////////////////////////////)");
-        console.log(req );
         if(req.body.CreatedBy){
             //DO NOTHING
         }else{
