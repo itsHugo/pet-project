@@ -82,25 +82,22 @@ export class ItemsClientController extends BaseController<Item>{
         })
     }
 
-    @post("/test")
-    async test(req, res){
-        let data = {
-	"Title": "Evil Stuff",
-	"Description": "Drugs are bad okay?",
-	"Price": 22,
-	"Categories":  [
-        { id:"58f8b48513d6172a7c23ba1b"},
-        { id: "58f8b4a513d6172a7c23ba1c"}] 
-        
-    };
-        await helper._PostRequest("http://localhost:3001/api/1/items/", data).then(function(result){
+    @post("/")
+    async createItem(req, res){
+        let data = req.body;
+
+        data.CreatedBy = req.session.user;
+
+
+        await _PostRequest("http://localhost:3001/api/1/items/", data).then(function(result){
             console.log("//////////// Results " + result);
-            console.log (result)
+            res.render("items.ejs",{items: result});
             console.log("////////////////////////");
-            return res.render("item.ejs",{item: result});
+            return CustomResponces.DO_NOTHING;
+             
         }).catch(function(err){
             console.error("Error", err);
-            return res.status(400).send("RIP");
+            return res.status(400).send("RIP, there was an error somewhere in your request.");
         })
     }
 

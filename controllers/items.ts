@@ -26,14 +26,14 @@ export class ItemsController extends BaseController<Item> {
      * @param res 
      */
     @get("/")
-    async getAllItems (req, res){
-        /*
+    getAllItems (req, res){
+        
         return this.svc.getAll();
-        */
-        var itemsArray = await this.svc.getAll();
-        console.log(itemsArray);
-        res.render('items.ejs',{items: itemsArray});
-        return CustomResponces.DO_NOTHING;
+        
+        //var itemsArray = await this.svc.getAll();
+        //console.log(itemsArray);
+        //res.render('items.ejs',{items: itemsArray});
+        //return CustomResponces.DO_NOTHING;
     }
 
     /**

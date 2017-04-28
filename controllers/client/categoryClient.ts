@@ -21,7 +21,6 @@ export class CategoryClientController extends BaseController<Category>{
             console.log("//////////// Results " + result);
             res.render("categories.ejs", {categories : result});
             console.log("////////////////////////");
-            //TODO RENDER, probably a Browser Category page
             
             return CustomResponces.DO_NOTHING;
         }).catch(function(err){

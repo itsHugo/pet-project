@@ -15,7 +15,7 @@
             <h2><%= item.Title %></h3>
             <p>by <%= item.CreatedBy.FirstName %> <%= item.CreatedBy.LastName %></p>
             
-            <%if (item.Image || item.Image != ""){ %>
+            <%if (item.Image && item.Image != ""){ %>
                 <img src='/uploads/<%= item.Image %>' class="img-thumbnail img-responsive" alt="Item image" style="max-width: 500px" />
             <% } else{ %>
                 <img src="/uploads/new-item.png" class="img-thumbnail img-responsive" alt="Item image" />
@@ -34,6 +34,17 @@
                 <div class=row>
                     <h3>Price: $<%=item.Price %></h3>
                 </div>
+
+                <% if(item.Categories && item.Categories.length > 0) { %>
+                    <div class="row">
+                        <h3>Categories</h3>
+                        <ul>
+                        <% for(var i= 0; i < item.Categories.length; i++){ %>
+                            <li><a href='/items/category/<%= item.Categories[i]._id %>'><%= item.Categories[i].Name %></a></li>
+                        <% } %>
+                        </ul>
+                    </div>
+                <% } %>
             </div>
 
 
