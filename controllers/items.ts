@@ -57,7 +57,12 @@ export class ItemsController extends BaseController<Item> {
         
         console.log("///////////////////////////////////////////////)");
         console.log(req );
-        req.body.CreatedBy = req.session.user;
+        if(req.body.CreatedBy){
+            //DO NOTHING
+        }else{
+            req.body.CreatedBy = req.session.user;
+        }
+        console.log("req.body.CreatedBy " +  req.body.CreatedBy);
         return this.svc.createAndSave(req.body);
     }
 

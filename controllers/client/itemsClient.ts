@@ -1,5 +1,6 @@
 import * as ccd from 'ccd'
-import { BaseController, del, Factory, get, post, put, Router} from './../refs';
+import { _PostRequest } from "./../../lib/requestHelper";
+import { BaseController, del, Factory, get, post, put, Router, User } from './../refs';
 import * as http from "http";
 import { Item } from "../../lib/models/item";
 import * as request from 'request'
@@ -103,6 +104,39 @@ export class ItemsClientController extends BaseController<Item>{
         })
     }
 
+    /**
+     * Dummy data testing
+     * @param req 
+     * @param res 
+     */
+    @post("/donothing")
+    async doNothing(req, res){
+
+        let user: User = req.session.user;
+        let data = {
+	        "Title": "Evil Stuff",
+	        "Description": "Drugs are bad okay?",
+	        "Price": 22,
+            "CreatedBy": user,
+	        "Categories":  [
+                { _id:"58f8b48513d6172a7c23ba1b"},
+                { _id: "58f8b4a513d6172a7c23ba1c"}
+            ] 
+        
+         };
+
+        await _PostRequest("http://localhost:3001/api/1/items/",data).then(function(result){
+            console.log("//////////// Results " + result);
+            console.log (result)
+            console.log("////////////////////////");
+            return res.redirect("http://localhost:3001/");
+        }).catch(function(err){
+            console.error("Error", err);
+            return res.status(400).send("RIP");
+        })
+
+    }
+
     
 
 }
@@ -150,7 +184,15 @@ function _GetRequest(uri: string){
 }
 
 
-function __fixJson (data: JSON){
+function __fixJsonArray (data){
+    for (var i = 0; i < data.length; i++){
+        let str_date = data[i].DateAdded;
+        let date = new Date(str_date);
+        date[i].DateAdded = date;
+        data[i].id = data[i]._id;
+    }
+
+    return data;
 }
 
 export let controller = new ItemsClientController(Factory.Item, Router());

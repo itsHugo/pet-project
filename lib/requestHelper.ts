@@ -1,4 +1,5 @@
 import * as request from "request"
+import { data } from "./../test/utils/index";
 
 /**
  * GET Request Promise
@@ -31,11 +32,18 @@ export function _PostRequest (uri: string, data){
     return new Promise((resolve, reject) => {
         var body = "";
         console.log (JSON.stringify(data));
-        var post = request.post(uri)
+        var post = request.post(uri, {
+            headers: {
+                "content-type": "application/json"
+            },
+            method: "POST",
+            json: true,
+            body: data
+        })
         .on("data", function (chunck){
             console.log(chunck)
             body += chunck;
-            process.stdout.write(chunck);
+            //process.stdout.write(chunck);
         })
         .on('end', function(response){
             let jsonObject = JSON.parse(body);
@@ -46,9 +54,6 @@ export function _PostRequest (uri: string, data){
             console.log(err);
             reject(err);
         })
-
-        post.write(JSON.stringify(data));
-        post.end();
         
     })
 }
