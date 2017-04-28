@@ -1,5 +1,5 @@
 import * as ccd from 'ccd'
-import { _PostRequest } from "./../../lib/requestHelper";
+import { _PostRequest, _GetRequest } from "./../../lib/requestHelper";
 import { BaseController, del, Factory, get, post, put, Router, User } from './../refs';
 import * as http from "http";
 import { Item } from "../../lib/models/item";
@@ -47,7 +47,7 @@ export class ItemsClientController extends BaseController<Item>{
             console.log("//////////// Results " + result);
             console.log (result)
             console.log("////////////////////////");
-            return res.render("item.ejs",{item: {result}});
+            return res.render("item.ejs",{item: result});
         }).catch(function(err){
             console.error("Error", err);
             return res.status(400).send("RIP");
@@ -154,33 +154,6 @@ function buildOption (method: string, path: string){
         port: 3001
 
     };
-}
-
-/**
- * GET Request Promise
- * @param uri 
- */
-function _GetRequest(uri: string){
-    
-    return new Promise((resolve, reject) => {
-
-        var body = "";
-        
-        request.get(uri)
-        .on("data", function (chunck){
-            console.log(chunck)
-            body += chunck;
-        })
-        .on('end', function(response){
-            let jsonObject = JSON.parse(body);
-            //console.log(body);
-            console.log (jsonObject);
-            resolve(jsonObject);
-        }).on("error", function(err){
-            console.log(err);
-            reject(err);
-        })
-    });
 }
 
 
