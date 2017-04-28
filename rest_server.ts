@@ -10,7 +10,7 @@ const webSessionCheck = requiresUserSession('web');
 export default class RestServices {
     public static setApiRoutes(app: Express): Express {
 
-        // Passes the viewer to any request
+        // Passes the authenticated user to any request
         app.use(function (req, res, next) {
             if(req.session.user){
                 res.locals.authUser = {_id: req.session.user._id, FirstName: req.session.user.FirstName};
