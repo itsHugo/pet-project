@@ -4,7 +4,6 @@ import { _PostRequest, _GetRequest } from "./../../lib/requestHelper";
 import { BaseController, del, Factory, get, post, put, Router } from './../refs';
 import * as request from 'request'
 import {CustomResponces} from "../../lib/baseController"
-import * as helper from "./../../lib/requestHelper";
 
 var apiUri = "http://localhost:3001/api/1/categories/";
 

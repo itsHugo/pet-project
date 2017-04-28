@@ -7,23 +7,21 @@ import { Item } from "../../lib/models/item";
 import * as request from 'request'
 import {CustomResponces} from "../../lib/baseController"
 
-//import * as Promise from 'bluebird';
 
-
+/**
+ * Application level controller which handles the task of send HTTP request to the RESTful API controllers and directing the data to the Views
+ * 
+ */
 export class ItemsClientController extends BaseController<Item>{
 
     /**
+     * Renders the Items page
      * @param req 
      * @param res 
      */
     @get("/")
     async getItemsPage(req, res){
-        //let option = buildOption("GET", "/api/1/items/");
         
-        //var hello = "lol";
-        //console.log(hello);
-
-        //List of all categories
         var categories;
 
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
@@ -50,6 +48,8 @@ export class ItemsClientController extends BaseController<Item>{
     }
 
     /**
+     * Renders the Item page based on the Item ID
+     * 
      * @param req 
      * @param res 
      */
@@ -82,6 +82,11 @@ export class ItemsClientController extends BaseController<Item>{
         })
     }
 
+    /**
+     * 
+     * @param req 
+     * @param res 
+     */
     @get("/user/:id")
     async getByUser(req, res){
         await _GetRequest("http://localhost:3001/api/1/items/user/" + req.params.id).then(function(result){
@@ -95,6 +100,11 @@ export class ItemsClientController extends BaseController<Item>{
         })
     }
 
+    /**
+     * Creates an items
+     * @param req 
+     * @param res 
+     */
     @post("/")
     async createItem(req, res){
         let data = req.body;
@@ -146,7 +156,12 @@ export class ItemsClientController extends BaseController<Item>{
         })
 
     }
-
+    
+    /**
+     * Updates an Item
+     * @param req 
+     * @param res 
+     */
     @put("/:id")
     async updateItem(req, res){
         let data = req.body;
@@ -161,28 +176,8 @@ export class ItemsClientController extends BaseController<Item>{
             return res.status(400).send("RIP");
         })
     }
-
     
 
-}
-
-
-    
-
-
-/**
- * NOT USED FOR NOW
- * @param method 
- * @param path 
- */
-function buildOption (method: string, path: string){
-    return {
-        host: "localhost",
-        path: path,
-        method: method,
-        port: 3001
-
-    };
 }
 
 
