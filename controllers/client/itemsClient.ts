@@ -50,11 +50,6 @@ export class ItemsClientController extends BaseController<Item>{
     }
 
     /**
-<<<<<<< HEAD
-     * WORKS!!!!!
-=======
-     * 
->>>>>>> origin/enhanceQuery
      * @param req 
      * @param res 
      */
@@ -174,7 +169,6 @@ export class ItemsClientController extends BaseController<Item>{
 
     
 
-}
 
 /**
  * NOT USED FOR NOW
