@@ -158,15 +158,16 @@ export class ItemsClientController extends BaseController<Item>{
     }
     
     /**
+     * NOT WORKING FOR NOW
      * Updates an Item
      * @param req 
      * @param res 
      */
-    @put("/:id")
+    @post("/update/:id")
     async updateItem(req, res){
         let data = req.body;
         data.CreatedBy = req.session.user
-        await _PutRequest("http://localhost:3001/api/1/items/", data).then(function(result){
+        await _PutRequest("http://localhost:3001/api/1/items/" + req.params.id, data).then(function(result){
             
             console.log("//////////// Results ");
             console.log(result);
@@ -175,6 +176,11 @@ export class ItemsClientController extends BaseController<Item>{
         }).catch(function(err){
             return res.status(400).send("RIP");
         })
+    }
+
+    @put("/test")
+    testValues(req, res){
+        return res.send(req.body);
     }
     
 

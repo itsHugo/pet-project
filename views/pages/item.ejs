@@ -21,7 +21,39 @@
                 <img src="/uploads/new-item.png" class="img-thumbnail img-responsive" alt="Item image" />
             <% } %>
             
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#updateItemModal">Add an item</button>
+
             </div>
+
+            <div id="updateItemModal" class="modal fade" role="dialog" aria-labelledby="updateItemModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">New Item</h4>
+                    </div>
+                    <form action='/items/update/<%= item._id %>' method="PUT" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="Title" class="form-control-label">Title:</label>
+                                <input type="text" class="form-control" id="Title" name="Title" value="<%= item.Title %>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="Price" class="form-control-label">Price:</label>
+                                <input type="number" min="0.00" step="0.50" class="form-control" id="Price" name="Price" value="<%= item.Price %>" required>
+                            </div>
+                           
+                            
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Add item"></input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
             <div class="container container-fluid">
                 <div class="row">
