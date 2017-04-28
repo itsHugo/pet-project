@@ -32,18 +32,27 @@
             <ul class="nav navbar-nav navbar-right">
                 <li></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <% if(authUser) { %>
+                            <%= authUser.FirstName %>
+                        <% } %>
+                        <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/register">Register</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/user">User details</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <form action="/auth/logout" method="POST">
-                                <input type="submit" name="logout" value="Logout">
-                            </form>
-                        </li>
+                        <% if(!authUser) { %>
+                            <li><a href="/login">Login</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/register">Register</a></li>
+                        <% } else {%> 
+                            <li><a href="/user">User details</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <form action="/auth/logout" method="POST">
+                                    <input type="submit" name="logout" value="Logout">
+                                </form>
+                            </li>
+                        <% } %>
                     </ul>
                 </li>
             </ul>

@@ -17,8 +17,8 @@
         <div class="jumbotron text-center">
             <h1>HTV</h1>
             <p>Welcome 
-                <% if(user) { %>
-                    <%= user.FirstName %>
+                <% if(authUser) { %>
+                    <%= authUser.FirstName %>
                 <% } %>
             </p>
         </div>

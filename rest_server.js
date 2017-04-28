@@ -8,9 +8,15 @@ const apiSessionCheck = utils_1.requiresUserSession('api');
 const webSessionCheck = utils_1.requiresUserSession('web');
 class RestServices {
     static setApiRoutes(app) {
+        // Passes the viewer to any request
         app.use(function (req, res, next) {
-            res.locals.user = req.session.user;
-            console.log(req.session.user);
+            if (req.session.user) {
+                res.locals.authUser = { _id: req.session.user._id, FirstName: req.session.user.FirstName };
+            }
+            else {
+                res.locals.authUser = null;
+            }
+            console.log(res.locals.authUser);
             next();
         });
         app.get('/', render('index.ejs'));
