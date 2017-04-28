@@ -17,15 +17,28 @@ export class ItemsClientController extends BaseController<Item>{
      * @param res 
      */
     @get("/")
-    async getAllItems(req, res){
+    async getItemsPage(req, res){
         //let option = buildOption("GET", "/api/1/items/");
         
         //var hello = "lol";
         //console.log(hello);
 
+        //List of all categories
+        var categories;
+
+        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
+            console.log("////////////////////Fetching Categories - Results")
+            console.log(result);
+            categories = result;
+        }).catch(function(err){
+            console.error("Error", err);
+            return res.status(400).send("RIP");
+        })
+
+        //Fetch all Items and pass Items and Categories
         await _GetRequest("http://localhost:3001/api/1/items/").then(function(result){
             console.log("//////////// Results " + result);
-            res.render("items.ejs",{items: result});
+            res.render("items.ejs",{items: result, categories: categories});
             console.log("////////////////////////");
             return CustomResponces.DO_NOTHING;
              
