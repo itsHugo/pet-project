@@ -28,6 +28,12 @@ export function _GetRequest(uri: string){
     });
 }
 
+
+/**
+ * POST Request promise
+ * @param uri 
+ * @param data JSON
+ */
 export function _PostRequest (uri: string, data){
     return new Promise((resolve, reject) => {
         var body = "";
@@ -55,5 +61,37 @@ export function _PostRequest (uri: string, data){
             reject(err);
         })
         
+    })
+}
+
+/**
+ * PUT Request promise
+ * @param uri 
+ * @param data JSON
+ */
+export function _PutRequest (uri: string, data){
+    return new Promise((resolve, reject) => {
+        var body = "";
+        console.log(JSON.stringify(data));
+        var put = request.put(uri, {
+            headers: {
+                "content-type": "application/json"
+            },
+            method: "POST",
+            json: true,
+            body: data
+        })
+        .on("data", function(chunk){
+            console.log(chunk);
+            body += chunk;
+        })
+        .on('end', function(response){
+            let jsonObject = JSON.parse(body);
+            console.log(jsonObject);
+            resolve(jsonObject);
+        }).on("error", function(err){
+            console.log(err);
+            reject(err);
+        })
     })
 }
