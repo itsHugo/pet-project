@@ -48,12 +48,14 @@
                                 <input type="file" class="form-control" id="Image" name="Image"></input>
                             </div>
 
-                            <div class=form-group>
-                                <label for="Categories" class="form-control-label">Categories</label><br />
-                                <% for(var i = 0; i < categories.length; i++){ %>
-                                    <input type="checkbox" class="checkbox-inline" id='Categories' name="Categories" value='<%= categories[i]._id %>'><%= categories[i].Name%><br>
-                                <% } %>
-                            </div>
+                            <% if (categories && categories.length > 0){ %>
+                                <div class=form-group>
+                                    <label for="Categories" class="form-control-label">Categories</label><br />
+                                    <% for(var i = 0; i < categories.length; i++){ %>
+                                        <input type="checkbox" class="checkbox-inline" id='Categories' name="Categories" value='<%= categories[i]._id %>'><%= categories[i].Name%><br>
+                                    <% } %>
+                                </div>
+                            <% } %>
                         </div>
 
                         <div class="modal-footer">
