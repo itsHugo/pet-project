@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose'
 import timestampsPlugin from '../timestampsPlugin.js'
 import EnumValues from '../enumValues'
 import { BaseService, Clb, Id } from '../services/baseService'
+import {ItemModel} from './item';
 let ObjectId = mongoose.Schema.Types.ObjectId;
 const MODEL = 'User'
 
@@ -42,6 +43,9 @@ export class UserService extends BaseService<User>{
         }, reason => {
             throw reason;
         });
+    }
+    itemsByUser(id: Id, callback?: Clb<User>) {
+        return ItemModel.find({CreatedBy: id}).exec(callback);
     }
 }
 

@@ -33,7 +33,7 @@ export class UsersController extends BaseController<User>{
     @get('/:id')
     async view(req, res) {
         //return this.svc.byId(req.params.id)
-        res.render('user.ejs', { user: await this.svc.byId(req.params.id) });
+        res.render('user.ejs', { user: await this.svc.byId(req.params.id), items: await this.svc.itemsByUser(req.params.id) });
         
         return CustomResponces.DO_NOTHING;
     }
