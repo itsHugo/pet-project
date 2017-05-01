@@ -77,7 +77,7 @@ export function _PutRequest (uri: string, data){
             headers: {
                 "content-type": "application/json"
             },
-            method: "POST",
+            method: "PUT",
             json: true,
             body: data
         })

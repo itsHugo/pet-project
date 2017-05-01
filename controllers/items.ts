@@ -75,16 +75,18 @@ export class ItemsController extends BaseController<Item> {
      * @param res 
      */
     @del("/:id")
-    async deleteItem(req, res) {
+    deleteItem(req, res) {
         let id = req.params.id;
-        let item: Item = await this.svc.byId(req.params.id);
-        // TODO: CheckPoster
-        if (checkPoster(item, req)) {
-            return this.svc.deleteById(id);
-        }
-        else {
-            res.send(401, { status: "error", message: "You are not authorized to perform this action" });
-        }
+        // let item: Item = await this.svc.byId(req.params.id);
+        // // TODO: CheckPoster
+        // if (checkPoster(item, req)) {
+        //     return this.svc.deleteById(id);
+        // }
+        // else {
+        //     res.send(401, { status: "error", message: "You are not authorized to perform this action" });
+        // }
+
+        return this.svc.deleteById(id);
     }
 
     /**
@@ -98,15 +100,15 @@ export class ItemsController extends BaseController<Item> {
         let id = req.params.id;
 
         //TODO: Implement checkPoster
-        let item: Item = await this.svc.byId(req.params.id);
-        if (checkPoster(item, req)) {
-            return this.svc.updateById(req.params.id, req.body);
-        }
-        else {
-            res.send(401, { status: "error", message: "You are not authorized to perform this action" });
-        }
+        // let item: Item = await this.svc.byId(req.params.id);
+        // if (checkPoster(item, req)) {
+        //     return this.svc.updateById(req.params.id, req.body);
+        // }
+        // else {
+        //     res.send(401, { status: "error", message: "You are not authorized to perform this action" });
+        // }
 
-        // return this.svc.updateById(id, req.body);
+        return this.svc.updateById(req.params.id, req.body);
     }
 
     /**
@@ -177,9 +179,9 @@ export class ItemsController extends BaseController<Item> {
  * @param item 
  * @param req 
  */
-function checkPoster(item: Item, req) {
+function checkPoster(item, req) {
     let user = req.session.user;
-    console.log(user._id);
+    //console.log(user._id);
     if (item.CreatedBy == user || item.CreatedBy == user._id) {
         return true;
     }

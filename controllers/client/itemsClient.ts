@@ -1,4 +1,5 @@
 import * as ccd from 'ccd'
+import { ItemService } from "./../../lib/models/item";
 
 import { _PostRequest, _GetRequest, _PutRequest } from "./../../lib/requestHelper";
 import { BaseController, del, Factory, get, post, put, Router, User } from './../refs';
@@ -13,6 +14,8 @@ import {CustomResponces} from "../../lib/baseController"
  * 
  */
 export class ItemsClientController extends BaseController<Item>{
+
+    svc: ItemService
 
     /**
      * Renders the Items page
@@ -166,16 +169,28 @@ export class ItemsClientController extends BaseController<Item>{
     @post("/update/:id")
     async updateItem(req, res){
         let data = req.body;
-        data.CreatedBy = req.session.user
-        await _PutRequest("http://localhost:3001/api/1/items/" + req.params.id, data).then(function(result){
+        data.CreatedBy = req.session.user;
+
+        let item = await this.svc.byId(req.params.id);
+        
+        if(checkUser(item, req)){
+            console.log("Request body in update ////////////")
+            console.log(req.body);
+        
+            await _PutRequest("http://localhost:3001/api/1/items/" + req.params.id, data).then(function(result){
             
-            console.log("//////////// Results ");
-            console.log(result);
-            res.redirect("back");
-            return CustomResponces.DO_NOTHING;
-        }).catch(function(err){
-            return res.status(400).send("RIP");
-        })
+                console.log("//////////// Results ");
+                console.log(result);
+                res.redirect("back");
+                return CustomResponces.DO_NOTHING;
+            }).catch(function(err){
+                return res.status(400).send("RIP");
+            })   
+
+        }else{
+            res.status(401).send({status: "error", message: "You are not authorized to perform this action" });
+        }
+
     }
 
     @put("/test")
@@ -186,6 +201,25 @@ export class ItemsClientController extends BaseController<Item>{
 
 }
 
+function checkUser(item: Item, req){
+    let user: User = req.session.user;
 
+    if(user == null){
+        return false;
+    }
+
+    console.log("///////Currently in CheckUser");
+    console.log(user);
+
+    let itemUser: User = item.CreatedBy as User;
+    console.log(itemUser)
+    console.log("///////////////////////")
+    if (itemUser._id == user._id) {
+        return true;
+    }else{
+        return false;
+    }
+    
+}
    
 export let controller = new ItemsClientController(Factory.Item, Router());
