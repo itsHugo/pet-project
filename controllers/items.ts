@@ -44,21 +44,18 @@ export class ItemsController extends BaseController<Item> {
     //@post("/", apiSessionCheck)
     @post("/")
     createItem(req, res){
-        // if (req.body.Categories){
-        //    let arr = req.body.Categories;
-        //    for (let i: number = 0; i < arr.length; i++){
-        //        if(this.svc.CategoryExist(arr[i]))
-        //         {
-                    
-        //         }
-        //    } 
-        // }
+        // Upload image using multer
+        upload;
+
+        // Set Image name string
+        req.body.Image = req.files[0].filename;
+
         if(req.body.CreatedBy){
             //DO NOTHING
         }else{
             req.body.CreatedBy = req.session.user;
         }
-        console.log("req.body.CreatedBy " +  req.body.CreatedBy);
+        
         return this.svc.createAndSave(req.body);
     }
 

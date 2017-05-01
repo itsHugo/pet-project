@@ -34,7 +34,7 @@ export default class RestServices {
         app.use('/categories', factory.ClientCategory.router);
         //app.use('/items', render('items.ejs'));
 
-        app.use('/user', render('user.ejs'));
+        app.use('/user', factory.ClientUsers.router);
 
         app.use('/auth', factory.Auth.router);
 

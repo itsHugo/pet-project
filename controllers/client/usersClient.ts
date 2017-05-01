@@ -8,6 +8,7 @@ import * as request from 'request';
 import EnumValues from '../../lib/enumValues';
 import * as multer from 'multer';
 import config from '../../config';
+import { CustomResponces } from '../../lib/baseController';
 
 let upload = multer().single('Image');
 
@@ -36,8 +37,9 @@ export class UsersController extends BaseController<User>{
 
     @post('/:id', webSessionCheck)
     update(req, res) {
-        return this.svc.updateById(req.params.id, req.body)
+        res.render('user.ejs', { user: this.svc.updateById(req.params.id, req.body)});
     }
+
     @post('/:id/photo', webSessionCheck)
     updatePhoto(req, res) {
         let id = req.params.id;

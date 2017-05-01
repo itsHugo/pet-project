@@ -4,8 +4,11 @@ import { _PostRequest, _GetRequest, _PutRequest } from "./../../lib/requestHelpe
 import { BaseController, del, Factory, get, post, put, Router, User } from './../refs';
 import * as http from "http";
 import { Item } from "../../lib/models/item";
-import * as request from 'request'
-import {CustomResponces} from "../../lib/baseController"
+import * as request from 'request';
+import {CustomResponces} from "../../lib/baseController";
+import * as multer from 'multer';
+
+let upload = multer().single('Image');
 
 //import * as Promise from 'bluebird';
 
@@ -19,33 +22,34 @@ export class ItemsClientController extends BaseController<Item>{
     @get("/")
     async getItemsPage(req, res){
         //let option = buildOption("GET", "/api/1/items/");
-        
-        //var hello = "lol";
-        //console.log(hello);
 
-        //List of all categories
-        var categories;
+        // //List of all categories
+        // var categories;
 
-        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
-            console.log("////////////////////Fetching Categories - Results")
-            console.log(result);
-            categories = result;
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
+        // await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
+        //     console.log("////////////////////Fetching Categories - Results")
+        //     console.log(result);
+        //     categories = result;
+        // }).catch(function(err){
+        //     console.error("Error", err);
+        //     return res.status(400).send("RIP");
+        // })
 
-        //Fetch all Items and pass Items and Categories
-        await _GetRequest("http://localhost:3001/api/1/items/").then(function(result){
-            console.log("//////////// Results " + result);
-            res.render("items.ejs",{items: result, categories: categories});
-            console.log("////////////////////////");
-            return CustomResponces.DO_NOTHING;
+        // //Fetch all Items and pass Items and Categories
+        // await _GetRequest("http://localhost:3001/api/1/items/").then(function(result){
+        //     console.log("//////////// Results " + result);
+        //     res.render("items.ejs",{items: result, categories: categories});
+        //     console.log("////////////////////////");
+        //     return CustomResponces.DO_NOTHING;
              
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
+        // }).catch(function(err){
+        //     console.error("Error", err);
+        //     return res.status(400).send("RIP");
+        // })
+
+        let itemsArray = await this.svc.getAll();
+        res.render('items.ejs',{items: itemsArray});
+        return CustomResponces.DO_NOTHING;
         
     }
 
@@ -97,21 +101,37 @@ export class ItemsClientController extends BaseController<Item>{
 
     @post("/")
     async createItem(req, res){
-        let data = req.body;
+        // Upload image using multer
+        upload;
 
-        data.CreatedBy = req.session.user;
+        // Set Image name string
+        req.body.Image = req.files[0].filename;
+
+        if(req.body.CreatedBy){
+            //DO NOTHING
+        }else{
+            req.body.CreatedBy = req.session.user;
+        }
+
+        await this.svc.createAndSave(req.body);
+
+        res.redirect("/items");
+
+        // Return a message instead?
+        return CustomResponces.DO_NOTHING;
 
 
-        await _PostRequest("http://localhost:3001/api/1/items/", data).then(function(result){
-            console.log("//////////// Results " + result);
-            res.render("items.ejs",{items: result});
-            console.log("////////////////////////");
-            return CustomResponces.DO_NOTHING;
+        // await _PostRequest("http://localhost:3001/api/1/items/", req.body).then(function(result){
+        //     console.log("//////////// Results " + result);
+        //     res.render("items.ejs",{items: result});
+        //     console.log("////////////////////////");
+        //     return CustomResponces.DO_NOTHING;
              
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP, there was an error somewhere in your request.");
-        })
+        // }).catch(function(err){
+        //     console.error("Error", err);
+        //     return res.status(400).send("RIP, there was an error somewhere in your request.");
+        // })
+
     }
 
     /**

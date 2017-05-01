@@ -37,8 +37,8 @@ class UsersController extends refs_1.BaseController {
         });
     }
     view(req, res) {
-        //return this.svc.byId(req.params.id)
-        res.render('user.ejs', { user: this.svc.byId(req.params.id) });
+        return this.svc.byId(req.params.id);
+        //res.render('user.ejs' , {user: this.svc.byId(req.params.id)});
     }
     update(req, res) {
         return this.svc.updateById(req.params.id, req.body);
