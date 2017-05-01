@@ -1,4 +1,5 @@
 import * as ccd from 'ccd'
+import { AbstractError } from "./../../lib/errors";
 import { ItemService } from "./../../lib/models/item";
 
 import { _PostRequest, _GetRequest, _PutRequest } from "./../../lib/requestHelper";
@@ -74,11 +75,23 @@ export class ItemsClientController extends BaseController<Item>{
 
      @get("/category/:id")
     async getByCategory(req, res){
+
+        var categories;
+
+        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
+            console.log("////////////////////Fetching Categories - Results")
+            console.log(result);
+            categories = result;
+        }).catch(function(err){
+            console.error("Error", err);
+            return res.status(400).send("RIP");
+        })
+
         await _GetRequest("http://localhost:3001/api/1/items/category/" + req.params.id).then(function(result){
             console.log("//////////// Results " + result);
             console.log (result)
             console.log("////////////////////////");
-            return res.render("items.ejs",{items: result});
+            return res.render("items.ejs",{items: result, categories: categories});
         }).catch(function(err){
             console.error("Error", err);
             return res.status(400).send("RIP");
@@ -179,7 +192,7 @@ export class ItemsClientController extends BaseController<Item>{
         
             await _PutRequest("http://localhost:3001/api/1/items/" + req.params.id, data).then(function(result){
             
-                console.log("//////////// Results ");
+                console.log("//////////// Results");
                 console.log(result);
                 res.redirect("back");
                 return CustomResponces.DO_NOTHING;
@@ -193,14 +206,14 @@ export class ItemsClientController extends BaseController<Item>{
 
     }
 
-    @put("/test")
-    testValues(req, res){
-        return res.send(req.body);
-    }
-    
-
 }
 
+
+/**
+ * Validation module to check if an item was created by the session user
+ * @param item Item
+ * @param req Request
+ */
 function checkUser(item: Item, req){
     let user: User = req.session.user;
 
@@ -220,6 +233,20 @@ function checkUser(item: Item, req){
         return false;
     }
     
+}
+
+async function getAllCategories(){
+    var categories;
+
+        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
+            console.log("////////////////////Fetching Categories - Results")
+            console.log(result);
+            return result;
+        }).catch(function(err){
+            console.error("Error", err);
+            throw new AbstractError("Sorry");
+        })
+
 }
    
 export let controller = new ItemsClientController(Factory.Item, Router());

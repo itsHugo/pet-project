@@ -17,7 +17,7 @@
         <div class="jumbotron text-center">
             <h1>HTV</h1>
             <p>Items</p>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addItemModal">Add an item</button>
+            <button id='addItem' type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addItemModal">Add an item</button>
         </div>
 
         <div id="addItemModal" class="modal fade" role="dialog" aria-labelledby="addItemModal" aria-hidden="true">
@@ -28,6 +28,7 @@
                         <h4 class="modal-title">New Item</h4>
                     </div>
                     <form action="/items" method="POST" enctype="multipart/form-data">
+                        
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="Title" class="form-control-label">Title:</label>
@@ -41,13 +42,17 @@
                                 <label for="Price" class="form-control-label">Price:</label>
                                 <input type="number" min="0.00" step="0.50" class="form-control" id="Price" name="Price" value="0.00" required>
                             </div>
-                            <div class="form-group">
-                                <label for="Category" class="form-control-label">Category:</label>
-                                <input type="text" class="form-control" id="Category" name="Category" required></input>
-                            </div>
+                            
                             <div class="form-group">
                                 <label for="Image" class="form-control-label">Image:</label>
                                 <input type="file" class="form-control" id="Image" name="Image"></input>
+                            </div>
+
+                            <div class=form-group>
+                                <label for="Categories" class="form-control-label">Categories</label><br />
+                                <% for(var i = 0; i < categories.length; i++){ %>
+                                    <input type="checkbox" class="checkbox-inline" id='Categories' name="Categories" value='<%= categories[i]._id %>'><%= categories[i].Name%><br>
+                                <% } %>
                             </div>
                         </div>
 
