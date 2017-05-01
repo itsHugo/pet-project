@@ -59,18 +59,11 @@ export class ItemsClientController extends BaseController<Item>{
      */
     @get("/:id")
     async itemDetail(req, res){
-        await _GetRequest("http://localhost:3001/api/1/items/" + req.params.id).then(function(result){
-            console.log("//////////// Results " + result);
-            console.log (result)
-            console.log("LOL");
-            console.log("////////////////////////");
-            return res.render("item.ejs",{item: result});
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
+        let item = await this.svc.byId(req.params.id);
 
-        //res.render("items.ejs");
+        res.render("item.ejs", { item: item});
+        
+        return CustomResponces.DO_NOTHING;
     }
 
      @get("/category/:id")
