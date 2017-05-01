@@ -12,15 +12,21 @@
         
         <main>
             <div class="jumbotron text-center">
-            <h2><%= item.Title %></h3>
-            <p>by <%= item.CreatedBy.FirstName %> <%= item.CreatedBy.LastName %></p>
-            
-            <%if (item.Image && item.Image != ""){ %>
-                <img src='/uploads/<%= item.Image %>' class="img-thumbnail img-responsive" alt="Item image" style="max-width: 500px" />
-            <% } else{ %>
-                <img src="/uploads/new-item.png" class="img-thumbnail img-responsive" alt="Item image" />
-            <% } %>
-            
+                <h2><%= item.Title %></h3>
+                <p>by <a href="/user/<%= item.CreatedBy._id %>"><%= item.CreatedBy.FirstName %> <%= item.CreatedBy.LastName %></a></p>
+                <button type="button" class="btn btn-danger btn-sm">Message</button>
+                <% if(authUser) { %>
+                    <% if(item.CreatedBy._id == authUser._id) { %>
+                        <button type="button" class="btn btn-danger btn-sm">Edit</button>
+                    <% } %>
+                <% } %>
+                <br />
+                
+                <%if (item.Image && item.Image != ""){ %>
+                    <img src='/uploads/<%= item.Image %>' class="img-thumbnail img-responsive" alt="Item image" style="max-width: 500px" />
+                <% } else{ %>
+                    <img src="/uploads/new-item.png" class="img-thumbnail img-responsive" alt="Item image" />
+                <% } %>
             </div>
 
             <div class="container container-fluid">

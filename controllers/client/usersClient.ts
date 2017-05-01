@@ -29,10 +29,13 @@ export class UsersController extends BaseController<User>{
         return await this.svc.search(req.query, req.session.user);
     }
 
-    @get('/:id', webSessionCheck)
-    view(req, res) {
+    //@get('/:id', webSessionCheck)
+    @get('/:id')
+    async view(req, res) {
         //return this.svc.byId(req.params.id)
-        res.render('user.ejs', { user: this.svc.byId(req.params.id) });
+        res.render('user.ejs', { user: await this.svc.byId(req.params.id) });
+        
+        return CustomResponces.DO_NOTHING;
     }
 
     @post('/:id', webSessionCheck)

@@ -17,8 +17,6 @@ export default class RestServices {
             } else {
                 res.locals.authUser = null;
             }
-                
-            console.log(res.locals.authUser);
             next();
         });
 

@@ -16,7 +16,6 @@ class RestServices {
             else {
                 res.locals.authUser = null;
             }
-            console.log(res.locals.authUser);
             next();
         });
         app.get('/', render('index.ejs'));
