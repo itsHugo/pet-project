@@ -12,10 +12,12 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 const MODEL = 'Item'
 
 export class ItemService extends BaseService<Item>{
-    async search(filters, item: Item, pagePreferences?: number, page?: number, callback?: Clb<Item[]>) {
+    async search(filters, pagePreferences?: number, page?: number, callback?: Clb<Item[]>) {
         let searchString = filters.filter || "";
-        let roleType = filters.roleType;
-        var q = this.model.find({}).where('IsDeleted').in([false, null])
+        
+        var q = this.model.find({}).where('IsDeleted').in([false, null, undefined])
+                .populate({path: "Categories", select: "Name _id"})
+                .populate({path: "CreatedBy", select: "_id FirstName LastName Email"})
         q = this._setSearchFilter(q, searchString);
 
         if (pagePreferences && page) {
@@ -26,7 +28,7 @@ export class ItemService extends BaseService<Item>{
     _setSearchFilter(q, searchString) {
         if (searchString) {
             var filter = new RegExp('.*' + searchString.toLowerCase() + '.*', 'i')
-            q = q.or([{ 'FirstName': filter }, { 'LastName': filter }, { 'Email': filter }])
+            q = q.or([{ 'Title': filter }, {'Description': filter} ])
         }
         return q;
     }

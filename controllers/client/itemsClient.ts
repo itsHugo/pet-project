@@ -130,8 +130,7 @@ export class ItemsClientController extends BaseController<Item>{
 
         await _PostRequest("http://localhost:3001/api/1/items/", data).then(function(result){
             console.log("//////////// Results " + result);
-            res.render("items.ejs",{items: result});
-            console.log("////////////////////////");
+            res.redirect("/items");
             return CustomResponces.DO_NOTHING;
              
         }).catch(function(err){
@@ -172,7 +171,17 @@ export class ItemsClientController extends BaseController<Item>{
         })
 
     }
+
+    @post("/search")
+    async functiom (req, res){
+        var filters = { filter: req.body.filter };
+        var items = await this.svc.search(filters);
+        res.render('search.ejs', {results: items, originalFilters: filters});
+        return CustomResponces.DO_NOTHING;
+
+    }
     
+
     /**
      * NOT WORKING FOR NOW
      * Updates an Item
@@ -207,6 +216,7 @@ export class ItemsClientController extends BaseController<Item>{
     }
 
 }
+
 
 
 /**

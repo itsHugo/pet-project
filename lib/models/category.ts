@@ -11,7 +11,7 @@ export class CategoryService extends BaseService<Category>{
     async search(filters, user: Category, pagePreferences?: number, page?: number, callback?: Clb<Category[]>) {
         let searchString = filters.filter || "";
         let roleType = filters.roleType;
-        var q = this.model.find({}).where('IsDeleted').in([false, null])
+        var q = this.model.find({}).where('IsDeleted').in([false, null, undefined])
         q = this._setSearchFilter(q, searchString);
 
         if (pagePreferences && page) {
@@ -22,7 +22,7 @@ export class CategoryService extends BaseService<Category>{
     _setSearchFilter(q, searchString) {
         if (searchString) {
             var filter = new RegExp('.*' + searchString.toLowerCase() + '.*', 'i')
-            q = q.or([{ 'FirstName': filter }, { 'LastName': filter }, { 'Email': filter }])
+            q = q.or([{ 'Name': filter }])
         }
         return q;
     }

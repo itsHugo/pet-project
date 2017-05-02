@@ -1,4 +1,5 @@
 import * as ccd from 'ccd'
+import { CategoryService } from "./../../lib/models/category";
 import { Category } from "./../../lib/models/category";
 import { _PostRequest, _GetRequest } from "./../../lib/requestHelper";
 import { BaseController, del, Factory, get, post, put, Router } from './../refs';
@@ -13,7 +14,7 @@ var apiUri = "http://localhost:3001/api/1/categories/";
  */
 export class CategoryClientController extends BaseController<Category>{
 
-
+    svc: CategoryService
     @get("/")
     async getAllCategories(req, res){
         await _GetRequest(apiUri).then(function(result){
