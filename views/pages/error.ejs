@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/head %>
+    <title>Error</title>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <!-- Your Content -->
+    <main>
+        <div class="jumbotron text-center">
+            <h2>Something went wrong!</h2>
+            <p>
+                <%= error.message %>
+            </p>
+        </div>
+
+        <!-- Display newest items posted here -->
+        <div class="container-fluid">
+            
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div>
+        <% include ../partials/footer %>
+    </div>
+</body>
+
+</html>

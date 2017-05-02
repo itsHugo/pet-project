@@ -15,56 +15,57 @@
 
     <!-- Your Content -->
     <main>
-        <div class="text-center">
-        <% if(authUser) { %>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addItemModal">Add an item</button>
+        
 
-            <div id="addItemModal" class="modal fade" role="dialog" aria-labelledby="addItemModal" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">New Item</h4>
+        <div class="container container-fluid">
+            <div class="add-item text-center">
+                <% if(authUser) { %>
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addItemModal">Add an item</button>
+
+                    <div id="addItemModal" class="modal fade" role="dialog" aria-labelledby="addItemModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">New Item</h4>
+                                </div>
+                                <form action="/items" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="Title" class="form-control-label">Title:</label>
+                                            <input type="text" class="form-control" id="Title" name="Title" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="message-text" class="form-control-label">Description:</label>
+                                            <textarea class="form-control" id="message-text" name="Description" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Price" class="form-control-label">Price:</label>
+                                            <input type="number" min="0.00" step="0.50" class="form-control" id="Price" name="Price" value="0.00" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Category" class="form-control-label">Category:</label>
+                                            <input type="text" class="form-control" id="Category" name="Category" required></input>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Image" class="form-control-label">Image:</label>
+                                            <input type="file" class="form-control" id="Image" name="Image"></input>
+                                        </div>
+                                        <input type="hidden" name="CreatedBy" value="<%= authUser._id %>" />
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-primary" value="Add item"></input>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <form action="/items" method="POST" enctype="multipart/form-data">
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="Title" class="form-control-label">Title:</label>
-                                    <input type="text" class="form-control" id="Title" name="Title" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="message-text" class="form-control-label">Description:</label>
-                                    <textarea class="form-control" id="message-text" name="Description" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Price" class="form-control-label">Price:</label>
-                                    <input type="number" min="0.00" step="0.50" class="form-control" id="Price" name="Price" value="0.00" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Category" class="form-control-label">Category:</label>
-                                    <input type="text" class="form-control" id="Category" name="Category" required></input>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Image" class="form-control-label">Image:</label>
-                                    <input type="file" class="form-control" id="Image" name="Image"></input>
-                                </div>
-                                <input type="hidden" name="CreatedBy" value="<%= authUser._id %>" />
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-primary" value="Add item"></input>
-                            </div>
-                        </form>
                     </div>
+                <% } else { %>
+                    <button id="addItemAlertBtn" class="btn btn-info btn-lg">Add an item</button>
+                <% } %>
                 </div>
-            </div>
-        <% } else { %>
-            <button id="addItemAlertBtn" class="btn btn-info btn-lg">Add an item</button>
-        <% } %>
-        </div>
-
-        <div class="container-fluid">
             <div class="row">
                 <% for(var i=0; i < items.length; i++) { %>
                     <a href="/items/<%= items[i]._id %>">

@@ -3,7 +3,8 @@
 
 <head>
     <% include ../partials/head %>
-        <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="/css/auth.css">
+    <title>Register</title>
 </head>
 
 <body>
@@ -15,6 +16,9 @@
     <!-- Your Content -->
     <main>
         <div class="container container-fluid">
+            <% if (typeof error != 'undefined') { %>
+                <%= error.message %>
+            <% } %>
             <form action="/auth/register" method="POST">
                 <div class="form-group">
                     <label for="FirstName">First name:</label>

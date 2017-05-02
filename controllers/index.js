@@ -7,6 +7,7 @@ const auth_1 = require("./auth");
 const itemsClient_1 = require("./client/itemsClient");
 const categoryClient_1 = require("./client/categoryClient");
 const usersClient_1 = require("./client/usersClient");
+const authClient_1 = require("./client/authClient");
 var ControllerFactory;
 (function (ControllerFactory) {
     ControllerFactory.Users = users_1.controller;
@@ -16,5 +17,6 @@ var ControllerFactory;
     ControllerFactory.ClientItems = itemsClient_1.controller;
     ControllerFactory.ClientCategory = categoryClient_1.controller;
     ControllerFactory.ClientUsers = usersClient_1.controller;
+    ControllerFactory.ClientAuth = authClient_1.controller;
 })(ControllerFactory = exports.ControllerFactory || (exports.ControllerFactory = {}));
 //# sourceMappingURL=index.js.map

@@ -8,6 +8,7 @@ import * as utils from '../../lib/utils'
 import * as validators from '../../lib/validators'
 import errors from '../../lib/errors'
 import * as multer from 'multer';
+import { CustomResponces } from '../../lib/baseController';
 
 let upload = multer().single('Image');
 
@@ -28,7 +29,8 @@ export class AuthController extends BaseController<User>{
         if (!user)
             throw (new errors.Unauthorized('Invalid Username or Password'));
         this.setCurrentUser(req, user);
-        return user;
+        res.redirect('/');
+        return CustomResponces.DO_NOTHING;
     }
 
     @post('/register')
@@ -39,12 +41,14 @@ export class AuthController extends BaseController<User>{
         usr = await validators.validateUser(usr);
         usr.Password = await validators.validatePasswordAndCreateHash(usr.Password)
         await this.svc.userExists(usr.Email);
-        if (await this.svc.userExists(usr.Email))
-            throw new errors.InvalidData('User already exists');
+        if (await this.svc.userExists(usr.Email)){
+            res.render('register',  {error: new errors.InvalidData('Email unavailable: ' + usr.Email + '.')});
+            return CustomResponces.DO_NOTHING;
+        }
             
-
         usr = await this.svc.insert(usr);
-        return usr;
+        res.redirect('/');
+        return CustomResponces.DO_NOTHING;
     }
 
     @post('/logout', apiSessionCheck)
