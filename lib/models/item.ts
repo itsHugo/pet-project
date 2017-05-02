@@ -64,6 +64,12 @@ export class ItemService extends BaseService<Item>{
 
         return q.count().exec(callback);
     }
+
+    ItemsByCategory(id, callback?: Clb<Item>){
+        return this.model.find({}).in("Categories", [id]).populate({
+            path: 'Categories'
+        });
+    }
     
 
 }

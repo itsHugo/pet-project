@@ -138,11 +138,9 @@ export class ItemsController extends BaseController<Item> {
      * @param res 
      */
     @get("/category/:id")
-    async getByCatId(req, res) {
+    getByCatId(req, res) {
         // Add to model later 
-        return await this.svc.model.find({}).in("Categories", [req.params.id]).populate({
-            path: 'Categories'
-        })
+        return this.svc.ItemsByCategory(req.params.id);
     }
 
     @post("/:id/photo/")
