@@ -5,6 +5,7 @@ import { controller as auth } from './auth';
 import { controller as clientItems } from './client/itemsClient';
 import { controller as clientCategories } from './client/categoryClient';
 import { controller as clientUsers } from './client/usersClient';
+import { controller as clientAuth } from './client/authClient';
 
 export namespace ControllerFactory {
     export let Users = users
@@ -14,6 +15,7 @@ export namespace ControllerFactory {
     export let ClientItems = clientItems;
     export let ClientCategory = clientCategories;
     export let ClientUsers = clientUsers;
+    export let ClientAuth = clientAuth;
 }
 
 

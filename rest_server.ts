@@ -23,15 +23,13 @@ export default class RestServices {
             }
             next();
         });
-
-        app.use('/auth', factory.Auth.router);
-
-
+        
         // API 1
         let api = express.Router()
             .use('/users', factory.Users.router)
             .use("/items", factory.Item.router)
-            .use("/categories", factory.Caterogies.router);
+            .use("/categories", factory.Caterogies.router)
+            .use('/auth', factory.Auth.router);
 
         app.use(apiBase, api);
 
@@ -52,7 +50,8 @@ export default class RestServices {
         let web = express.Router()
             .use('/users', factory.ClientUsers.router)
             .use('/items', factory.ClientItems.router)
-            .use('/categories', factory.ClientCategory.router);
+            .use('/categories', factory.ClientCategory.router)
+            .use('/auth', factory.Auth.router);
 
         app.use(web);
 

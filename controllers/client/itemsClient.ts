@@ -3,6 +3,7 @@ import * as ccd from 'ccd'
 import { _PostRequest, _GetRequest, _PutRequest } from "./../../lib/requestHelper";
 import { BaseController, del, Factory, get, post, put, Router, User } from './../refs';
 import * as http from "http";
+import * as utils from '../../lib/utils'
 import { Item } from "../../lib/models/item";
 import * as request from 'request';
 import {CustomResponces} from "../../lib/baseController";
@@ -10,9 +11,10 @@ import * as multer from 'multer';
 
 let upload = multer().single('Image');
 
+const fs = require('fs');
 //import * as Promise from 'bluebird';
 
-
+const webSessionCheck = utils.requiresUserSession('web');
 export class ItemsClientController extends BaseController<Item>{
 
     /**
@@ -92,7 +94,7 @@ export class ItemsClientController extends BaseController<Item>{
         })
     }
 
-    @post("/")
+    @post("/", webSessionCheck)
     async createItem(req, res){
         // Upload image using multer
         upload;
@@ -112,18 +114,6 @@ export class ItemsClientController extends BaseController<Item>{
 
         // Return a message instead?
         return CustomResponces.DO_NOTHING;
-
-
-        // await _PostRequest("http://localhost:3001/api/1/items/", req.body).then(function(result){
-        //     console.log("//////////// Results " + result);
-        //     res.render("items.ejs",{items: result});
-        //     console.log("////////////////////////");
-        //     return CustomResponces.DO_NOTHING;
-             
-        // }).catch(function(err){
-        //     console.error("Error", err);
-        //     return res.status(400).send("RIP, there was an error somewhere in your request.");
-        // })
 
     }
 
@@ -160,6 +150,32 @@ export class ItemsClientController extends BaseController<Item>{
 
     }
 
+    /**
+     * Action to delete an item
+     * Notes: Need to check for user
+     * May want to implement a "isDeleted" field on Model
+     *
+     * @param req 
+     * @param res 
+     */
+    @del("/:id", webSessionCheck)
+    async deleteItem(req, res) {
+        let id = req.params.id;
+        let item: Item = await this.svc.byId(req.params.id);
+        // TODO: CheckPoster
+        if (checkPoster(item, req)) {
+            fs.unlink("/uploads/" + item.Image, (err) => {
+                if (err) 
+                    throw err;
+                console.log('successfully deleted image');
+            });
+            return this.svc.deleteById(id);
+        }
+        else {
+            res.status(401).send({ status: "error", message: "You are not authorized to perform this action" });
+        }
+    }
+
     @put("/:id")
     async updateItem(req, res){
         let data = req.body;
@@ -179,7 +195,19 @@ export class ItemsClientController extends BaseController<Item>{
 
 }
 
-
+/**
+ * Validates if the Item belongs to the User
+ * @param item 
+ * @param req 
+ */
+function checkPoster(item: Item, req) {
+    let user = req.session.user;
+    console.log(user._id);
+    if (item.CreatedBy == user || item.CreatedBy == user._id) {
+        return true;
+    }
+    return false;
+}
     
 
 

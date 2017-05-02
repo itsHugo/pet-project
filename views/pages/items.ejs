@@ -15,6 +15,7 @@
 
     <!-- Your Content -->
     <main>
+        <div class="text-center">
         <% if(authUser) { %>
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addItemModal">Add an item</button>
 
@@ -61,28 +62,30 @@
         <% } else { %>
             <button id="addItemAlertBtn" class="btn btn-info btn-lg">Add an item</button>
         <% } %>
+        </div>
 
         <div class="container-fluid">
             <div class="row">
                 <% for(var i=0; i < items.length; i++) { %>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail">
-                            <img src="/uploads/<%= items[i].Image %>" class="img-thumbnail img-responsive" alt="Item image" />
-                            <div class="caption">
-                                <h3><%= items[i].Title %></h3>
-                                <h4>$<%= items[i].Price %></h4>
-
-                                <h4><%=  items[i].DateAdded.toLocaleDateString("en-US") %></h4>
-                                <p>
-                                    <a href="/items/<%= items[i]._id %>" class="btn btn-primary" role="button">See more</a>
-                                </p>
+                    <a href="/items/<%= items[i]._id %>">
+                        <div class="col-xs-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="/uploads/<%= items[i].Image %>" class="img-thumbnail img-responsive" alt="Item image" />
+                                <div class="caption">
+                                    <h3><%= items[i].Title %></h3>
+                                    <h4>$<%= items[i].Price %></h4>
+                                    <h4><%=  items[i].DateAdded.toLocaleDateString("en-US") %></h4>
+                                    <p>
+                                        <a href="/items/<%= items[i]._id %>" class="btn btn-primary" role="button">See more »</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 <% } %>
             </div>
             <!-- Pagination -->
-            <nav aria-label="Page navigation">
+            <nav class="text-center" aria-label="Page navigation">
                 <ul class="pagination pagination-lg text-center">
                     <li>
                         <a href="#" aria-label="Previous">

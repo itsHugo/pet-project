@@ -46,7 +46,7 @@ export function send(req: express.Request, res: express.Response, dataFunction: 
 
 export function sendNotAuthorized(req: express.Request, res: express.Response, profile: string) {
     //profile == 'web' ? res.redirect('login.html') : res.sendStatus(401);
-    profile == 'web' ? res.redirect('login.ejs') : res.sendStatus(401);
+    profile == 'web' ? res.redirect('/login') : res.sendStatus(401);
 }
 
 export function generateCsvResponse(req: express.Request, res: express.Response, data: any) {

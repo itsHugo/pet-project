@@ -41,8 +41,7 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    //@post("/", apiSessionCheck)
-    @post("/")
+    @post("/", apiSessionCheck)
     createItem(req, res){
         // Upload image using multer
         upload;
@@ -67,7 +66,7 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @del("/:id")
+    @del("/:id", apiSessionCheck)
     async deleteItem(req, res) {
         let id = req.params.id;
         let item: Item = await this.svc.byId(req.params.id);
@@ -86,7 +85,7 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @put("/:id")
+    @put("/:id", apiSessionCheck)
     async updateItem(req, res) {
         let id = req.params.id;
 

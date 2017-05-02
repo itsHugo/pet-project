@@ -22,12 +22,12 @@ class RestServices {
             }
             next();
         });
-        app.use('/auth', index_1.ControllerFactory.Auth.router);
         // API 1
         let api = express.Router()
             .use('/users', index_1.ControllerFactory.Users.router)
             .use("/items", index_1.ControllerFactory.Item.router)
-            .use("/categories", index_1.ControllerFactory.Caterogies.router);
+            .use("/categories", index_1.ControllerFactory.Caterogies.router)
+            .use('/auth', index_1.ControllerFactory.Auth.router);
         app.use(apiBase, api);
         return app;
     }
@@ -43,7 +43,8 @@ class RestServices {
         let web = express.Router()
             .use('/users', index_1.ControllerFactory.ClientUsers.router)
             .use('/items', index_1.ControllerFactory.ClientItems.router)
-            .use('/categories', index_1.ControllerFactory.ClientCategory.router);
+            .use('/categories', index_1.ControllerFactory.ClientCategory.router)
+            .use('/auth', index_1.ControllerFactory.Auth.router);
         app.use(web);
         return app;
     }
