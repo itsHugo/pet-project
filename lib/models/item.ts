@@ -65,10 +65,20 @@ export class ItemService extends BaseService<Item>{
         return q.count().exec(callback);
     }
 
-    ItemsByCategory(id, callback?: Clb<Item>){
-        return this.model.find({}).in("Categories", [id]).populate({
+    ItemsByCategory(id, pagePreferences?: number, page?: number, callback?: Clb<Item>): Promise<Item[]>{
+        var q = this.model.find({}).in("Categories", [id]).populate({
             path: 'Categories'
         });
+
+        if (pagePreferences && page) {
+            q = q.skip((page - 1) * pagePreferences).limit(Number(pagePreferences));
+        }
+        
+        return q.exec(callback);
+    }
+
+    perCategoryCount(id, callback?: Clb<Item>): Promise<number>{
+        return this.model.find({}).in("Categories", [id]).count().exec(callback);
     }
     
 
