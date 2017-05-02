@@ -7,7 +7,7 @@ import { BaseController, del, Factory, get, post, put, Router, User } from './..
 import * as http from "http";
 import { Item } from "../../lib/models/item";
 import * as request from 'request'
-import {CustomResponces} from "../../lib/baseController"
+import { CustomResponces } from "../../lib/baseController"
 
 
 /**
@@ -116,6 +116,8 @@ export class ItemsClientController extends BaseController<Item>{
         })
     }
 
+
+
     /**
      * Creates an items
      * @param req 
@@ -171,16 +173,6 @@ export class ItemsClientController extends BaseController<Item>{
         })
 
     }
-
-    @post("/search")
-    async functiom (req, res){
-        var filters = { filter: req.body.filter };
-        var items = await this.svc.search(filters);
-        res.render('search.ejs', {results: items, originalFilters: filters});
-        return CustomResponces.DO_NOTHING;
-
-    }
-    
 
     /**
      * NOT WORKING FOR NOW

@@ -26,7 +26,7 @@ export default class RestServices {
         app.get('/', render('index.ejs'));
 
         // Routes
-        
+
 
         app.use('/login', render('login.ejs'));
         app.use('/register', render('register.ejs'));
@@ -38,7 +38,7 @@ export default class RestServices {
 
         app.use('/auth', factory.Auth.router);
 
-
+        app.use('/search', factory.Search.router);
 
         // End Routes
 
