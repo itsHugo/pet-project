@@ -55,6 +55,15 @@ export class ItemService extends BaseService<Item>{
     getAll(callback?: Clb<Item[]>): Promise<Item[]>{
         return this.model.find({}).populate({path: "Categories", select: "Name _id"}).populate({path: "CreatedBy", select: "_id FirstName LastName Email"}).exec(callback);
     }
+
+    getCount(filters?,callback?: Clb<Item>): Promise<number>{
+        
+        let searchString = filters.filter || "";
+        var q = this.model.find({});
+        q = this._setSearchFilter(q, searchString);
+
+        return q.count().exec(callback);
+    }
     
 
 }
