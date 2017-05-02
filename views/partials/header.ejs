@@ -45,7 +45,7 @@
                             <li role="separator" class="divider"></li>
                             <li><a href="/register">Register</a></li>
                         <% } else {%> 
-                            <li><a href="/user/<%= authUser._id %>">User details</a></li>
+                            <li><a href="/users/<%= authUser._id %>">User details</a></li>
                             <li role="separator" class="divider"></li>
                             <li>
                                 <form class="navbar-form" action="/auth/logout" method="POST">

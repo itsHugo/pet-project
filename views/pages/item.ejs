@@ -13,7 +13,7 @@
         <main>
             <div class="jumbotron text-center">
                 <h2><%= item.Title %></h3>
-                <p>by <a href="/user/<%= item.CreatedBy._id %>"><%= item.CreatedBy.FirstName %> <%= item.CreatedBy.LastName %></a></p>
+                <p>by <a href="/users/<%= item.CreatedBy._id %>"><%= item.CreatedBy.FirstName %> <%= item.CreatedBy.LastName %></a></p>
                 <button type="button" class="btn btn-danger btn-sm">Message</button>
                 <% if(authUser) { %>
                     <% if(item.CreatedBy._id == authUser._id) { %>

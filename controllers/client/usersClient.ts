@@ -32,15 +32,19 @@ export class UsersController extends BaseController<User>{
     //@get('/:id', webSessionCheck)
     @get('/:id')
     async view(req, res) {
-        //return this.svc.byId(req.params.id)
         res.render('user.ejs', { user: await this.svc.byId(req.params.id), items: await this.svc.itemsByUser(req.params.id) });
         
         return CustomResponces.DO_NOTHING;
     }
 
     @post('/:id', webSessionCheck)
-    update(req, res) {
-        res.render('user.ejs', { user: this.svc.updateById(req.params.id, req.body)});
+    async update(req, res) {
+        let user = await this.svc.updateById(req.params.id, req.body);
+        user.Password = await validators.validatePasswordAndCreateHash(user.Password);
+
+        this.setCurrentUser(req, user);
+        
+        return {message: "Profile updated."};
     }
 
     @post('/:id/photo', webSessionCheck)
@@ -62,6 +66,18 @@ export class UsersController extends BaseController<User>{
     async remove(req, res) {
         return this.svc.deleteById(req.params.id);
     }
+
+    private setCurrentUser(req, user) {
+        req.session.user = user;
+        // if (user) {
+        //     req.session.clientId = user.Client;
+        // }
+        // else {
+        //     req.session.clientId = null;
+        // }
+    }
 }
+
+
 
 export let controller = new UsersController(Factory.Users, Router());

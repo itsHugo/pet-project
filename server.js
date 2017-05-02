@@ -43,6 +43,7 @@ app.engine('ejs', require('ejs').renderFile)
     .set('view options', { layout: false });
 let webServer;
 rest_server_1.default.setApiRoutes(app);
+rest_server_1.default.setWebRoutes(app);
 mongoose.connect(config_1.default.dbUrl).then(() => {
     webServer = app.listen(port);
     console.log('Server started on ' + port);

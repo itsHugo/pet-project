@@ -19,11 +19,11 @@ export class BaseController<T extends BaseDocument> extends ccd.CCController {
     }
     senderFunction(res: express.Response, err: any, data: any) {
         if (err instanceof errors.Unauthorized) {
-            res.send(401, { status: "error", message: err.message });
+            res.status(401).send({ status: "error", message: err.message });
         } else if (err instanceof errors.InvalidData) {
-            res.send(400, { status: "error", message: err.message });
+            res.status(400).send({ status: "error", message: err.message });
         } else if (err instanceof errors.Permission) {
-            res.send(403, { status: "error", message: err.message })
+            res.status(403).send({ status: "error", message: err.message });
         } else if (data == CustomResponces.DO_NOTHING) {
             //do nothing
         }

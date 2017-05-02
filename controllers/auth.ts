@@ -33,11 +33,7 @@ export class AuthController extends BaseController<User>{
 
     @post('/register')
     async register(req, res) {
-        // Upload image using multer
-        upload;
-
-        // Set Image name string
-        req.body.Image = req.files[0].filename;
+        // Add image upload here 
 
         var usr = this.svc.create(req.body);
         usr = await validators.validateUser(usr);

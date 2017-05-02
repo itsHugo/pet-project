@@ -92,29 +92,23 @@
                                 <h1>Account Settings</h1>
                                 <div class="well">
                                     <!-- Modify user information -->
-                                    <form action="/auth/register" method="POST">
+                                    <form action="/users/<%= authUser._id %>" method="POST">
                                         <div class="form-group">
                                             <label for="FirstName">First name:</label>
-                                            <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First name" aria-label="First name" required/>
+                                            <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First name" aria-label="First name" value="<%= user.FirstName %>" required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="LastName">Last name:</label>
-                                            <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last name" aria-label="Last name" required/>
+                                            <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last name" aria-label="Last name" value="<%= user.LastName %>" required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="Email">Email address:</label>
-                                            <input type="Email" class="form-control" id="Email" name="Email" placeholder="E-mail" aria-label="Email address" required/>
+                                            <input type="Email" class="form-control" id="Email" name="Email" placeholder="E-mail" aria-label="Email address" value="<%= user.Email %>" required/>
                                         </div>
                                         <div class="form-group">
                                             <label for="Password">Password:</label>
                                             <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="Image" class="form-control-label">Image:</label>
-                                            <input type="file" class="form-control" id="Image" name="Image"></input>
-                                        </div>
-
-                                        <input type="hidden" name="_METHOD" value="PUT" />
 
                                         <button type="submit" class="btn btn-default">Save</button>
                                     </form>

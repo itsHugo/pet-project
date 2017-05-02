@@ -37,10 +37,6 @@ class AuthController extends refs_1.BaseController {
     }
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Upload image using multer
-            upload;
-            // Set Image name string
-            req.body.Image = req.files[0].filename;
             var usr = this.svc.create(req.body);
             usr = yield validators.validateUser(usr);
             usr.Password = yield validators.validatePasswordAndCreateHash(usr.Password);

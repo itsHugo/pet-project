@@ -79,9 +79,9 @@ export class ItemsClientController extends BaseController<Item>{
         })
     }
 
-    @get("/user/:id")
+    @get("/users/:id")
     async getByUser(req, res){
-        await _GetRequest("http://localhost:3001/api/1/items/user/" + req.params.id).then(function(result){
+        await _GetRequest("http://localhost:3001/api/1/items/users/" + req.params.id).then(function(result){
             console.log("//////////// Results " + result);
             console.log (result)
             console.log("////////////////////////");

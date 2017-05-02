@@ -8,6 +8,10 @@ const apiSessionCheck = requiresUserSession('api');
 const webSessionCheck = requiresUserSession('web');
 
 export default class RestServices {
+    /**
+     * Set routes for the API.
+     * @param app 
+     */
     public static setApiRoutes(app: Express): Express {
 
         // Passes the authenticated user to any request
@@ -20,45 +24,41 @@ export default class RestServices {
             next();
         });
 
-
-        app.get('/', render('index.ejs'));
-
-        // Routes
-        
-
-        app.use('/login', render('login.ejs'));
-        app.use('/register', render('register.ejs'));
-        app.use('/items', factory.ClientItems.router);
-        app.use('/categories', factory.ClientCategory.router);
-        //app.use('/items', render('items.ejs'));
-
-        app.use('/user', factory.ClientUsers.router);
-
         app.use('/auth', factory.Auth.router);
 
 
-
-        // End Routes
-
-        // API
+        // API 1
         let api = express.Router()
             .use('/users', factory.Users.router)
             .use("/items", factory.Item.router)
             .use("/categories", factory.Caterogies.router);
-        // /API
+
+        app.use(apiBase, api);
+
+        return app;
+    }
+
+    /**
+     * Set routes for the web application.
+     * @param app 
+     */
+    public static setWebRoutes(app: Express): Express{
+        app.get('/', render('index.ejs'));
+
+        app.use('/login', render('login.ejs'));
+        app.use('/register', render('register.ejs'));
 
         // Web
         let web = express.Router()
-            .use('/users', factory.Users.router)
-            .use('/items', factory.Item.router)
-            .use('/categories', factory.Caterogies.router);
-        // /Web
+            .use('/users', factory.ClientUsers.router)
+            .use('/items', factory.ClientItems.router)
+            .use('/categories', factory.ClientCategory.router);
 
-        app.use(apiBase, api);
-        //app.use(web);
+        app.use(web);
+
         return app;
     }
 }
-function render(templateName, router?) {
-    return (req, res) => res.render(templateName, { object: router });
+function render(templateName) {
+    return (req, res) => res.render(templateName);
 }
