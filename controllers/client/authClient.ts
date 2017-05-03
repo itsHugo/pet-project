@@ -12,7 +12,7 @@ import { CustomResponces } from '../../lib/baseController';
 
 let upload = multer().single('Image');
 
-const apiSessionCheck = utils.requiresUserSession('api');
+const webSessionCheck = utils.requiresUserSession('web');
 
 class PasswordResetDTO {
     CurrentPassword: string
@@ -51,13 +51,15 @@ export class AuthController extends BaseController<User>{
         return CustomResponces.DO_NOTHING;
     }
 
-    @post('/logout', apiSessionCheck)
+    @post('/logout', webSessionCheck)
     logout(req, res) {
         this.setCurrentUser(req, null);
-        return { status: "success", message: "Logged out successfully" };
+        // Redirect back to the previous page
+        res.redirect('back');
+        return CustomResponces.DO_NOTHING;
     }
 
-    @post('/resetpassword', apiSessionCheck)
+    @post('/resetpassword', webSessionCheck)
     async resetPassword(req, res) {
         var dto = req.body as PasswordResetDTO;
         var newHash = await validators.validatePasswordAndCreateHash(dto.NewPassword);

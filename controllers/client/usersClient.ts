@@ -54,15 +54,7 @@ export class UsersController extends BaseController<User>{
         return this.svc.updateById(id, { PhotoUrl: photoUrl });
     }
 
-    @put('/', webSessionCheck)
-    async create(req, res) {
-        req.body.Client = req.session.user.Client || req.session.user.ClientId;
-        let user = await this.svc.create(req.body);
-        user.Password = await validators.validatePasswordAndCreateHash(user.Password);
-        return this.svc.createAndSave(user);
-    }
-
-    @del('/:id', webSessionCheck)
+    @post('/:id/delete', webSessionCheck)
     async remove(req, res) {
         return this.svc.deleteById(req.params.id);
     }
