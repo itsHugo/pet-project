@@ -198,7 +198,7 @@ export class ItemsClientController extends BaseController<Item>{
 
         let item = await this.svc.byId(req.params.id);
         
-        if(checkUser(item, req)){
+        if(checkPoster(item, req)){
             console.log("Request body in update ////////////")
             console.log(req.body);
         
