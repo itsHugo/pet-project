@@ -34,18 +34,17 @@ export class ItemsClientController extends BaseController<Item>{
     async getItemsPage(req, res){
         
         var categories;
-
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
             console.log("////////////////////Fetching Categories - Results")
-            console.log(result);
+            console.log(result)
             categories = result;
         }).catch(function(err){
             console.error("Error", err);
-            return res.status(400).send("RIP");
+            throw new AbstractError("Sorry");
         })
 
         let itemsArray = await this.svc.getAll();
-        res.render('items.ejs',{items: itemsArray});
+        res.render('items.ejs',{items: itemsArray, categories: categories});
         return CustomResponces.DO_NOTHING;
         
     }
@@ -79,15 +78,9 @@ export class ItemsClientController extends BaseController<Item>{
             return res.status(400).send("RIP");
         })
 
-        await _GetRequest("http://localhost:3001/api/1/items/category/" + req.params.id).then(function(result){
-            console.log("//////////// Results " + result);
-            console.log (result)
-            console.log("////////////////////////");
-            return res.render("items.ejs",{items: result, categories: categories});
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
+        var items = this.svc.ItemsByCategory(req.params.id);
+        res.render('items.ejs',{items: items, categories: categories});
+        return CustomResponces.DO_NOTHING;
     }
 
     @get("/users/:id")
@@ -237,7 +230,7 @@ function checkPoster(item: Item, req) {
 
 async function getAllCategories(){
     var categories;
-
+    
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
             console.log("////////////////////Fetching Categories - Results")
             console.log(result);

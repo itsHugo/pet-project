@@ -36,7 +36,7 @@ export class SearchClientController extends BaseController<Item>{
         var filter = qs.search;
 
         var slug_str = slug(filter);
-        res.redirect('/search/res/' + slug_str + "?page=1&perPage=5");
+        res.redirect('/search/res/' + slug_str + "?page=1&perPage=6");
         return CustomResponces.DO_NOTHING;
     }
 
@@ -47,7 +47,7 @@ export class SearchClientController extends BaseController<Item>{
         var qs = querystring.parse(str);
 
         console.log("//////////////////// search query strinh logging");
-        var perPage = qs.perPage || 5;
+        var perPage = qs.perPage || 6;
         var page = qs.page || 1;
         console.log("per page "  + perPage)
         console.log("page " + page);

@@ -18,7 +18,7 @@
                 <button type="button" class="btn btn-danger btn-sm">Message</button>
                 <% if(authUser) { %>
                     <% if(item.CreatedBy._id == authUser._id) { %>
-                        <button type="button" class="btn btn-danger btn-sm">Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#updateItemModal">Edit</button>
                         <button type="button" class="btn btn-danger btn-sm">Delete</button>
                     <% } %>
                 <% } %>
