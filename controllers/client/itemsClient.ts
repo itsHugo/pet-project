@@ -47,7 +47,6 @@ export class ItemsClientController extends BaseController<Item>{
         let itemsArray = await this.svc.getAll();
         res.render('items.ejs',{items: itemsArray});
         return CustomResponces.DO_NOTHING;
-        
     }
 
     /**
@@ -69,15 +68,6 @@ export class ItemsClientController extends BaseController<Item>{
     async getByCategory(req, res){
 
         var categories;
-
-        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
-            console.log("////////////////////Fetching Categories - Results")
-            console.log(result);
-            categories = result;
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
 
         await _GetRequest("http://localhost:3001/api/1/items/category/" + req.params.id).then(function(result){
             console.log("//////////// Results " + result);
@@ -132,38 +122,6 @@ export class ItemsClientController extends BaseController<Item>{
         return CustomResponces.DO_NOTHING;
     }
 
-    /**
-     * Dummy data testing
-     * @param req 
-     * @param res 
-     */
-    @post("/donothing")
-    async doNothing(req, res){
-
-        let user: User = req.session.user;
-        let data = {
-	        "Title": "Evil Stuff",
-	        "Description": "Drugs are bad okay?",
-	        "Price": 22,
-            "CreatedBy": user,
-	        "Categories":  [
-                { _id:"58f8b48513d6172a7c23ba1b"},
-                { _id: "58f8b4a513d6172a7c23ba1c"}
-            ] 
-        
-         };
-
-        await _PostRequest("http://localhost:3001/api/1/items/",data).then(function(result){
-            console.log("//////////// Results " + result);
-            console.log (result)
-            console.log("////////////////////////");
-            return res.redirect("http://localhost:3001/");
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
-
-    }
 
     /**
      * Action to delete an item
@@ -173,7 +131,7 @@ export class ItemsClientController extends BaseController<Item>{
      * @param req 
      * @param res 
      */
-    @del("/:id", webSessionCheck)
+    @post("/:id/delete", webSessionCheck)
     async deleteItem(req, res) {
         let id = req.params.id;
         let item: Item = await this.svc.byId(req.params.id);
@@ -191,27 +149,15 @@ export class ItemsClientController extends BaseController<Item>{
         }
     }
 
-    @put("/:id")
+    @post("/:id")
     async updateItem(req, res){
         let data = req.body;
-        data.CreatedBy = req.session.user;
 
         let item = await this.svc.byId(req.params.id);
         
-        if(checkPoster(item, req)){
-            console.log("Request body in update ////////////")
-            console.log(req.body);
-        
-            await _PutRequest("http://localhost:3001/api/1/items/" + req.params.id, data).then(function(result){
-            
-                console.log("//////////// Results");
-                console.log(result);
-                res.redirect("back");
-                return CustomResponces.DO_NOTHING;
-            }).catch(function(err){
-                return res.status(400).send("RIP");
-            })   
-
+        if(checkPoster(item, req)){   
+            item = await this.svc.updateById(req.params.id, data);
+            res.redirect("items/"+req.params.id);
         }else{
             res.status(401).send({status: "error", message: "You are not authorized to perform this action" });
         }

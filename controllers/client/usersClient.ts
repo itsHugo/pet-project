@@ -29,7 +29,6 @@ export class UsersController extends BaseController<User>{
         return await this.svc.search(req.query, req.session.user);
     }
 
-    //@get('/:id', webSessionCheck)
     @get('/:id')
     async view(req, res) {
         res.render('user.ejs', { user: await this.svc.byId(req.params.id), items: await this.svc.itemsByUser(req.params.id) });
@@ -61,12 +60,6 @@ export class UsersController extends BaseController<User>{
 
     private setCurrentUser(req, user) {
         req.session.user = user;
-        // if (user) {
-        //     req.session.clientId = user.Client;
-        // }
-        // else {
-        //     req.session.clientId = null;
-        // }
     }
 }
 

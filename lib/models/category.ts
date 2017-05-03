@@ -29,6 +29,9 @@ export class CategoryService extends BaseService<Category>{
     async categoryExists(category: string, callback?: Clb<Category>) {
         return await this.model.findOne({ Name: category }).exec(callback);
     }   
+    getAllAlphabetically(callback?: Clb<Category>){
+        return this.model.find({}).sort('Name').exec(callback);
+    }
 }
 
 export interface Category extends BaseDocument {

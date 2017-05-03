@@ -6,7 +6,6 @@ import { BaseController, del, Factory, get, post, put, Router } from './../refs'
 import * as request from 'request'
 import {CustomResponces} from "../../lib/baseController"
 
-var apiUri = "http://localhost:3001/api/1/categories/";
 
 /**
  * Application level controller which handles the task of send HTTP request to the RESTful API controllers
@@ -17,32 +16,15 @@ export class CategoryClientController extends BaseController<Category>{
     svc: CategoryService
     @get("/")
     async getAllCategories(req, res){
-        await _GetRequest(apiUri).then(function(result){
-            console.log("//////////// Results " + result);
-            res.render("categories.ejs", {categories : result});
-            console.log("////////////////////////");
-            
-            return CustomResponces.DO_NOTHING;
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
+        res.render("categories", {categories : await this.svc.getAllAlphabetically()});
+        return CustomResponces.DO_NOTHING;
     }
 
     @post("/")
-    async createCategory(req, res){
-        
-        await _PostRequest(apiUri, req.body).then(function(result){
-            console.log("//////////// Results " + result);
-            console.log (result)
-            console.log("////////////////////////");
-            res.redirect('/categories');
-
-            return CustomResponces.DO_NOTHING;
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
+    createCategory(req, res){
+        this.svc.createAndSave(req.body);
+        res.redirect('categories');
+        return CustomResponces.DO_NOTHING;
     }
 }
 
