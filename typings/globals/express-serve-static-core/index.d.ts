@@ -300,7 +300,7 @@ declare module "express-serve-static-core" {
             *
             * Return the value of param `name` when present or `defaultValue`.
             *
-            *  - Checks route placeholders, ex: _/user/:id_
+            *  - Checks route placeholders, ex: _/users/:id_
             *  - Checks body params, ex: id=12, {"id":12}
             *  - Checks query string params, ex: ?id=12
             *
@@ -563,7 +563,7 @@ declare module "express-serve-static-core" {
             *  dynamic situations. The code backing `res.sendFile()` is actually
             *  the same code, so HTTP cache support etc is identical.
             *
-            *     app.get('/user/:uid/photos/:file', function(req, res){
+            *     app.get('/users/:uid/photos/:file', function(req, res){
             *       var uid = req.params.uid
             *         , file = req.params.file;
             *

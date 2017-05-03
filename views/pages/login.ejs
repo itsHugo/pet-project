@@ -3,7 +3,8 @@
 
 <head>
     <% include ../partials/head %>
-        <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/auth.css">
+    <title>Login</title>
 </head>
 
 <body>
@@ -24,11 +25,15 @@
                     <label for="Password">Password:</label>
                     <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
                 </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="remember-me"/>Remember me</label>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Submit</button>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+
+                <div class="form-group">
+                    <p>Don't have an account? Click <a href="/register">here</a> to register.</p>
+                </div>
             </form>
+            
         </div>
     </main>
 

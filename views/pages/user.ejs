@@ -28,7 +28,7 @@
                         <!-- User first and last name -->
                         <div class="profile-usertitle text-center">
                             <div class="profile-usertitle-name">
-                                <h3>Desert Rain Frog</h3>
+                                <h3><%= user.FirstName %> <%= user.LastName %></h3>
                             </div>
                         </div>
                         <!-- /User first and last name -->
@@ -42,11 +42,15 @@
                         <!-- Tab menu -->
                         <ul class="list-group" role="tablist">
                             <li role="presentation" class="list-group-item active">
-                                <a href="#account" aria-controls="account" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i> Account Settings </a>
-                            </li>
-                            <li role="presentation" class="list-group-item">
                                 <a href="#items" aria-controls="items" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i> Items </a>
                             </li>
+                            <% if(authUser) { %>
+                                <% if(user._id == authUser._id) { %>
+                                <li role="presentation" class="list-group-item">
+                                    <a href="#account" aria-controls="account" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i> Account Settings </a>
+                                </li>
+                                <% } %>
+                            <% } %>
                         </ul>
                         <!-- /Tab menu -->
                     </div>
@@ -54,52 +58,65 @@
 
                 <!-- Content + Tabs-->
                 <div class="col-md-9 tab-content">
-
-                    <!-- Account Settings Tab -->
-                    <div role="tabpanel" class="tab-pane active" id="account">
-                        <h1>Account Settings</h1>
-                        <div class="well">
-                            <!-- Modify user information -->
-                            <form action="/auth/register" method="POST">
-                                <div class="form-group">
-                                    <label for="FirstName">First name:</label>
-                                    <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First name" aria-label="First name" required/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="LastName">Last name:</label>
-                                    <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last name" aria-label="Last name" required/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Email">Email address:</label>
-                                    <input type="Email" class="form-control" id="Email" name="Email" placeholder="E-mail" aria-label="Email address" required/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Password">Password:</label>
-                                    <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Image" class="form-control-label">Image:</label>
-                                    <input type="file" class="form-control" id="Image" name="Image"></input>
-                                </div>
-
-                                <input type="hidden" name="_METHOD" value="PUT" />
-
-                                <button type="submit" class="btn btn-default">Save</button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /Account Settings -->
-
                     <!-- Items Posted Tabs -->
-                    <div role="tabpanel" class="tab-pane" id="items">
+                    <div role="tabpanel" class="tab-pane active" id="items">
                         <h1>Items Posted</h1>
                         <div class="well">
                             <!-- Insert items here -->
-                            Meeeeeep
+                            <div class="row">
+                                <% for(var i=0; i < items.length; i++) { %>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="thumbnail">
+                                            <img src="/uploads/<%= items[i].Image %>" class="img-thumbnail img-responsive" alt="Item image" />
+                                            <div class="caption">
+                                                <h3><%= items[i].Title %></h3>
+                                                <h4>$<%= items[i].Price %></h4>
+
+                                                <h4><%=  items[i].DateAdded.toLocaleDateString("en-US") %></h4>
+                                                <p>
+                                                    <a href="/items/<%= items[i]._id %>" class="btn btn-primary" role="button">See more</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
                     <!-- /Items Posted -->
 
+                    <!-- Account Settings Tab -->
+                    <% if(authUser) { %>
+                        <% if(user._id == authUser._id) { %>
+                            <div role="tabpanel" class="tab-pane" id="account">
+                                <h1>Account Settings</h1>
+                                <div class="well">
+                                    <!-- Modify user information -->
+                                    <form action="/users/<%= authUser._id %>" method="POST">
+                                        <div class="form-group">
+                                            <label for="FirstName">First name:</label>
+                                            <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First name" aria-label="First name" value="<%= user.FirstName %>" required/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="LastName">Last name:</label>
+                                            <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last name" aria-label="Last name" value="<%= user.LastName %>" required/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Email">Email address:</label>
+                                            <input type="Email" class="form-control" id="Email" name="Email" placeholder="E-mail" aria-label="Email address" value="<%= user.Email %>" required/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Password">Password:</label>
+                                            <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default">Save</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                    <!-- /Account Settings -->
                 </div>
                 <!-- /Content + Tabs -->
             </div>

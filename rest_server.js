@@ -7,6 +7,10 @@ const apiBase = '/api/1';
 const apiSessionCheck = utils_1.requiresUserSession('api');
 const webSessionCheck = utils_1.requiresUserSession('web');
 class RestServices {
+    /**
+     * Set routes for the API.
+     * @param app
+     */
     static setApiRoutes(app) {
         // Passes the authenticated user to any request
         app.use(function (req, res, next) {
@@ -16,37 +20,37 @@ class RestServices {
             else {
                 res.locals.authUser = null;
             }
-            console.log(res.locals.authUser);
             next();
         });
-        app.get('/', render('index.ejs'));
-        // Routes
-        app.use('/login', render('login.ejs'));
-        app.use('/register', render('register.ejs'));
-        app.use('/items', index_1.ControllerFactory.Item.router);
-        //app.use('/items', render('items.ejs'));
-        app.use('/user', render('user.ejs'));
-        app.use('/auth', index_1.ControllerFactory.Auth.router);
-        // End Routes
-        // API
+        // API 1
         let api = express.Router()
             .use('/users', index_1.ControllerFactory.Users.router)
             .use("/items", index_1.ControllerFactory.Item.router)
-            .use("/categories", index_1.ControllerFactory.Caterogies.router);
-        // /API
+            .use("/categories", index_1.ControllerFactory.Caterogies.router)
+            .use('/auth', index_1.ControllerFactory.Auth.router);
+        app.use(apiBase, api);
+        return app;
+    }
+    /**
+     * Set routes for the web application.
+     * @param app
+     */
+    static setWebRoutes(app) {
+        app.get('/', render('index.ejs'));
+        app.use('/login', render('login.ejs'));
+        app.use('/register', render('register.ejs'));
         // Web
         let web = express.Router()
-            .use('/users', index_1.ControllerFactory.Users.router)
-            .use('/items', index_1.ControllerFactory.Item.router)
-            .use('/categories', index_1.ControllerFactory.Caterogies.router);
-        // /Web
-        app.use(apiBase, api);
-        //app.use(web);
+            .use('/users', index_1.ControllerFactory.ClientUsers.router)
+            .use('/items', index_1.ControllerFactory.ClientItems.router)
+            .use('/categories', index_1.ControllerFactory.ClientCategory.router)
+            .use('/auth', index_1.ControllerFactory.ClientAuth.router);
+        app.use(web);
         return app;
     }
 }
 exports.default = RestServices;
-function render(templateName, router) {
-    return (req, res) => res.render(templateName, { object: router });
+function render(templateName) {
+    return (req, res) => res.render(templateName);
 }
 //# sourceMappingURL=rest_server.js.map

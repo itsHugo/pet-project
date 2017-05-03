@@ -41,28 +41,20 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    //@post("/", apiSessionCheck)
-    @post("/")
+    @post("/", apiSessionCheck)
     createItem(req, res){
-        // if (req.body.Categories){
-        //    let arr = req.body.Categories;
-        //    for (let i: number = 0; i < arr.length; i++){
-        //        if(this.svc.CategoryExist(arr[i]))
-        //         {
-                    
-        //         }
-        //    } 
-        // }
+        // Upload image using multer
+        upload;
 
-        
-        console.log("///////////////////////////////////////////////)");
-        console.log(req );
+        // Set Image name string
+        req.body.Image = req.files[0].filename;
+
         if(req.body.CreatedBy){
             //DO NOTHING
         }else{
             req.body.CreatedBy = req.session.user;
         }
-        console.log("req.body.CreatedBy " +  req.body.CreatedBy);
+        
         return this.svc.createAndSave(req.body);
     }
 
@@ -74,8 +66,8 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @del("/:id")
-    deleteItem(req, res) {
+    @del("/:id", apiSessionCheck)
+    async deleteItem(req, res) {
         let id = req.params.id;
         // let item: Item = await this.svc.byId(req.params.id);
         // // TODO: CheckPoster
@@ -95,7 +87,7 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @put("/:id")
+    @put("/:id", apiSessionCheck)
     async updateItem(req, res) {
         let id = req.params.id;
 
@@ -126,7 +118,7 @@ export class ItemsController extends BaseController<Item> {
      * @param req 
      * @param res 
      */
-    @get("/user/:id")
+    @get("/users/:id")
     async getByUserId(req, res) {
         console.log("getByUserId method: User id " + req.params.id);
         return await this.svc.ItemsByUser(req.params.id);

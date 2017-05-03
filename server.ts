@@ -51,6 +51,7 @@ app.engine('ejs', require('ejs').renderFile)
 let webServer: http.Server;
 
 restServer.setApiRoutes(app);
+restServer.setWebRoutes(app);
 mongoose.connect(config.dbUrl).then(() => {
     webServer = app.listen(port);
     console.log('Server started on ' + port);

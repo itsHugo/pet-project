@@ -3,7 +3,8 @@
 
 <head>
     <% include ../partials/head %>
-        <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="/css/auth.css">
+    <title>Register</title>
 </head>
 
 <body>
@@ -15,6 +16,9 @@
     <!-- Your Content -->
     <main>
         <div class="container container-fluid">
+            <% if (typeof error != 'undefined') { %>
+                <%= error.message %>
+            <% } %>
             <form action="/auth/register" method="POST">
                 <div class="form-group">
                     <label for="FirstName">First name:</label>
@@ -33,10 +37,12 @@
                     <label for="Password">Password:</label>
                     <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
                 </div>
+                <!--
                 <div class="form-group">
                     <label for="Image" class="form-control-label">Image:</label>
                     <input type="file" class="form-control" id="Image" name="Image"></input>
                 </div>
+                -->
 
                 <input type="hidden" name="_METHOD" value="PUT" />
 
