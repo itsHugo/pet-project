@@ -75,6 +75,11 @@
                                                 <h4><%=  items[i].DateAdded.toLocaleDateString("en-US") %></h4>
                                                 <p>
                                                     <a href="/items/<%= items[i]._id %>" class="btn btn-primary" role="button">See more</a>
+                                                    <% if(authUser && user._id == authUser._id) { %>
+                                                        <form action="/items/<%= items[i]._id %>/delete" method="POST">
+                                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                                        </form>
+                                                    <% } %>
                                                 </p>
                                             </div>
                                         </div>

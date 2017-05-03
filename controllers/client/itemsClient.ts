@@ -102,21 +102,34 @@ export class ItemsClientController extends BaseController<Item>{
      */
     @post("/", webSessionCheck)
     async createItem(req, res){
-        // Upload image using multer
-        upload;
+        let originalFileName: string = req.files[0].filename.toLocaleLowerCase();
+        if(originalFileName.endsWith('.jpg') || originalFileName.endsWith('.png') || originalFileName.endsWith('.jpeg') || originalFileName.endsWith('.gif')){
+            
+            let extensionName = originalFileName.slice(originalFileName.lastIndexOf('.')) ;
+            console.log(extensionName);
 
-        // Set Image name string
-        req.body.Image = req.files[0].filename;
+            //req.files[0].filename = await Date.now().toString() + extensionName;
+            console.log(req.files[0].filename);
 
-        if(req.body.CreatedBy){
-            //DO NOTHING
-        }else{
-            req.body.CreatedBy = req.session.user;
+            console.log(req.body.Image);
+            // Upload image using multer
+            upload;
+
+            // Set Image name string
+            req.body.Image = req.files[0].filename;
+
+            if(req.body.CreatedBy){
+                //DO NOTHING
+            }else{
+                req.body.CreatedBy = req.session.user;
+            }
+
+            let item: Item = await this.svc.createAndSave(req.body);
+
+            res.redirect("/items/"+item._id);
+        } else {
+            res.redirect("/items");
         }
-
-        await this.svc.createAndSave(req.body);
-
-        res.redirect("/items");
 
         // Return a message instead?
         return CustomResponces.DO_NOTHING;
@@ -137,15 +150,16 @@ export class ItemsClientController extends BaseController<Item>{
         let item: Item = await this.svc.byId(req.params.id);
         // TODO: CheckPoster
         if (checkPoster(item, req)) {
-            fs.unlink("/uploads/" + item.Image, (err) => {
+            fs.unlink("./uploads/" + item.Image, (err) => {
                 if (err) 
-                    throw err;
+                    console.log(err);
                 console.log('successfully deleted image');
             });
-            return this.svc.deleteById(id);
+            await this.svc.deleteById(id);
+            res.redirect('back');
         }
         else {
-            res.status(401).send({ status: "error", message: "You are not authorized to perform this action" });
+            res.status(401).send({ status: "error", message: "You are not the owner of this item." });
         }
     }
 
@@ -172,12 +186,12 @@ export class ItemsClientController extends BaseController<Item>{
  * @param req 
  */
 function checkPoster(item: Item, req) {
-    let user = req.session.user;
-    console.log(user._id);
-    if (item.CreatedBy == user || item.CreatedBy == user._id) {
+    let user: User = req.session.user;
+
+    if (item.CreatedBy['_id'] == user._id) {
         return true;
-    }
-    return false;
+    } else 
+        return false;
 }
     
 

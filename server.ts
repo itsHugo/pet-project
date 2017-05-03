@@ -21,7 +21,8 @@ let storage = multer.diskStorage({
         cb(null, `./uploads/`);
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname.toString());
+        console.log(Date.now());
+        cb(null, file.originalname);
     }
 });
 
