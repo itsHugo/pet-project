@@ -50,7 +50,8 @@ export default class RestServices {
             .use('/users', factory.ClientUsers.router)
             .use('/items', factory.ClientItems.router)
             .use('/categories', factory.ClientCategory.router)
-            .use('/auth', factory.ClientAuth.router);
+            .use('/auth', factory.ClientAuth.router)
+            .use('/search', factory.Search.router);
 
         app.use(web);
 
