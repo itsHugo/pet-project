@@ -10,7 +10,7 @@ import { Item } from "../../lib/models/item";
 import * as request from 'request';
 import {CustomResponces} from "../../lib/baseController";
 import * as multer from 'multer';
-
+import { paginate } from "./../../lib/paginationHelper"
 let upload = multer().single('Image');
 
 const fs = require('fs');
@@ -43,8 +43,14 @@ export class ItemsClientController extends BaseController<Item>{
             throw new AbstractError("Sorry");
         })
 
-        let itemsArray = await this.svc.getAll();
-        res.render('items.ejs',{items: itemsArray, categories: categories});
+        // //Pagination logic
+        var count = await this.svc.getCount({filter: ""});
+        var pagination = paginate(req, count, "/items/");
+        console.log("///Pagination Json")
+        console.log(pagination);
+
+        let itemsArray = await this.svc.search({filter: ""}, pagination.perPage, pagination.page);
+        res.render('items.ejs',{items: itemsArray, categories: categories, pagination: pagination});
         return CustomResponces.DO_NOTHING;
         
     }
@@ -67,8 +73,8 @@ export class ItemsClientController extends BaseController<Item>{
      @get("/category/:id")
     async getByCategory(req, res){
 
+        //Get all the categories because the page needs it for the create Item form
         var categories;
-
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
             console.log("////////////////////Fetching Categories - Results")
             console.log(result);
@@ -77,9 +83,19 @@ export class ItemsClientController extends BaseController<Item>{
             console.error("Error", err);
             return res.status(400).send("RIP");
         })
+        
+        //Pagination logic
+        var count = await this.svc.perCategoryCount(req.params.id);
+        var pagination = paginate(req, count, "/items/category/" + req.params.id);
+        console.log("///Pagination Json")
+        console.log(pagination);
 
-        var items = this.svc.ItemsByCategory(req.params.id);
-        res.render('items.ejs',{items: items, categories: categories});
+        var items = await this.svc.ItemsByCategory(req.params.id, pagination.perPage, pagination.page);
+        res.render('items.ejs',{
+                items: items, 
+                categories: categories,
+                pagination: pagination    
+            });
         return CustomResponces.DO_NOTHING;
     }
 
@@ -126,39 +142,6 @@ export class ItemsClientController extends BaseController<Item>{
     }
 
     /**
-     * Dummy data testing
-     * @param req 
-     * @param res 
-     */
-    @post("/donothing")
-    async doNothing(req, res){
-
-        let user: User = req.session.user;
-        let data = {
-	        "Title": "Evil Stuff",
-	        "Description": "Drugs are bad okay?",
-	        "Price": 22,
-            "CreatedBy": user,
-	        "Categories":  [
-                { _id:"58f8b48513d6172a7c23ba1b"},
-                { _id: "58f8b4a513d6172a7c23ba1c"}
-            ] 
-        
-         };
-
-        await _PostRequest("http://localhost:3001/api/1/items/",data).then(function(result){
-            console.log("//////////// Results " + result);
-            console.log (result)
-            console.log("////////////////////////");
-            return res.redirect("http://localhost:3001/");
-        }).catch(function(err){
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
-
-    }
-
-    /**
      * Action to delete an item
      * Notes: Need to check for user
      * May want to implement a "isDeleted" field on Model
@@ -184,7 +167,7 @@ export class ItemsClientController extends BaseController<Item>{
         }
     }
 
-    @put("/:id")
+    @post("/update/:id")
     async updateItem(req, res){
         let data = req.body;
         data.CreatedBy = req.session.user;
@@ -195,15 +178,9 @@ export class ItemsClientController extends BaseController<Item>{
             console.log("Request body in update ////////////")
             console.log(req.body);
         
-            await _PutRequest("http://localhost:3001/api/1/items/" + req.params.id, data).then(function(result){
-            
-                console.log("//////////// Results");
-                console.log(result);
-                res.redirect("back");
-                return CustomResponces.DO_NOTHING;
-            }).catch(function(err){
-                return res.status(400).send("RIP");
-            })   
+            this.svc.updateById(req.params.id, req.body);
+            res.redirect("back");
+            return CustomResponces.DO_NOTHING;
 
         }else{
             res.status(401).send({status: "error", message: "You are not authorized to perform this action" });
@@ -221,7 +198,8 @@ export class ItemsClientController extends BaseController<Item>{
 function checkPoster(item: Item, req) {
     let user = req.session.user;
     console.log(user._id);
-    if (item.CreatedBy == user || item.CreatedBy == user._id) {
+    let userItem = item.CreatedBy;
+    if (user._id == (userItem as User)._id) {
         return true;
     }
     return false;
@@ -230,7 +208,7 @@ function checkPoster(item: Item, req) {
 
 async function getAllCategories(){
     var categories;
-    
+
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
             console.log("////////////////////Fetching Categories - Results")
             console.log(result);

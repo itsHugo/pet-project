@@ -99,11 +99,15 @@
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    <% if (pagination && pagination.pages && pagination.pages > 1) { %>
+                        <% for(var i = 1; i <= pagination.pages; i++){ %>
+                            <% if (i == pagination.page){ %>
+                                <li><a href="#"><%= i %></a></li>
+                            <% }else {%>
+                                <li><a href="<%=pagination.path%>?page=<%= i %>&perPage=<%= pagination.perPage %>"><%= i %></a></li>
+                            <% } %>
+                        <% } %>
+                    <% } %>
                     <li>
                         <a href="#" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
