@@ -2,6 +2,7 @@ import crypto = require('crypto');
 import errors from './errors';
 import * as util from 'util';
 import { User } from './models/user'
+import { Item } from "./models/item";
 
 export function validatePasswordAndCreateHash(password, callback?): Promise<string> {
     return new Promise<string>((resolve, reject) => {
@@ -54,4 +55,29 @@ export function validateUser(user, callback?): Promise<User> {
             resolve(user)
 
     })
+}
+
+export function validateItem (item, callback): Promise<Item>{
+        return new Promise<Item>((resolve, reject)=>{
+            var error = null;
+            var result = {};
+
+            if (!item.Title){
+                error = new errors.InvalidData("Title is required");
+            }
+            if(!item.Description){
+                error = new errors.InvalidData("Description is required");
+            }
+            if (!item.Price){
+                error = new errors.InvalidData("Description is required");
+            }
+            if (callback)
+                callback(error, item);
+            
+            if (error)
+                reject(error);
+            else
+                resolve(item);
+
+        })
 }

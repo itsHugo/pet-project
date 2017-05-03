@@ -171,7 +171,7 @@ export class ItemsClientController extends BaseController<Item>{
     async updateItem(req, res){
         let data = req.body;
         data.CreatedBy = req.session.user;
-
+        
         let item = await this.svc.byId(req.params.id);
         
         if(checkPoster(item, req)){
