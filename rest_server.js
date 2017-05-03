@@ -44,7 +44,8 @@ class RestServices {
             .use('/users', index_1.ControllerFactory.ClientUsers.router)
             .use('/items', index_1.ControllerFactory.ClientItems.router)
             .use('/categories', index_1.ControllerFactory.ClientCategory.router)
-            .use('/auth', index_1.ControllerFactory.ClientAuth.router);
+            .use('/auth', index_1.ControllerFactory.ClientAuth.router)
+            .use('/search', index_1.ControllerFactory.Search.router);
         app.use(web);
         return app;
     }
