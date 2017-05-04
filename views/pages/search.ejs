@@ -48,27 +48,30 @@
             <!-- Pagination -->
             <nav class="text-center"aria-label="Page navigation">
                 <ul class="pagination pagination-lg text-center">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
+                    
 
-                    <% if (pages > 1) { %>
-                        <% for(var i = 1; i <= pages; i++){ %>
-                            <% if (i == page){ %>
+                    <% if (pagination && pagination.pages && pagination.pages > 1) { %>
+                        <li>
+                            <a href="<%pagination.path%><%= slug %>?page=<%= pagination.prevpage %>&perPage=<%= pagination.perPage %>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <% for(var i = 1; i <= pagination.pages; i++){ %>
+                            <% if (i == pagination.page){ %>
                                 <li><a href="#"><%= i %></a></li>
                             <% }else {%>
-                                <li><a href="/search/res/<%= slug %>?page=<%= i %>&perPage=<%= perPage %>"><%= i %></a></li>
+                                <li><a href="<%pagination.path%><%= slug %>?page=<%= i %>&perPage=<%= pagination.perPage %>"><%= i %></a></li>
                             <% } %>
                         <% } %>
+                        <li>
+                            <a href="<%pagination.path%><%= slug %>?page=<%= pagination.nextpage %>&perPage=<%= pagination.perPage %>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+
                     <% } %>
                     
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
+                    
                 </ul>
             </nav>
             <!-- /Pagination -->

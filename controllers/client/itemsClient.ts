@@ -6,11 +6,12 @@ import { _PostRequest, _GetRequest, _PutRequest } from "./../../lib/requestHelpe
 import { BaseController, del, Factory, get, post, put, Router, User } from './../refs';
 import * as http from "http";
 import * as utils from '../../lib/utils'
+import * as validators from '../../lib/validators'
 import { Item } from "../../lib/models/item";
 import * as request from 'request';
 import { CustomResponces } from "../../lib/baseController";
 import * as multer from 'multer';
-
+import { paginate } from "./../../lib/paginationHelper"
 let upload = multer().single('Image');
 
 const fs = require('fs');
@@ -34,15 +35,34 @@ export class ItemsClientController extends BaseController<Item>{
     async getItemsPage(req, res) {
 
         var categories;
+<<<<<<< HEAD
 
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
         }).catch(function (err) {
+=======
+        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
+            console.log("////////////////////Fetching Categories - Results")
+            console.log(result)
+            categories = result;
+        }).catch(function(err){
+>>>>>>> master
             console.error("Error", err);
-            return res.status(400).send("RIP");
+            throw new AbstractError("Sorry");
         })
 
+<<<<<<< HEAD
         let itemsArray = await this.svc.getAll();
         res.render('items.ejs', { items: itemsArray });
+=======
+        // //Pagination logic
+        var count = await this.svc.getCount({filter: ""});
+        var pagination = paginate(req, count, "/items/");
+        console.log("///Pagination Json")
+        console.log(pagination);
+
+        let itemsArray = await this.svc.search({filter: ""}, pagination.perPage, pagination.page);
+        res.render('items.ejs',{items: itemsArray, categories: categories, pagination: pagination});
+>>>>>>> master
         return CustomResponces.DO_NOTHING;
     }
 
@@ -64,7 +84,9 @@ export class ItemsClientController extends BaseController<Item>{
     @get("/category/:id")
     async getByCategory(req, res) {
 
+        //Get all the categories because the page needs it for the create Item form
         var categories;
+<<<<<<< HEAD
 
         await _GetRequest("http://localhost:3001/api/1/items/category/" + req.params.id).then(function (result) {
             console.log("//////////// Results " + result);
@@ -75,6 +97,30 @@ export class ItemsClientController extends BaseController<Item>{
             console.error("Error", err);
             return res.status(400).send("RIP");
         })
+=======
+        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
+            console.log("////////////////////Fetching Categories - Results")
+            console.log(result);
+            categories = result;
+        }).catch(function(err){
+            console.error("Error", err);
+            return res.status(400).send("RIP");
+        })
+        
+        //Pagination logic
+        var count = await this.svc.perCategoryCount(req.params.id);
+        var pagination = paginate(req, count, "/items/category/" + req.params.id);
+        console.log("///Pagination Json")
+        console.log(pagination);
+
+        var items = await this.svc.ItemsByCategory(req.params.id, pagination.perPage, pagination.page);
+        res.render('items.ejs',{
+                items: items, 
+                categories: categories,
+                pagination: pagination    
+            });
+        return CustomResponces.DO_NOTHING;
+>>>>>>> master
     }
 
     @get("/users/:id")
@@ -102,6 +148,7 @@ export class ItemsClientController extends BaseController<Item>{
         let originalFileName: string = req.files[0].filename.toLocaleLowerCase();
         if (originalFileName.endsWith('.jpg') || originalFileName.endsWith('.png') || originalFileName.endsWith('.jpeg') || originalFileName.endsWith('.gif')) {
 
+<<<<<<< HEAD
             let extensionName = originalFileName.slice(originalFileName.lastIndexOf('.'));
             console.log(extensionName);
 
@@ -131,12 +178,34 @@ export class ItemsClientController extends BaseController<Item>{
         } else {
             res.redirect("/items");
         }
+=======
+        // Set Image name string
+        if (req.files && req.files.length > 0)
+            req.body.Image = req.files[0].filename || "";
+        else
+            req.body.Image = "";
+>>>>>>> master
 
+        //Set the user
+        req.body.CreatedBy = req.session.user;
+        
+        //Validate Item
+        await validators.validateItem(req.body).then((item) => {
+            console.log(item);
+            this.svc.createAndSave(req.body);
+            res.redirect("/items");
+        }).catch((reason)=> {
+            console.log(reason);
+            res.redirect('items');
+        });
         // Return a message instead?
         return CustomResponces.DO_NOTHING;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     /**
      * Action to delete an item
      * Notes: Need to check for user

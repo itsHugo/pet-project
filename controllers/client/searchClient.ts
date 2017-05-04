@@ -12,7 +12,7 @@ import { BaseService } from "../../lib/services/baseService";
 
 import * as querystring from 'querystring';
 import * as slug from 'slug'
-
+import { paginate } from "./../../lib/paginationHelper"; 
 
 /**
  * Application level controller which handles the task of send HTTP request to the RESTful API controllers and directing the data to the Views
@@ -36,40 +36,28 @@ export class SearchClientController extends BaseController<Item>{
         var filter = qs.search;
 
         var slug_str = slug(filter);
-        res.redirect('/search/res/' + slug_str + "?page=1&perPage=5");
+        res.redirect('/search/res/' + slug_str + "?page=1&perPage=6");
         return CustomResponces.DO_NOTHING;
     }
 
     @get("/res/:slug")
     async search(req, res){
 
-        var str = req.url.split('?')[1];
-        var qs = querystring.parse(str);
-
-        console.log("//////////////////// search query strinh logging");
-        var perPage = qs.perPage || 5;
-        var page = qs.page || 1;
-        console.log("per page "  + perPage)
-        console.log("page " + page);
-
-        
-
+        //Get the search values
         var search = (req.params.slug as string).replace("-", " ");
-        var result = await this.svc.search({filter: search}, perPage, page);
+        
+        //Count the total number of results for that search
         var count = await this.svc.getCount({filter: search});
-        var pages = getTotalPages(count, qs.perPage);
 
-        console.log("search " + search);
-        console.log('count for results' + count)
-        console.log('pages ' + pages);
-
-        console.log ("//////////////////////////////");
+        //Pagination logic
+        var pagination = paginate(req, count, "/search/res/");
+        var result = await this.svc.search({filter: search}, pagination.perPage, pagination.page);
+        
+        
         res.render('search.ejs', {
             items: result,
             slug: req.params.slug,
-            page: page,
-            perPage: perPage,
-            pages: pages
+            pagination: pagination
         });
 
         return CustomResponces.DO_NOTHING;

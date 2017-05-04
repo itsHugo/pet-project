@@ -2,6 +2,8 @@ import crypto = require('crypto');
 import errors from './errors';
 import * as util from 'util';
 import { User } from './models/user'
+import { Item } from "./models/item";
+import { Category } from "./models/category";
 
 export function validatePasswordAndCreateHash(password, callback?): Promise<string> {
     return new Promise<string>((resolve, reject) => {
@@ -53,5 +55,54 @@ export function validateUser(user, callback?): Promise<User> {
         else
             resolve(user)
 
+    })
+}
+
+export function validateItem (item, callback?): Promise<Item>{
+        return new Promise<Item>((resolve, reject)=>{
+            var error = null;
+
+            if (!item.Title){
+                error = new errors.InvalidData("Title is required");
+            }
+            if(!item.Description){
+                error = new errors.InvalidData("Description is required");
+            }
+            if (!item.Price){
+                error = new errors.InvalidData("Description is required");
+            }
+
+            if (!item.CreatedBy){
+                error = new errors.InvalidData("You need to be logged in");
+            }
+
+            if (!item.Categories || item.Categories.length <= 0){
+                error = new errors.InvalidData("You need to choose a category");
+            }
+            if (callback)
+                callback(error, item);
+            
+            if (error)
+                reject(error);
+            else
+                resolve(item);
+
+        })
+}
+
+export function validateCategory (category, callback?): Promise<Category>{
+    return new Promise<Category>((resolve, reject)=> {
+        var error = null;
+
+        if (!category.Name)
+            error = new errors.InvalidData("Name is required");
+
+        if (callback)
+            callback(error, category);
+
+        if(error)
+            reject(error);
+        else
+            resolve(category)
     })
 }

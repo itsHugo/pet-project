@@ -15,6 +15,12 @@
 
     <!-- Your Content -->
     <main>
+        <% if (typeof error != 'undefined') { %>
+                <div class="alert alert-danger">
+                    <strong>Error!!</strong> <%= error.message %>
+                </div>
+                
+            <% } %>
         <div class="container container-fluid">
             <div class="add-item text-center">
                 <% if(authUser) { %>
@@ -41,10 +47,14 @@
                                             <label for="Price" class="form-control-label">Price:</label>
                                             <input type="number" min="0.00" step="0.50" class="form-control" id="Price" name="Price" value="0.00" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="Category" class="form-control-label">Category:</label>
-                                            <input type="text" class="form-control" id="Category" name="Category" required></input>
-                                        </div>
+                                        <% if (categories && categories.length > 0){ %>
+                                            <div class=form-group>
+                                                <label for="Categories" class="form-control-label">Categories</label><br />
+                                                <% for(var i = 0; i < categories.length; i++){ %>
+                                                    <input type="checkbox" class="checkbox-inline" id='Categories' name="Categories" value='<%= categories[i]._id %>'><%= categories[i].Name%><br>
+                                                <% } %>
+                                                </div>
+                                        <% } %>
                                         <div class="form-group">
                                             <label for="Image" class="form-control-label">Image:</label>
                                             <input type="file" class="form-control" id="Image" name="Image"></input>
@@ -73,7 +83,11 @@
                                 <div class="caption">
                                     <h3><%= items[i].Title %></h3>
                                     <h4>$<%= items[i].Price %></h4>
-                                    <h4><%=  items[i].DateAdded.toLocaleDateString("en-US") %></h4>
+                                    <% if (items[i].DateAdded instanceof Date) { %>
+                                        <h4><%=  items[i].DateAdded.toLocaleDateString("en-US") %></h4>
+                                    <% } else { %>
+                                        <h4><%=  new Date(items[i].DateAdded).toLocaleDateString("en-US") %></h4>
+                                    <% } %>
                                     <p>
                                         <a href="/items/<%= items[i]._id %>" class="btn btn-primary" role="button">See more »</a>
                                     </p>
@@ -87,17 +101,21 @@
             <nav class="text-center" aria-label="Page navigation">
                 <ul class="pagination pagination-lg text-center">
                     <li>
-                        <a href="#" aria-label="Previous">
+                        <a href="<%=pagination.path%>?page=<%= pagination.prevpage %>&perPage=<%= pagination.perPage %>" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    <% if (pagination && pagination.pages && pagination.pages > 1) { %>
+                        <% for(var i = 1; i <= pagination.pages; i++){ %>
+                            <% if (i == pagination.page){ %>
+                                <li><a href="#"><%= i %></a></li>
+                            <% }else {%>
+                                <li><a href="<%=pagination.path%>?page=<%= i %>&perPage=<%= pagination.perPage %>"><%= i %></a></li>
+                            <% } %>
+                        <% } %>
+                    <% } %>
                     <li>
-                        <a href="#" aria-label="Next">
+                        <a href="<%=pagination.path%>?page=<%= pagination.nextpage %>&perPage=<%= pagination.perPage %>" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

@@ -16,8 +16,12 @@
     <!-- Your Content -->
     <main>
         <div class="container container-fluid">
+            
             <% if (typeof error != 'undefined') { %>
-                <%= error.message %>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> <%= error.message %>
+                </div>
+                
             <% } %>
             <form action="/auth/register" method="POST">
                 <div class="form-group">
