@@ -3,6 +3,7 @@ import errors from './errors';
 import * as util from 'util';
 import { User } from './models/user'
 import { Item } from "./models/item";
+import { Category } from "./models/category";
 
 export function validatePasswordAndCreateHash(password, callback?): Promise<string> {
     return new Promise<string>((resolve, reject) => {
@@ -87,4 +88,21 @@ export function validateItem (item, callback?): Promise<Item>{
                 resolve(item);
 
         })
+}
+
+export function validateCategory (category, callback?): Promise<Category>{
+    return new Promise<Category>((resolve, reject)=> {
+        var error = null;
+
+        if (!category.Name)
+            error = new errors.InvalidData("Name is required");
+
+        if (callback)
+            callback(error, category);
+
+        if(error)
+            reject(error);
+        else
+            resolve(category)
+    })
 }
