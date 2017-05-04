@@ -34,11 +34,9 @@ export class ItemsClientController extends BaseController<Item>{
     @get("/")
     async getItemsPage(req, res) {
 
-        var categories;
+        let categories = null;
 
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
-            console.log("////////////////////Fetching Categories - Results")
-            console.log(result)
             categories = result;
         }).catch(function (err) {
             console.error("Error", err);
@@ -48,8 +46,6 @@ export class ItemsClientController extends BaseController<Item>{
         // //Pagination logic
         var count = await this.svc.getCount({filter: ""});
         var pagination = paginate(req, count, "/items/");
-        console.log("///Pagination Json")
-        console.log(pagination);
 
         let itemsArray = await this.svc.search({filter: ""}, pagination.perPage, pagination.page);
         res.render('items.ejs',{items: itemsArray, categories: categories, pagination: pagination});
@@ -79,8 +75,6 @@ export class ItemsClientController extends BaseController<Item>{
         var categories;
 
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
-            console.log("////////////////////Fetching Categories - Results")
-            console.log(result);
             categories = result;
         }).catch(function(err){
             console.error("Error", err);
@@ -90,8 +84,6 @@ export class ItemsClientController extends BaseController<Item>{
         //Pagination logic
         var count = await this.svc.perCategoryCount(req.params.id);
         var pagination = paginate(req, count, "/items/category/" + req.params.id);
-        console.log("///Pagination Json")
-        console.log(pagination);
 
         var items = await this.svc.ItemsByCategory(req.params.id, pagination.perPage, pagination.page);
         res.render('items.ejs',{
