@@ -6,6 +6,7 @@ import { _PostRequest, _GetRequest, _PutRequest } from "./../../lib/requestHelpe
 import { BaseController, del, Factory, get, post, put, Router, User } from './../refs';
 import * as http from "http";
 import * as utils from '../../lib/utils'
+import * as validators from '../../lib/validators'
 import { Item } from "../../lib/models/item";
 import * as request from 'request';
 import {CustomResponces} from "../../lib/baseController";
@@ -125,18 +126,23 @@ export class ItemsClientController extends BaseController<Item>{
         upload;
 
         // Set Image name string
-        req.body.Image = req.files[0].filename;
+        if (req.files && req.files.length > 0)
+            req.body.Image = req.files[0].filename || "";
+        else
+            req.body.Image = "";
 
-        if(req.body.CreatedBy){
-            //DO NOTHING
-        }else{
-            req.body.CreatedBy = req.session.user;
-        }
-
-        await this.svc.createAndSave(req.body);
-
-        res.redirect("/items");
-
+        //Set the user
+        req.body.CreatedBy = req.session.user;
+        
+        //Validate Item
+        await validators.validateItem(req.body).then((item) => {
+            console.log(item);
+            this.svc.createAndSave(req.body);
+            res.redirect("/items");
+        }).catch((reason)=> {
+            console.log(reason);
+            res.render("items.ejs", {error: reason})
+        });
         // Return a message instead?
         return CustomResponces.DO_NOTHING;
     }

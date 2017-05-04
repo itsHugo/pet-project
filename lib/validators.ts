@@ -57,10 +57,9 @@ export function validateUser(user, callback?): Promise<User> {
     })
 }
 
-export function validateItem (item, callback): Promise<Item>{
+export function validateItem (item, callback?): Promise<Item>{
         return new Promise<Item>((resolve, reject)=>{
             var error = null;
-            var result = {};
 
             if (!item.Title){
                 error = new errors.InvalidData("Title is required");
@@ -70,6 +69,14 @@ export function validateItem (item, callback): Promise<Item>{
             }
             if (!item.Price){
                 error = new errors.InvalidData("Description is required");
+            }
+
+            if (!item.CreatedBy){
+                error = new errors.InvalidData("You need to be logged in");
+            }
+
+            if (!item.Categories || item.Categories.length <= 0){
+                error = new errors.InvalidData("You need to choose a category");
             }
             if (callback)
                 callback(error, item);
