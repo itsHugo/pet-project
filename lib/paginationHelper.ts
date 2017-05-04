@@ -11,12 +11,14 @@ export function getQueryString (req): any{
     return qs;
 }
 
-export function createPaginationOptions(page: number, perPage: number, pages: number, path: string){
+export function createPaginationOptions(page: number, perPage: number, pages: number, path: string, nextpage: number, prevpage: number){
     return {
         page: page,
         perPage: perPage,
         pages: pages,
-        path: path
+        path: path,
+        nextpage: nextpage,
+        prevpage: prevpage
     };
 
 }
@@ -29,11 +31,22 @@ export function createPaginationOptions(page: number, perPage: number, pages: nu
  */
 export function paginate(req, elementCount: number, path: string){
     var qs = getQueryString(req);
-    var perPage = qs.perPage || 6;
-    var page = qs.page || 1;
+    var perPage = qs.perPage as number || 6;
+    var page = qs.page as number || 1;
     var pages = getTotalPages(elementCount, perPage);
 
 
-    return createPaginationOptions(page, perPage, pages, path);
+    //DUNNO why pages + 1 turns into a concatinated string
+    var nextpage = page;
+    if(page < pages)
+        nextpage++;
+
+    var prevpage = (page > 1)?(page - 1): 1;
+
+    console.log(nextpage);
+
+
+
+    return createPaginationOptions(page, perPage, pages, path, nextpage, prevpage);
 
 }
