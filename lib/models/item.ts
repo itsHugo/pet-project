@@ -89,6 +89,7 @@ export interface Item extends BaseDocument {
     Description: string
     Price: number
     Image: string
+    Categories: [ Id | Category ]
 }
 
 var ItemSchema = new mongoose.Schema({
@@ -96,6 +97,7 @@ var ItemSchema = new mongoose.Schema({
     Description: String,
     Price: Number,
     Image: String,
+    Categories: [ {type: mongoose.SchemaTypes.ObjectId, ref: 'Category' } ]
 }, { collection: 'items' });
 ItemSchema.plugin(timestampsPlugin);
 ItemSchema.plugin(createdByPlugin);

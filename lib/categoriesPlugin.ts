@@ -3,11 +3,11 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 // Plugin
 export default function categoriesPlugin (schema) {
   var fields = {}
-    , category = 'Category'
+    , category = 'Categories'
 
   // Add paths to schema if not present
   if (!schema.path(category)) {
-    fields[category] = [{type:ObjectId, ref:'Categories', default:null}]
+    fields[category] = [{type:ObjectId, ref:'Category', default:null}]
   }
   schema.add(fields)
 
