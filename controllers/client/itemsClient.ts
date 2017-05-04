@@ -155,7 +155,7 @@ export class ItemsClientController extends BaseController<Item>{
      * @param req 
      * @param res 
      */
-    @del("/:id", webSessionCheck)
+    @post("/delete/:id", webSessionCheck)
     async deleteItem(req, res) {
         let id = req.params.id;
         let item: Item = await this.svc.byId(req.params.id);
@@ -163,17 +163,18 @@ export class ItemsClientController extends BaseController<Item>{
         if (checkPoster(item, req)) {
             fs.unlink("/uploads/" + item.Image, (err) => {
                 if (err) 
-                    throw err;
+                    console.log(err);
                 console.log('successfully deleted image');
             });
-            return this.svc.deleteById(id);
+            this.svc.deleteById(id);
+            res.redirect('/items/');
         }
         else {
             res.status(401).send({ status: "error", message: "You are not authorized to perform this action" });
         }
     }
 
-    @post("/update/:id")
+    @post("/update/:id", webSessionCheck)
     async updateItem(req, res){
         let data = req.body;
         data.CreatedBy = req.session.user;
@@ -183,7 +184,7 @@ export class ItemsClientController extends BaseController<Item>{
         if(checkPoster(item, req)){
             console.log("Request body in update ////////////")
             console.log(req.body);
-        
+            
             this.svc.updateById(req.params.id, req.body);
             res.redirect("back");
             return CustomResponces.DO_NOTHING;

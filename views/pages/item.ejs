@@ -19,7 +19,7 @@
                 <% if(authUser) { %>
                     <% if(item.CreatedBy._id == authUser._id) { %>
                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#updateItemModal">Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle='modal' data-target="#deleteItemModal">Delete</button>
                     <% } %>
                 <% } %>
                 <br />
@@ -59,6 +59,31 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <input type="submit" class="btn btn-primary" value="Add item"></input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div id="deleteItemModal" class="modal fade" role="dialog" aria-labelledby="deleteItemModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Delete this item</h4>
+                    </div>
+                    <form action='/items/delete/<%= item._id %>' method="POST" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="Title" class="form-control-label">Are you sure?</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Delete item"></input>
                         </div>
                     </form>
                 </div>
