@@ -35,25 +35,13 @@ export class ItemsClientController extends BaseController<Item>{
     async getItemsPage(req, res) {
 
         var categories;
-<<<<<<< HEAD
 
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
         }).catch(function (err) {
-=======
-        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
-            console.log("////////////////////Fetching Categories - Results")
-            console.log(result)
-            categories = result;
-        }).catch(function(err){
->>>>>>> master
             console.error("Error", err);
             throw new AbstractError("Sorry");
         })
 
-<<<<<<< HEAD
-        let itemsArray = await this.svc.getAll();
-        res.render('items.ejs', { items: itemsArray });
-=======
         // //Pagination logic
         var count = await this.svc.getCount({filter: ""});
         var pagination = paginate(req, count, "/items/");
@@ -62,7 +50,7 @@ export class ItemsClientController extends BaseController<Item>{
 
         let itemsArray = await this.svc.search({filter: ""}, pagination.perPage, pagination.page);
         res.render('items.ejs',{items: itemsArray, categories: categories, pagination: pagination});
->>>>>>> master
+
         return CustomResponces.DO_NOTHING;
     }
 
@@ -86,18 +74,7 @@ export class ItemsClientController extends BaseController<Item>{
 
         //Get all the categories because the page needs it for the create Item form
         var categories;
-<<<<<<< HEAD
 
-        await _GetRequest("http://localhost:3001/api/1/items/category/" + req.params.id).then(function (result) {
-            console.log("//////////// Results " + result);
-            console.log(result)
-            console.log("////////////////////////");
-            return res.render("items.ejs", { items: result, categories: categories });
-        }).catch(function (err) {
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
-=======
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
             console.log("////////////////////Fetching Categories - Results")
             console.log(result);
@@ -120,7 +97,7 @@ export class ItemsClientController extends BaseController<Item>{
                 pagination: pagination    
             });
         return CustomResponces.DO_NOTHING;
->>>>>>> master
+
     }
 
     @get("/users/:id")
@@ -148,43 +125,13 @@ export class ItemsClientController extends BaseController<Item>{
         let originalFileName: string = req.files[0].filename.toLocaleLowerCase();
         if (originalFileName.endsWith('.jpg') || originalFileName.endsWith('.png') || originalFileName.endsWith('.jpeg') || originalFileName.endsWith('.gif')) {
 
-<<<<<<< HEAD
-            let extensionName = originalFileName.slice(originalFileName.lastIndexOf('.'));
-            console.log(extensionName);
-
-            //req.files[0].filename = await Date.now().toString() + extensionName;
-            console.log(req.files[0].filename);
-
-            console.log(req.body.Image);
-
-            uploadImage(req);
-
-            if (req.body.CreatedBy) {
-                //DO NOTHING
-            } else {
-                req.body.CreatedBy = req.session.user;
-            }
-
-            let category = this.svc.CategoryExist(req.body.Category);
-            if(category){
-                console.log(category);
-                req.body.Category = category;
-            }
-                
-
-            let item: Item = await this.svc.createAndSave(req.body);
-
-            res.redirect("/items/" + item._id);
-        } else {
-            res.redirect("/items");
-        }
-=======
         // Set Image name string
         if (req.files && req.files.length > 0)
             req.body.Image = req.files[0].filename || "";
         else
             req.body.Image = "";
->>>>>>> master
+        }
+
 
         //Set the user
         req.body.CreatedBy = req.session.user;
@@ -202,10 +149,6 @@ export class ItemsClientController extends BaseController<Item>{
         return CustomResponces.DO_NOTHING;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     /**
      * Action to delete an item
      * Notes: Need to check for user
