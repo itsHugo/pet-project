@@ -2,6 +2,7 @@
 <html>
     <head>
     <% include ../partials/head %>
+    
         <title>Items</title>
     </head>
 
@@ -52,7 +53,30 @@
                                 <label for="Price" class="form-control-label">Price:</label>
                                 <input type="number" min="0.00" step="0.50" class="form-control" id="Price" name="Price" value="<%= item.Price %>" required>
                             </div>
-                           
+
+                            <% if (categories && typeof categories != 'undefined' && categories.length > 0){ %>
+                                <div class=form-group>
+                                    <label for="Categories" class="form-control-label">Categories</label><br />
+                                        <% 
+                                            function isInModelArray(arr, element){
+                                                for(var i = 0; i < arr.length; i++){
+                                                    if (arr[i]._id == element._id)
+                                                        return true;
+                                                 }
+                                                 return false;
+                                            }
+                                          %>
+
+
+                                        <% for(var i = 0; i < categories.length; i++){ %>
+                                            <% if (isInModelArray(item.Categories, categories[i])){ %>
+                                                <input type="checkbox" checked=true class="checkbox-inline" id='Categories' name="Categories" value='<%= categories[i]._id %>'><%= categories[i].Name%><br>
+                                            <% } else { %>
+                                                <input type="checkbox" class="checkbox-inline" id='Categories' name="Categories" value='<%= categories[i]._id %>'><%= categories[i].Name%><br>
+                                            <% } %>
+                                        <% } %>
+                                </div>
+                            <% } %>                           
                             
                         </div>
 
