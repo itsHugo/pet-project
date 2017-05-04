@@ -36,8 +36,8 @@ export class ItemService extends BaseService<Item>{
         return this.model.findOne({ Title: title }).exec(callback);
     }
 
-    CategoryExist(title: string, callback?: Clb<Item>){
-        return CategoryModel.findOne({_id: title}, function(err, cat){
+    async CategoryExist(title: string, callback?: Clb<Item>){
+        return await CategoryModel.findOne({Name: title}, function(err, cat){
             if(cat)
                 return true;
             else
@@ -89,7 +89,6 @@ export interface Item extends BaseDocument {
     Description: string
     Price: number
     Image: string
-    Categories: [ Id | Category ]
 }
 
 var ItemSchema = new mongoose.Schema({
@@ -97,7 +96,6 @@ var ItemSchema = new mongoose.Schema({
     Description: String,
     Price: Number,
     Image: String,
-    Categories: [ {type: mongoose.SchemaTypes.ObjectId, ref: 'Category' } ]
 }, { collection: 'items' });
 ItemSchema.plugin(timestampsPlugin);
 ItemSchema.plugin(createdByPlugin);

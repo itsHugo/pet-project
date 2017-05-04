@@ -36,9 +36,6 @@ export class ItemsClientController extends BaseController<Item>{
         var categories;
 
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
-            console.log("////////////////////Fetching Categories - Results")
-            console.log(result);
-            categories = result;
         }).catch(function (err) {
             console.error("Error", err);
             return res.status(400).send("RIP");
@@ -120,6 +117,13 @@ export class ItemsClientController extends BaseController<Item>{
             } else {
                 req.body.CreatedBy = req.session.user;
             }
+
+            let category = this.svc.CategoryExist(req.body.Category);
+            if(category){
+                console.log(category);
+                req.body.Category = category;
+            }
+                
 
             let item: Item = await this.svc.createAndSave(req.body);
 
