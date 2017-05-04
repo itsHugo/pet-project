@@ -176,7 +176,11 @@ export class ItemsClientController extends BaseController<Item>{
         if (checkPoster(item, req)) {
             deleteImage(item);
             await this.svc.deleteById(id);
-            res.redirect('back');
+            
+            console.log(req.path);
+            
+            //res.redirect('back');
+            res.redirect("/items/");
         }
         else {
             res.status(401).send({ status: "error", message: "You are not the owner of this item." });
@@ -191,7 +195,7 @@ export class ItemsClientController extends BaseController<Item>{
 
         if (checkPoster(item, req)) {
             item = await this.svc.updateById(req.params.id, data);
-            res.redirect("items/" + req.params.id);
+            res.redirect("back");
         } else {
             res.status(401).send({ status: "error", message: "You are not authorized to perform this action" });
         }
