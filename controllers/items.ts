@@ -135,7 +135,7 @@ export class ItemsController extends BaseController<Item> {
         return this.svc.ItemsByCategory(req.params.id);
     }
 
-    @post("/:id/photo/")
+    @post("/:id/photo/", apiSessionCheck)
     async uploadPhoto(req, res) {
 
         let item: Item = await this.svc.byId(req.params.id);

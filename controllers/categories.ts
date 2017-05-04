@@ -29,7 +29,7 @@ export class ItemsController extends BaseController<Category> {
      * @param req 
      * @param res 
      */
-    @post('/')
+    @post('/', apiSessionCheck)
     createCategory(req, res){
         return this.svc.createAndSave(req.body);
     }
@@ -53,7 +53,7 @@ export class ItemsController extends BaseController<Category> {
      * @param req 
      * @param res 
      */
-    @put("/:id")
+    @put("/:id", apiSessionCheck)
     updateById(req, res){
         return this.svc.updateById(req.params.id, req.body);
     }
@@ -67,7 +67,7 @@ export class ItemsController extends BaseController<Category> {
      * @param req 
      * @param res 
      */
-    @del("/:id")
+    @del("/:id", apiSessionCheck)
     deleteById(req, res){
         //TODO Need to implement Delete
         return this.svc.deleteById(req.params.id);

@@ -173,7 +173,7 @@ export class ItemsClientController extends BaseController<Item>{
         }
     }
 
-    @post("/:id")
+    @post("/:id", webSessionCheck)
     async updateItem(req, res) {
         let data = req.body;
 
