@@ -22,3 +22,23 @@ footer {
 .container {
     padding-top: 5rem;
 }
+
+.list-group-item.active > a {
+    color: white;
+    text-decoration: none;
+}
+
+.list-group-item.active > a:hover {
+    text-decoration: none;
+}
+.list-group-item > a {
+    color: black;
+}
+
+/*.list-group-link {
+    color: black;
+}
+
+.list-group-link:focus {
+    color: white;
+}*/

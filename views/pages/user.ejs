@@ -42,12 +42,12 @@
                         <!-- Tab menu -->
                         <ul class="list-group" role="tablist">
                             <li role="presentation" class="list-group-item active">
-                                <a href="#items" aria-controls="items" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i> Items </a>
+                                <a class="list-group-link" href="#items" aria-controls="items" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list-alt"></i> Items </a>
                             </li>
                             <% if(authUser) { %>
                                 <% if(user._id == authUser._id) { %>
                                 <li role="presentation" class="list-group-item">
-                                    <a href="#account" aria-controls="account" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i> Account Settings </a>
+                                    <a class="list-group-link" href="#account" aria-controls="account" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cog"></i> Account Settings </a>
                                 </li>
                                 <% } %>
                             <% } %>

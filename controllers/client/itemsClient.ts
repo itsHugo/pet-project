@@ -37,6 +37,9 @@ export class ItemsClientController extends BaseController<Item>{
         var categories;
 
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
+            console.log("////////////////////Fetching Categories - Results")
+            console.log(result)
+            categories = result;
         }).catch(function (err) {
             console.error("Error", err);
             throw new AbstractError("Sorry");
