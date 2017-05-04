@@ -141,7 +141,7 @@ export class ItemsClientController extends BaseController<Item>{
             res.redirect("/items");
         }).catch((reason)=> {
             console.log(reason);
-            res.render("items.ejs", {error: reason})
+            res.redirect('items');
         });
         // Return a message instead?
         return CustomResponces.DO_NOTHING;
