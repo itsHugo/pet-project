@@ -16,11 +16,10 @@
     <!-- Your Content -->
     <main>
         <% if (typeof error != 'undefined') { %>
-                <div class="alert alert-danger">
-                    <strong>Error!!</strong> <%= error.message %>
-                </div>
-                
-            <% } %>
+        <div class="alert alert-danger">
+            <strong>Error!!</strong> <%= error.message %>
+        </div>    
+        <% } %>
         <div class="container container-fluid">
             <div class="add-item text-center">
                 <% if(authUser) { %>
@@ -79,13 +78,22 @@
                 <div class="col-md-2">
                     <h3>Categories</h3>
                     <ul class="list-group">
-                        <li class="list-group-item">
-                            <a class="list-group-link" href="/items"> All </a>
+                        <% if(typeof categoryId == 'undefined'){ %>
+                            <li class="list-group-item active">
+                        <% } else { %>
+                            <li class="list-group-item">
+                        <% } %>
+                            <a class="list-group-link" href="/items"> All </a> 
                         </li>
+
                         <% for(var i=0; i < categories.length; i++) { %>
-                        <li class="list-group-item">
-                            <a class="list-group-link" href='/items/category/<%= categories[i]._id %>'> <%= categories[i].Name %> </a>
-                        </li>
+                            <% if(typeof categoryId != 'undefined' && categoryId == categories[i]._id){ %>
+                            <li class="list-group-item active">
+                            <% } else { %>
+                            <li class="list-group-item">
+                            <% } %>
+                                <a class="list-group-link" href='/items/category/<%= categories[i]._id %>'> <%= categories[i].Name %> </a>
+                            </li>
                         <% } %>
                         
                     </ul>

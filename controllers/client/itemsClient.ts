@@ -90,6 +90,8 @@ export class ItemsClientController extends BaseController<Item>{
             console.error("Error", err);
             return res.status(400).send("RIP");
         })
+
+        console.log('Categories: ' + categories[0]._id);
         
         //Pagination logic
         var count = await this.svc.perCategoryCount(req.params.id);
@@ -99,6 +101,7 @@ export class ItemsClientController extends BaseController<Item>{
         res.render('items.ejs',{
                 items: items, 
                 categories: categories,
+                categoryId: req.params.id,
                 pagination: pagination    
             });
         return CustomResponces.DO_NOTHING;
@@ -108,9 +111,7 @@ export class ItemsClientController extends BaseController<Item>{
     @get("/users/:id")
     async getByUser(req, res) {
         await _GetRequest("http://localhost:3001/api/1/items/users/" + req.params.id).then(function (result) {
-            console.log("//////////// Results " + result);
             console.log(result)
-            console.log("////////////////////////");
             return res.render("items.ejs", { items: result });
         }).catch(function (err) {
             console.error("Error", err);
