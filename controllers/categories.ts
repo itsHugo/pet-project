@@ -9,7 +9,7 @@ import * as http from 'http'
 
 const apiSessionCheck = utils.requiresUserSession('api');
 
-export class ItemsController extends BaseController<Category> {
+export class CategoriesController extends BaseController<Category> {
 
     svc: CategoryService
 
@@ -20,8 +20,7 @@ export class ItemsController extends BaseController<Category> {
      */
     @get("/")
     getAll(req, res){
-        console.log(req.headers.host);
-        return this.svc.getAll();
+        return this.svc.getAllAlphabetically();
     }
 
     /**
@@ -81,4 +80,4 @@ export class ItemsController extends BaseController<Category> {
 
 }
 
-export let controller = new ItemsController(Factory.Category, Router());
+export let controller = new CategoriesController(Factory.Category, Router());
