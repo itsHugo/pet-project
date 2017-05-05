@@ -125,9 +125,7 @@ export class ItemsClientController extends BaseController<Item>{
      */
     @post("/", webSessionCheck)
     async createItem(req, res) {
-        console.log("Testing with Postman")
-
-
+ 
         req.body.Image = "";
         // Set Image name string
         if (req.files && req.files.length > 0){
