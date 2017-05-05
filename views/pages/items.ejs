@@ -75,6 +75,7 @@
                 </div>
             
             <div class="row">
+                <% if(typeof categories != 'undefined') { %>
                 <div class="col-md-2">
                     <h3>Categories</h3>
                     <ul class="list-group">
@@ -98,6 +99,7 @@
                         
                     </ul>
                 </div>
+                <% } %>
                 <div class="col-md-10">
                     <div class="row">
                     <% for(var i=0; i < items.length; i++) { %>
