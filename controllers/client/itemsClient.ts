@@ -182,13 +182,20 @@ export class ItemsClientController extends BaseController<Item>{
      */
     @post("/:id", webSessionCheck)
     async updateItem(req, res) {
-        let data = req.body;
 
         let item = await this.svc.byId(req.params.id);
 
         if (checkPoster(item, req)) {
-            item = await this.svc.updateById(req.params.id, data);
-            res.redirect("back");
+            let data = req.body;
+            data.CreatedBy = req.session.user;
+            validators.validateItem(data).then((value)=>{
+                this.svc.updateById(req.params.id, data);
+                res.redirect("back");
+            }).catch((reason)=>{
+                res.render("error.ejs",{ error: reason })
+            })
+            return CustomResponces.DO_NOTHING;
+            
         } else {
             res.status(401).send({ status: "error", message: "You are not authorized to perform this action" });
         }
