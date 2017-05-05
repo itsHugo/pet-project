@@ -245,17 +245,6 @@ function checkPoster(item: Item, req) {
         return false;
 }
 
-/**
- * Upload image from the request body to the fileserver. 
- * @param req Request
- */
-function uploadImage(req) {
-    // Upload image using multer
-    upload;
-
-    // Set Image name string
-    req.body.Image = req.files[0].filename;
-}
 
 /**
  * Delete an image from the fileserver. 

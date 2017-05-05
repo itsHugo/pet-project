@@ -4,6 +4,7 @@
 <head>
     <% include ../partials/head %>
     <link rel="stylesheet" type="text/css" href="/css/auth.css">
+    <script src="/js/confirmPassword.js"></script>
     <title>Register</title>
 </head>
 
@@ -41,6 +42,10 @@
                     <label for="Password">Password:</label>
                     <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password" required/>
                 </div>
+                <div class="form-group">
+                    <label for="ConfirmPassword">Confirm Password:</label>
+                    <input type="Password" class="form-control" id="ConfirmPassword" placeholder="Confirm password" aria-label="Confirm Password" required/>
+                </div>
                 <!--
                 <div class="form-group">
                     <label for="Image" class="form-control-label">Image:</label>
@@ -49,7 +54,7 @@
                 -->
 
 
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button id="registerBtn" type="submit" class="btn btn-primary">Register</button>
             </form>
         </div>
     </main>

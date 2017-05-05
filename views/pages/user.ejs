@@ -14,20 +14,48 @@
 
     <!-- Your Content -->
     <main>
+        <!-- Modal -->
+        <div id="uploadImageModal" class="modal fade" role="dialog" aria-labelledby="uploadImageModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Upload Profile Image</h4>
+                    </div>
+                    <form action="/users/<%= user._id %>/photo" method="POST" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="Image" class="form-control-label">Image:</label>
+                                <input type="file" class="form-control" id="Image" name="Image"></input>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Save"></input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
                     <div class="well">
                         <!-- User profile pic -->
-                        <div class="profile-userpic text-center">
-                            <img src="https://media.mnn.com/assets/images/2014/06/desert-rain-frog.png.653x0_q80_crop-smart.jpg" class="img-responsive"
-                                alt="Profile picture">
+                        <div class="profile-pic text-center">
+                            <img class="img-thumbnail profile-thumbnail" src="/uploads/<%= user.Image %>" alt="Profile picture">
+                            <% if(authUser && user._id == authUser._id) { %>
+                                <a data-target="#uploadImageModal" data-toggle="modal" href="#uploadImageModal"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <% } %>
+                            </img>
                         </div>
                         <!-- /User profile pic -->
 
                         <!-- User first and last name -->
-                        <div class="profile-usertitle text-center">
-                            <div class="profile-usertitle-name">
+                        <div class="text-center">
+                            <div class="">
                                 <h3><%= user.FirstName %> <%= user.LastName %></h3>
                             </div>
                         </div>

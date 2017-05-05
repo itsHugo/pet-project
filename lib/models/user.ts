@@ -54,6 +54,7 @@ export interface User extends BaseDocument {
     FirstName: string
     LastName: string
     Password: string
+    Image: string
 }
 
 var userSchema = new mongoose.Schema({
@@ -61,6 +62,7 @@ var userSchema = new mongoose.Schema({
     FirstName: String,
     LastName: String,
     Password: String,
+    Image: String,
 }, { collection: 'users' });
 userSchema.plugin(timestampsPlugin);
 
