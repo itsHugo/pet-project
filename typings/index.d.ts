@@ -16,3 +16,4 @@
 /// <reference path="globals/serve-static/index.d.ts" />
 /// <reference path="globals/socket.io/index.d.ts" />
 /// <reference path="modules/chai/index.d.ts" />
+/// <reference path="modules/slug/index.d.ts" />

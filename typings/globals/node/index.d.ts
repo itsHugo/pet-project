@@ -2443,7 +2443,7 @@ declare module "path" {
          */
         root: string;
         /**
-         * The full directory path such as '/home/users/dir' or 'c:\path\dir'
+         * The full directory path such as '/home/user/dir' or 'c:\path\dir'
          */
         dir: string;
         /**
