@@ -203,6 +203,32 @@ export class ItemsClientController extends BaseController<Item>{
 
     }
 
+    @post("/:id/image")
+    async updateImage(req, res){
+        let item = await this.svc.byId(req.params.id);
+        if (checkPoster(item, req)){
+            // Set Image name string
+            req.body.Image = "";
+            //if the file exists
+            if (req.files && req.files.length > 0){
+                let originalFileName: string = req.files[0].filename.toLocaleLowerCase();
+                if (originalFileName.endsWith('.jpg') || originalFileName.endsWith('.png') || originalFileName.endsWith('.jpeg') || originalFileName.endsWith('.gif')) {
+                    req.body.Image = req.files[0].filename || "";
+                    //Remove the original
+                    deleteImage(item);
+                    this.svc.updateById(req.params.id, {Image: req.body.Image});
+                }
+            }
+
+            res.redirect("back");
+            return CustomResponces.DO_NOTHING;
+            
+
+        }else {
+            res.status(401).send({ status: "error", message: "You are not authorized to perform this action" });
+        }
+    }
+
 }
 
 /**
