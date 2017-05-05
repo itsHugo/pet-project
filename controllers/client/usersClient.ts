@@ -43,14 +43,17 @@ export class UsersController extends BaseController<User>{
 
         this.setCurrentUser(req, user);
         
-        return {message: "Profile updated."};
+        res.redirect('back');
+        return CustomResponces.DO_NOTHING;
     }
 
     @post('/:id/photo', webSessionCheck)
     updatePhoto(req, res) {
         let id = req.params.id;
-        let photoUrl = config.serverUrl + req.files[0].path;
-        return this.svc.updateById(id, { PhotoUrl: photoUrl });
+        let photoUrl = req.files[0].filename;
+        
+        res.redirect('back');
+        return CustomResponces.DO_NOTHING;
     }
 
     @post('/:id/delete', webSessionCheck)

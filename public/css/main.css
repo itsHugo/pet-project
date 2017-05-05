@@ -43,3 +43,16 @@ footer {
 .main-thumbnail {
     max-block-size: 40rem;
 }
+
+.img-thumbnail.profile-thumbnail{
+    max-block-size: 20rem;
+}
+.profile-pic{
+    position: relative;
+}
+
+.profile-pic span{
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
