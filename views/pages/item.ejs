@@ -16,7 +16,7 @@
             <div class="jumbotron text-center">
                 <h2><%= item.Title %></h3>
                 <p>by <a href="/users/<%= item.CreatedBy._id %>"><%= item.CreatedBy.FirstName %> <%= item.CreatedBy.LastName %></a></p>
-                <button type="button" class="btn btn-danger btn-sm">Message</button>
+                <a href="mailto:<%= item.CreatedBy.Email %>?Subject=HTV" class="btn btn-success"><%= item.CreatedBy.Email %></a>
                 <% if(authUser) { %>
                     <% if(item.CreatedBy._id == authUser._id) { %>
                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#updateItemModal">Edit</button>

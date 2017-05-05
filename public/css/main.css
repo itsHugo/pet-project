@@ -1,5 +1,6 @@
 body {
     padding-top: 5rem;
+    background-color: #f9f9f9;
 }
 
 footer {
@@ -33,4 +34,8 @@ footer {
 }
 .list-group-item > a {
     color: black;
+}
+
+.img-thumbnail {
+    max-block-size: 15rem;
 }
