@@ -39,3 +39,7 @@ footer {
 .img-thumbnail {
     max-block-size: 15rem;
 }
+
+.main-thumbnail {
+    max-block-size: 40rem;
+}
