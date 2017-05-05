@@ -125,14 +125,16 @@ export class ItemsClientController extends BaseController<Item>{
      */
     @post("/", webSessionCheck)
     async createItem(req, res) {
-        let originalFileName: string = req.files[0].filename.toLocaleLowerCase();
-        if (originalFileName.endsWith('.jpg') || originalFileName.endsWith('.png') || originalFileName.endsWith('.jpeg') || originalFileName.endsWith('.gif')) {
+        console.log("Testing with Postman")
 
+
+        req.body.Image = "";
         // Set Image name string
-        if (req.files && req.files.length > 0)
-            req.body.Image = req.files[0].filename || "";
-        else
-            req.body.Image = "";
+        if (req.files && req.files.length > 0){
+            let originalFileName: string = req.files[0].filename.toLocaleLowerCase();
+            if (originalFileName.endsWith('.jpg') || originalFileName.endsWith('.png') || originalFileName.endsWith('.jpeg') || originalFileName.endsWith('.gif')) {
+                req.body.Image = req.files[0].filename || "";
+            }   
         }
 
 
@@ -146,7 +148,7 @@ export class ItemsClientController extends BaseController<Item>{
             res.redirect("/items");
         }).catch((reason)=> {
             console.log(reason);
-            res.redirect('items');
+            res.render('error.ejs', {error: reason});
         });
         // Return a message instead?
         return CustomResponces.DO_NOTHING;

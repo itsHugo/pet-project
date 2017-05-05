@@ -68,8 +68,8 @@ export function validateItem (item, callback?): Promise<Item>{
             if(!item.Description){
                 error = new errors.InvalidData("Description is required");
             }
-            if (!item.Price){
-                error = new errors.InvalidData("Description is required");
+            if (!item.Price || item.Price < 0 ){
+                error = new errors.InvalidData("Price is required");
             }
 
             if (!item.CreatedBy){
