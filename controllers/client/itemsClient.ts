@@ -61,9 +61,19 @@ export class ItemsClientController extends BaseController<Item>{
      */
     @get("/:id")
     async itemDetail(req, res) {
+
+        var categories;
+
+        await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
+            categories = result;
+        }).catch(function (err) {
+            console.error("Error", err);
+            throw new AbstractError("Sorry");
+        })
+
         let item = await this.svc.byId(req.params.id);
 
-        res.render("item.ejs", { item: item });
+        res.render("item.ejs", { item: item, categories: categories });
 
         return CustomResponces.DO_NOTHING;
     }
@@ -160,14 +170,18 @@ export class ItemsClientController extends BaseController<Item>{
         if (checkPoster(item, req)) {
             deleteImage(item);
             await this.svc.deleteById(id);
-            res.redirect('back');
+            
+            console.log(req.path);
+            
+            //res.redirect('back');
+            res.redirect("/items/");
         }
         else {
             res.status(401).send({ status: "error", message: "You are not the owner of this item." });
         }
     }
 
-    @post("/:id")
+    @post("/:id", webSessionCheck)
     async updateItem(req, res) {
         let data = req.body;
 
@@ -175,7 +189,7 @@ export class ItemsClientController extends BaseController<Item>{
 
         if (checkPoster(item, req)) {
             item = await this.svc.updateById(req.params.id, data);
-            res.redirect("items/" + req.params.id);
+            res.redirect("back");
         } else {
             res.status(401).send({ status: "error", message: "You are not authorized to perform this action" });
         }
