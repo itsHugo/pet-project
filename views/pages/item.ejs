@@ -16,7 +16,7 @@
             <div class="jumbotron text-center">
                 <h2><%= item.Title %></h3>
                 <p>by <a href="/users/<%= item.CreatedBy._id %>"><%= item.CreatedBy.FirstName %> <%= item.CreatedBy.LastName %></a></p>
-                <button type="button" class="btn btn-danger btn-sm">Message</button>
+                <a href="mailto:<%= item.CreatedBy.Email %>?Subject=HTV" class="btn btn-success"><%= item.CreatedBy.Email %></a>
                 <% if(authUser) { %>
                     <% if(item.CreatedBy._id == authUser._id) { %>
                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#updateItemModal">Edit</button>
@@ -26,9 +26,9 @@
                 <br />
                 
                 <%if (item.Image && item.Image != ""){ %>
-                    <img src='/uploads/<%= item.Image %>' class="img-thumbnail img-responsive" alt="Item image" style="max-width: 500px" />
+                    <img src='/uploads/<%= item.Image %>' class="img-thumbnail main-thumbnail img-responsive" alt="Item image" style="max-width: 500px" />
                 <% } else{ %>
-                    <img src="/uploads/new-item.png" class="img-thumbnail img-responsive" alt="Item image" />
+                    <img src="/uploads/new-item.png" class="img-thumbnail main-thumbnail img-responsive" alt="Item image" />
                 <% } %>
             </div>
 
@@ -55,7 +55,7 @@
                             </div>
 
                             <% if (categories && typeof categories != 'undefined' && categories.length > 0){ %>
-                                <div class=form-group>
+                                <div class="form-group">
                                     <label for="Categories" class="form-control-label">Categories</label><br />
                                         <% 
                                             function isInModelArray(arr, element){
@@ -123,7 +123,7 @@
                     <hr />
                 </div>
 
-                <div class=row>
+                <div class="row">
                     <h3>Price: $<%=item.Price %></h3>
                 </div>
 

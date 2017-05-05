@@ -50,6 +50,12 @@ export class SearchClientController extends BaseController<Item>{
         return CustomResponces.DO_NOTHING;
     }
 
+    @get("/res")
+    noResult(req, res){
+        res.redirect('/search/');
+        return CustomResponces.DO_NOTHING;
+    }
+
     /**
      * Handles search requests
      * 
