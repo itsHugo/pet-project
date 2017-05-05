@@ -109,7 +109,11 @@
                         <a href="/items/<%= items[i]._id %>">
                             <div class="col-md-4">
                                 <div class="thumbnail">
-                                    <img src="/uploads/<%= items[i].Image %>" class="img-thumbnail img-responsive" alt="Item image" />
+                                    <% if (items[i].Image && items[i].Image != ""){ %>
+                                        <img src="/uploads/<%= items[i].Image %>" class="img-thumbnail img-responsive" alt="Item image" />
+                                    <% } else { %>
+                                        <img src="/images/default-item.png" class="img-thumbnail img-responsive" alt="Item image" />
+                                    <% } %>
                                     <div class="caption">
                                         <h3><%= items[i].Title %></h3>
                                         <h4>$<%= items[i].Price %></h4>
