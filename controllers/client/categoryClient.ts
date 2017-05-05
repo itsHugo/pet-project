@@ -40,8 +40,14 @@ export class CategoryClientController extends BaseController<Category>{
         if (!req.body.Name){
             res.render('error.ejs', {error: new errors.InvalidData("Name is required for the creation of the Category")})
         }else{
-            this.svc.createAndSave(req.body);
-            res.redirect('categories');
+            let exist = this.svc.categoryExists(req.body.Name);
+            if(exist){
+                res.render('error.ejs', { error: new errors.InvalidData("Category already exists") });
+            }else{
+                this.svc.createAndSave(req.body);
+                res.redirect('categories');
+            }
+            return CustomResponces.DO_NOTHING;
         }   
         return CustomResponces.DO_NOTHING;
     }
