@@ -15,19 +15,29 @@ import * as slug from 'slug'
 import { paginate } from "./../../lib/paginationHelper"; 
 
 /**
- * Application level controller which handles the task of send HTTP request to the RESTful API controllers and directing the data to the Views
+ * Application level controller which handles processing requests and rendering/redirecting
  * 
  */
 export class SearchClientController extends BaseController<Item>{
 
     svc: ItemService
 
+    /**
+     * Does nothing
+     * @param req Request
+     * @param res Response
+     */
     @get("/")
     empty(req, res){
-        res.render("search.ejs", {items: [], slug: "", page: 1, perPage: 0, count: 0 });
+        res.render("search.ejs", {items: [], slug: "", pagination: {page: 1, perPage: 0, pages: 1, path: "/search", prevpage: 1, nextpage: 1} });
         return CustomResponces.DO_NOTHING;
     }
 
+    /**
+     * Process the search requests, slugifies the search, and redirects to the real search route
+     * @param req Request
+     * @param res Response
+     */
     @get("/val")
     process(req, res){
         var str = req.url.split('?')[1];
@@ -40,6 +50,12 @@ export class SearchClientController extends BaseController<Item>{
         return CustomResponces.DO_NOTHING;
     }
 
+    /**
+     * Handles search requests
+     * 
+     * @param req Request
+     * @param res Response
+     */
     @get("/res/:slug")
     async search(req, res){
 
@@ -64,12 +80,6 @@ export class SearchClientController extends BaseController<Item>{
 
     }
 
-}
-
-
-function getTotalPages (count: number, perPage){
-    var total: number = count / perPage;
-    return Math.ceil(total);
 }
 
 

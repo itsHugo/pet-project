@@ -11,18 +11,30 @@ import errors from './../../lib/errors';
 const webSessionCheck = utils.requiresUserSession('web');
 
 /**
- * Application level controller which handles the task of send HTTP request to the RESTful API controllers
+ * Application level controller which handles processing requests and rendering/redirecting
  * 
  */
 export class CategoryClientController extends BaseController<Category>{
 
     svc: CategoryService
+
+    /**
+     * Renders a page containing all categories
+     * 
+     * @param req Request 
+     * @param res Response
+     */
     @get("/")
     async getAllCategories(req, res){
         res.render("categories", {categories : await this.svc.getAllAlphabetically()});
         return CustomResponces.DO_NOTHING;
     }
 
+    /**
+     * Handles the request to create the category
+     * @param req 
+     * @param res 
+     */
     @post("/", webSessionCheck)
     createCategory(req, res){
         if (!req.body.Name){

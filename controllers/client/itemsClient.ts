@@ -18,7 +18,7 @@ const fs = require('fs');
 //import * as Promise from 'bluebird';
 
 /**
- * Application level controller which handles the task of send HTTP request to the RESTful API controllers and directing the data to the Views
+ * Application level controller which handles processing requests and rendering/redirecting
  * 
  */
 const webSessionCheck = utils.requiresUserSession('web');
@@ -40,7 +40,7 @@ export class ItemsClientController extends BaseController<Item>{
             categories = result;
         }).catch(function (err) {
             console.error("Error", err);
-            throw new AbstractError("Sorry");
+            res.render('error.ejs', {error: err})
         })
 
         // //Pagination logic
@@ -49,6 +49,7 @@ export class ItemsClientController extends BaseController<Item>{
         console.log("///Pagination Json")
         console.log(pagination);
 
+        //Searching for all Items within the pagination options
         let itemsArray = await this.svc.search({filter: ""}, pagination.perPage, pagination.page);
         res.render('items.ejs',{items: itemsArray, categories: categories, pagination: pagination});
 
@@ -70,7 +71,7 @@ export class ItemsClientController extends BaseController<Item>{
             categories = result;
         }).catch(function (err) {
             console.error("Error", err);
-            throw new AbstractError("Sorry");
+            res.render('error.ejs', {error: err})
         })
 
         let item = await this.svc.byId(req.params.id);
@@ -80,6 +81,11 @@ export class ItemsClientController extends BaseController<Item>{
         return CustomResponces.DO_NOTHING;
     }
 
+    /**
+     * Renders the items page with all items based on the category
+     * @param req Request
+     * @param res Response
+     */
     @get("/category/:id")
     async getByCategory(req, res) {
 
@@ -87,12 +93,10 @@ export class ItemsClientController extends BaseController<Item>{
         var categories;
 
         await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
-            console.log("////////////////////Fetching Categories - Results")
-            console.log(result);
             categories = result;
         }).catch(function(err){
             console.error("Error", err);
-            return res.status(400).send("RIP");
+            res.render('error.ejs', {error: err})
         })
         
         //Pagination logic
@@ -100,7 +104,8 @@ export class ItemsClientController extends BaseController<Item>{
         var pagination = paginate(req, count, "/items/category/" + req.params.id);
         console.log("///Pagination Json")
         console.log(pagination);
-
+        
+        //Searching by category within the pagination options
         var items = await this.svc.ItemsByCategory(req.params.id, pagination.perPage, pagination.page);
         res.render('items.ejs',{
                 items: items, 
@@ -111,25 +116,11 @@ export class ItemsClientController extends BaseController<Item>{
 
     }
 
-    @get("/users/:id")
-    async getByUser(req, res) {
-        await _GetRequest("http://localhost:3001/api/1/items/users/" + req.params.id).then(function (result) {
-            console.log("//////////// Results " + result);
-            console.log(result)
-            console.log("////////////////////////");
-            return res.render("items.ejs", { items: result });
-        }).catch(function (err) {
-            console.error("Error", err);
-            return res.status(400).send("RIP");
-        })
-    }
-
-
-
     /**
-     * Creates an items
-     * @param req 
-     * @param res 
+     * Handles requests to create an item
+     * 
+     * @param req Request
+     * @param res Response
      */
     @post("/", webSessionCheck)
     async createItem(req, res) {
@@ -161,12 +152,9 @@ export class ItemsClientController extends BaseController<Item>{
     }
 
     /**
-     * Action to delete an item
-     * Notes: Need to check for user
-     * May want to implement a "isDeleted" field on Model
-     *
-     * @param req 
-     * @param res 
+     * Handles the requests to delete an item
+     * @param req Request
+     * @param res Response
      */
     @post("/:id/delete", webSessionCheck)
     async deleteItem(req, res) {
@@ -187,6 +175,11 @@ export class ItemsClientController extends BaseController<Item>{
         }
     }
 
+    /**
+     * Handles the requests to update an Item
+     * @param req Request
+     * @param res Response
+     */
     @post("/:id", webSessionCheck)
     async updateItem(req, res) {
         let data = req.body;
@@ -206,8 +199,8 @@ export class ItemsClientController extends BaseController<Item>{
 
 /**
  * Validates if the Item belongs to the User
- * @param item 
- * @param req 
+ * @param item Item
+ * @param req Request
  */
 function checkPoster(item: Item, req) {
     let user: User = req.session.user;
@@ -240,23 +233,6 @@ function deleteImage(item) {
             console.log(err);
         console.log('successfully deleted image');
     });
-}
-
-
-
-
-async function getAllCategories() {
-    var categories;
-
-    await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
-        console.log("////////////////////Fetching Categories - Results")
-        console.log(result);
-        return result;
-    }).catch(function (err) {
-        console.error("Error", err);
-        throw new AbstractError("Sorry");
-    })
-
 }
 
 export let controller = new ItemsClientController(Factory.Item, Router());
