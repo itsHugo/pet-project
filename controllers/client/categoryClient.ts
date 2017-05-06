@@ -36,11 +36,12 @@ export class CategoryClientController extends BaseController<Category>{
      * @param res 
      */
     @post("/", webSessionCheck)
-    createCategory(req, res){
+    async createCategory(req, res){
         if (!req.body.Name){
             res.render('error.ejs', {error: new errors.InvalidData("Name is required for the creation of the Category")})
         }else{
-            let exist = this.svc.categoryExists(req.body.Name);
+            let exist = await this.svc.categoryExists(req.body.Name);
+            console.log(exist);
             if(exist){
                 res.render('error.ejs', { error: new errors.InvalidData("Category already exists") });
             }else{
