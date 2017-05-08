@@ -48,10 +48,12 @@ export class UsersController extends BaseController<User>{
     }
 
     @post('/:id/photo', webSessionCheck)
-    updatePhoto(req, res) {
+    async updatePhoto(req, res) {
         let id = req.params.id;
-        let photoUrl = req.files[0].filename;
-        
+        if(req.files && req.files.length > 0){
+            var photoUrl = req.files[0].filename;
+            await this.svc.updateById(id, {Image: photoUrl});
+        }
         res.redirect('back');
         return CustomResponces.DO_NOTHING;
     }
