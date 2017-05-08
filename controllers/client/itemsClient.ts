@@ -75,7 +75,7 @@ export class ItemsClientController extends BaseController<Item>{
     async getByCategory(req, res) {
 
         //Get all the categories because the page needs it for the create Item form
-        var categories = await getAllCategories();
+        var categories = await getAllCategoriesAlphabetically();
 
         console.log('Categories: ' + categories[0]._id);
         

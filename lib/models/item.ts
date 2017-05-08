@@ -32,7 +32,7 @@ export class ItemService extends BaseService<Item>{
         if (pagePreferences && page) {
             q = q.skip((page - 1) * pagePreferences).limit(Number(pagePreferences));
         }
-        return q.exec(callback);
+        return q.sort('-DateModified').exec(callback);
     }
     _setSearchFilter(q: mongoose.DocumentQuery<Item[], Item>, searchString) {
         if (searchString) {
@@ -54,7 +54,7 @@ export class ItemService extends BaseService<Item>{
     }
 
     getAll(callback?: Clb<Item[]>): Promise<Item[]>{
-        return this.model.find({}).populate({path: "Categories", select: "Name _id"}).populate({path: "CreatedBy", select: "_id FirstName LastName Email"}).exec(callback);
+        return this.model.find({}).sort('-DateModified').populate({path: "Categories", select: "Name _id"}).populate({path: "CreatedBy", select: "_id FirstName LastName Email"}).exec(callback);
     }
 
     getCount(filters?,callback?: Clb<Item>): Promise<number>{
@@ -69,7 +69,7 @@ export class ItemService extends BaseService<Item>{
     ItemsByCategory(id, pagePreferences?: number, page?: number, callback?: Clb<Item>): Promise<Item[]>{
         var q = this.model.find({}).in("Categories", [id]).populate({
             path: 'Categories'
-        });
+        }).sort('-DateModified');
 
         if (pagePreferences && page) {
             q = q.skip((page - 1) * pagePreferences).limit(Number(pagePreferences));

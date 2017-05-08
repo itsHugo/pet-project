@@ -45,7 +45,8 @@ footer {
 }
 
 .main-thumbnail {
-    max-block-size: 40rem;
+    max-block-size: 35rem;
+    min-block-size: 35rem;
 }
 
 .img-thumbnail.profile-thumbnail{

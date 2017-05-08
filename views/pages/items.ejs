@@ -107,7 +107,7 @@
                     <% for(var i=0; i < items.length; i++) { %>
                         <a href="/items/<%= items[i]._id %>">
                             <div class="col-md-4">
-                                <div class="thumbnail">
+                                <div class="thumbnail main-thumbnail">
                                     <% if (items[i].Image && items[i].Image != ""){ %>
                                         <img src="/uploads/<%= items[i].Image %>" class="img-thumbnail img-responsive" alt="Item image" />
                                     <% } else { %>
