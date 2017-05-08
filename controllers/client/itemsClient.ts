@@ -35,7 +35,7 @@ export class ItemsClientController extends BaseController<Item>{
     @get("/")
     async getItemsPage(req, res) {
 
-        let categories = await getAllCategories();
+        let categories = await getAllCategoriesAlphabetically();
 
         // //Pagination logic
         var count = await this.svc.getCount({filter: ""});
@@ -246,6 +246,17 @@ function deleteImage(item) {
 function getAllCategories(): Promise<Category[]>{
     let catService = new CategoryService("Category");
     return catService.getAll();
+
+}
+
+/**
+ * Fetches all the categories in the database
+ * 
+ * @return Promise<Category[]>
+ */
+function getAllCategoriesAlphabetically(): Promise<Category[]>{
+    let catService = new CategoryService("Category");
+    return catService.getAllAlphabetically();
 
 }
 
