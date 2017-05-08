@@ -1,4 +1,5 @@
 import * as ccd from 'ccd'
+import { CategoryService, Category } from "./../../lib/models/category";
 import { AbstractError } from "./../../lib/errors";
 import { ItemService } from "./../../lib/models/item";
 
@@ -34,14 +35,7 @@ export class ItemsClientController extends BaseController<Item>{
     @get("/")
     async getItemsPage(req, res) {
 
-        let categories = null;
-
-        await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
-            categories = result;
-        }).catch(function (err) {
-            console.error("Error", err);
-            res.render('error.ejs', {error: err})
-        })
+        let categories = await getAllCategories();
 
         // //Pagination logic
         var count = await this.svc.getCount({filter: ""});
@@ -63,14 +57,7 @@ export class ItemsClientController extends BaseController<Item>{
     @get("/:id")
     async itemDetail(req, res) {
 
-        var categories;
-
-        await _GetRequest("http://localhost:3001/api/1/categories/").then(function (result) {
-            categories = result;
-        }).catch(function (err) {
-            console.error("Error", err);
-            res.render('error.ejs', {error: err})
-        })
+        var categories = await getAllCategories();
 
         let item = await this.svc.byId(req.params.id);
 
@@ -88,14 +75,7 @@ export class ItemsClientController extends BaseController<Item>{
     async getByCategory(req, res) {
 
         //Get all the categories because the page needs it for the create Item form
-        var categories;
-
-        await _GetRequest("http://localhost:3001/api/1/categories/").then(function(result){
-            categories = result;
-        }).catch(function(err){
-            console.error("Error", err);
-            res.render('error.ejs', {error: err})
-        })
+        var categories = await getAllCategories();
 
         console.log('Categories: ' + categories[0]._id);
         
@@ -256,6 +236,17 @@ function deleteImage(item) {
             console.log(err);
         console.log('successfully deleted image');
     });
+}
+
+/**
+ * Fetches all the categories in the database
+ * 
+ * @return Promise<Category[]>
+ */
+function getAllCategories(): Promise<Category[]>{
+    let catService = new CategoryService("Category");
+    return catService.getAll();
+
 }
 
 export let controller = new ItemsClientController(Factory.Item, Router());

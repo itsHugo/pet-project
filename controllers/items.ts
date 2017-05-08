@@ -10,7 +10,7 @@ import * as mongoose from 'mongoose'
 import * as multer from 'multer'
 
 import { CustomResponces } from '../lib/baseController';
-
+const fs = require('fs');
 let upload = multer().single('Image');
 
 
@@ -27,13 +27,7 @@ export class ItemsController extends BaseController<Item> {
      */
     @get("/")
     getAllItems (req, res){
-        
         return this.svc.getAll();
-        
-        //var itemsArray = await this.svc.getAll();
-        //console.log(itemsArray);
-        //res.render('items.ejs',{items: itemsArray});
-        //return CustomResponces.DO_NOTHING;
     }
 
     /**
@@ -43,18 +37,13 @@ export class ItemsController extends BaseController<Item> {
      */
     @post("/", apiSessionCheck)
     createItem(req, res){
-        // Upload image using multer
-        upload;
-
-        // Set Image name string
-        req.body.Image = req.files[0].filename;
-
-        if(req.body.CreatedBy){
-            //DO NOTHING
-        }else{
-            req.body.CreatedBy = req.session.user;
-        }
         
+        // Set Image name string
+        if(req.files && req.files.length > 0)
+            req.body.Image = req.files[0].filename;
+
+        req.body.CreatedBy = req.session.user;
+                
         return this.svc.createAndSave(req.body);
     }
 
@@ -69,16 +58,17 @@ export class ItemsController extends BaseController<Item> {
     @del("/:id", apiSessionCheck)
     async deleteItem(req, res) {
         let id = req.params.id;
-        // let item: Item = await this.svc.byId(req.params.id);
-        // // TODO: CheckPoster
-        // if (checkPoster(item, req)) {
-        //     return this.svc.deleteById(id);
-        // }
-        // else {
-        //     res.send(401, { status: "error", message: "You are not authorized to perform this action" });
-        // }
+        let item: Item = await this.svc.byId(req.params.id);
+       
+        if (checkPoster(item, req)) {
+            deleteImage(item);
+            return this.svc.deleteById(id);
+        }
+        else {
+            res.send(401, { status: "error", message: "You are not authorized to perform this action" });
+        }
 
-        return this.svc.deleteById(id);
+        //return this.svc.deleteById(id);
     }
 
     /**
@@ -91,16 +81,14 @@ export class ItemsController extends BaseController<Item> {
     async updateItem(req, res) {
         let id = req.params.id;
 
-        //TODO: Implement checkPoster
-        // let item: Item = await this.svc.byId(req.params.id);
-        // if (checkPoster(item, req)) {
-        //     return this.svc.updateById(req.params.id, req.body);
-        // }
-        // else {
-        //     res.send(401, { status: "error", message: "You are not authorized to perform this action" });
-        // }
+        let item: Item = await this.svc.byId(req.params.id);
+        if (checkPoster(item, req)) {
+            return this.svc.updateById(req.params.id, req.body);
+        }
+        else {
+            res.send(401, { status: "error", message: "You are not authorized to perform this action" });
+        }
 
-        return this.svc.updateById(req.params.id, req.body);
     }
 
     /**
@@ -119,9 +107,8 @@ export class ItemsController extends BaseController<Item> {
      * @param res 
      */
     @get("/users/:id")
-    async getByUserId(req, res) {
-        console.log("getByUserId method: User id " + req.params.id);
-        return await this.svc.ItemsByUser(req.params.id);
+    getByUserId(req, res) {
+        return this.svc.ItemsByUser(req.params.id);
     }
 
     /**
@@ -169,13 +156,25 @@ export class ItemsController extends BaseController<Item> {
  * @param item 
  * @param req 
  */
-function checkPoster(item, req) {
-    let user = req.session.user;
-    //console.log(user._id);
-    if (item.CreatedBy == user || item.CreatedBy == user._id) {
+function checkPoster(item: Item, req) {
+    let user: User = req.session.user;
+
+    if (item.CreatedBy['_id'] == user._id) {
         return true;
-    }
-    return false;
+    } else
+        return false;
+}
+
+/**
+ * Delete an image from the fileserver. 
+ * @param item Item object
+ */
+function deleteImage(item) {
+    fs.unlink("./uploads/" + item.Image, (err) => {
+        if (err)
+            console.log(err);
+        console.log('successfully deleted image');
+    });
 }
 
 export let controller = new ItemsController(Factory.Item, Router());

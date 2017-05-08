@@ -11,6 +11,15 @@ import { BaseService, Clb, Id } from '../services/baseService'
 let ObjectId = mongoose.Schema.Types.ObjectId;
 const MODEL = 'Item'
 
+/**
+ * Replaces spaces with a '.*' to increase matches for the search
+ * 
+ * @param search string
+ */
+function searchifyString(search: string){
+    return search.replace(" ", ".*");
+}
+
 export class ItemService extends BaseService<Item>{
     async search(filters, pagePreferences?: number, page?: number, callback?: Clb<Item[]>) {
         let searchString = filters.filter || "";
@@ -25,9 +34,9 @@ export class ItemService extends BaseService<Item>{
         }
         return q.exec(callback);
     }
-    _setSearchFilter(q, searchString) {
+    _setSearchFilter(q: mongoose.DocumentQuery<Item[], Item>, searchString) {
         if (searchString) {
-            var filter = new RegExp('.*' + searchString.toLowerCase() + '.*', 'i')
+            var filter = new RegExp('.*' + searchifyString(searchString.toLowerCase()) + '.*', 'i')
             q = q.or([{ 'Title': filter }, {'Description': filter} ])
         }
         return q;
@@ -36,14 +45,6 @@ export class ItemService extends BaseService<Item>{
         return this.model.findOne({ Title: title }).exec(callback);
     }
 
-    async CategoryExist(title: string, callback?: Clb<Item>){
-        return await CategoryModel.findOne({Name: title}, function(err, cat){
-            if(cat)
-                return true;
-            else
-                return false;
-        })
-    }
     ItemsByUser(id, callback?: Clb<Item>){
         return this.model.find({}).where("CreatedBy", id);
     }
