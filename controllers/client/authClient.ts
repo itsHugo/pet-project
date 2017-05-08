@@ -26,8 +26,11 @@ export class AuthController extends BaseController<User>{
         let user = this.svc.create(req.body);
         user.Password = await validators.validatePasswordAndCreateHash(user.Password)
         user = await this.svc.login(user.Email, user.Password);
-        if (!user)
-            throw (new errors.Unauthorized('Invalid Username or Password'));
+        if (!user){
+            res.render('login', {error: 'Invalid email or password.'});
+            return CustomResponces.DO_NOTHING;
+        }
+            
         this.setCurrentUser(req, user);
         res.redirect('/');
         return CustomResponces.DO_NOTHING;

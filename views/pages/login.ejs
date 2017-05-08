@@ -16,6 +16,11 @@
     <!-- Your Content -->
     <main>
         <div class="container container-fluid">
+            <% if (typeof error != 'undefined') { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+            <% } %>
             <form action="/auth/login" method="POST">
                 <div class="form-group">
                     <label for="Email">Email address:</label>

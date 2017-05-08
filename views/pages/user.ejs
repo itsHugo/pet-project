@@ -45,7 +45,11 @@
                     <div class="well">
                         <!-- User profile pic -->
                         <div class="profile-pic text-center">
-                            <img class="img-thumbnail profile-thumbnail" src="/uploads/<%= user.Image %>" alt="Profile picture">
+                            <% if(user.Image) { %>
+                            <img class="img-thumbnail profile-thumbnail" src="/uploads/<%= user.Image %>" alt="Profile picture" />
+                            <% } else { %>
+                            <img class="img-thumbnail profile-thumbnail" src="/images/default-profile.jpg" alt="Profile picture" />
+                            <% } %>
                             <% if(authUser && user._id == authUser._id) { %>
                                 <a data-target="#uploadImageModal" data-toggle="modal" href="#uploadImageModal"><span class="glyphicon glyphicon-pencil"></span></a>
                             <% } %>
