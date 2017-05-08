@@ -5,6 +5,10 @@ body {
 
 footer {
     box-shadow: 0px 500px 0px 500px #000;
+    background-color: #d8dee5;
+    padding-top: 2.5rem;
+    padding-bottom: 1rem;
+    margin-top: 1rem;
 }
 
 .add-item {
@@ -55,4 +59,8 @@ footer {
     position: absolute;
     right: 20px;
     top: 15px;
+}
+
+.jumbotron {
+    background-color: #d8dee5;
 }

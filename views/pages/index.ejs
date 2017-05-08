@@ -18,14 +18,16 @@
             <h1>HTV</h1>
             <p>Welcome 
                 <% if(authUser) { %>
-                    <%= authUser.FirstName %>
+                    <strong><%= authUser.FirstName %></strong>
                 <% } %>
             </p>
         </div>
-
+        
         <!-- Display newest items posted here -->
         <div class="container-fluid">
-            
+            <div>
+                <a href="/items/"><img src="/images/index.png" class="img-responsive center-block" style="max-height: 600px" alt="Index page image"/></a>
+            </div>
         </div>
     </main>
 
